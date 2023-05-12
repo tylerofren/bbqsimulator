@@ -15,28 +15,31 @@ int main()
     
     sf::RenderWindow window(sf::VideoMode(500, 500), "Stephens Sausage Roll");
 
-    /*
-    string mapLayout[rows][cols];
-    for(int i = 0; i < rows; i++)
-    {
-        for(int j = 0; j < cols; j++)
-        {
-          cout << "Enter a string for row " << i << ", column "  << j << ": ";
-          cin >> mapLayout[i][j];
-        }
-    }
-    */
+    
 
-
-    sf::Texture texture;
-    if(!texture.loadFromFile("WaterPlaceholder.png"))
+    //Sets Water Texture #0
+    sf::Texture WaterTexture;
+    if(!WaterTexture.loadFromFile("C:\\Users\\1207318\\Desktop\\Final-Project\\include\\WaterPlaceholder.png"))
     {
         cout << "failed to load image" << endl;
         exit(1);
     }
+    sf::Sprite WaterSpr;
+    WaterSpr.setTexture(WaterTexture);
 
-    sf::Sprite sprite;
-    sprite.setTexture(texture);
+    
+    //Sets Ground Texture #1
+    sf::Texture GroundTexture;
+    if(!GroundTexture.loadFromFile("C:\\Users\\1207318\\Desktop\\Final-Project\\include\\GroundPlaceholder.png"))
+    {
+        cout << "failed to load image" << endl;
+        exit(1);
+    }
+    sf::Sprite GroundSpr;
+    GroundSpr.setTexture(GroundTexture);
+    
+    
+
 
 
     
@@ -48,9 +51,57 @@ int main()
             if (event.type == sf::Event::Closed) window.close();
         }
         window.clear(sf::Color(255, 255, 255));
-        window.draw(sprite);
+        
+        //LEVEL 1
+        // 0 - WATER
+        // 1 - GROUND
+        // 2 - GRILL
+        // 3 - SASUAGE
+        // 4 - PLAYER
+        // 5 - FORK
+        
+        // 0 0 0 0 0
+        // 0 0 0 0 0
+        // 0 0 0 0 0
+        // 0 0 0 0 0
+        // 0 0 0 0 0
+
+        int MapArray[5][5] = 
+        {   
+            {0,1,0,0,0},
+            {0,1,0,0,0},
+            {0,1,0,0,0},
+            {0,1,0,0,0},
+            {0,1,0,0,0}
+        };
+
+
+        for(int r = 0; r < rows; r++)
+        {
+            for(int c = 0; c <cols; c++)
+            {
+                //Adds water to window if tile is 0
+                if(MapArray[r][c]==0)
+                {
+                    WaterSpr.setPosition(50.f*c,50.f*r);
+                    window.draw(WaterSpr);
+                    
+
+                }
+                
+                //Adds ground to window if tile is 1
+                else if(MapArray[r][c]==1)
+                {
+                    GroundSpr.setPosition(50.f*c,50.f*r);
+                    window.draw(GroundSpr);
+                }
+                
+            }
+        }
         window.display();
+
     }
+
     
 
 
