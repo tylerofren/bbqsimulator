@@ -56,9 +56,11 @@ int main()
         // 0 - WATER
         // 1 - GROUND
         // 2 - GRILL
-        // 3 - SASUAGE
-        // 4 - PLAYER
-        // 5 - FORK
+        // 3 - SAUSAGE
+        // 4 - GRILLED SAUSAGE
+        // 5 - PLAYER
+        // 6 - FORK
+        // 7 - SPAWN
         
         // 0 0 0 0 0
         // 0 0 0 0 0
@@ -85,8 +87,6 @@ int main()
                 {
                     WaterSpr.setPosition(50.f*c,50.f*r);
                     window.draw(WaterSpr);
-                    
-
                 }
                 
                 //Adds ground to window if tile is 1
@@ -95,6 +95,8 @@ int main()
                     GroundSpr.setPosition(50.f*c,50.f*r);
                     window.draw(GroundSpr);
                 }
+
+
                 
             }
         }
