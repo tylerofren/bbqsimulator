@@ -7,7 +7,7 @@ using namespace std;
 int main()
 {
     
-    sf::Window window(sf::VideoMode(1000, 1000), "Game");
+    sf::RenderWindow window(sf::VideoMode(1000, 1000), "Game");
 
     while(window.isOpen())
     {
