@@ -38,6 +38,16 @@ int main()
     sf::Sprite GroundSpr;
     GroundSpr.setTexture(GroundTexture);
     
+
+    //Sets Spawn Texture #7
+    sf::Texture SpawnTexture;
+    if(!SpawnTexture.loadFromFile("C:\\Users\\1207318\\Desktop\\Final-Project\\include\\SpawnPlaceholder.png"))
+    {
+        cout << "failed to load image" << endl;
+        exit(1);
+    }
+    sf::Sprite SpawnSpr;
+    SpawnSpr.setTexture(SpawnTexture);
     
 
 
@@ -72,7 +82,7 @@ int main()
         {   
             {0,1,0,0,0},
             {0,1,0,0,0},
-            {0,1,0,0,0},
+            {0,1,7,0,0},
             {0,1,0,0,0},
             {0,1,0,0,0}
         };
@@ -96,7 +106,12 @@ int main()
                     window.draw(GroundSpr);
                 }
 
-
+                //Adds ground to window if tile is 7
+                else if(MapArray[r][c]==7)
+                {
+                    SpawnSpr.setPosition(50.f*c,50.f*r);
+                    window.draw(SpawnSpr);
+                }
                 
             }
         }
