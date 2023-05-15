@@ -4,11 +4,13 @@
 
 
 
+
+
+
 using namespace std;
 
 
-const int rows = 5;
-const int cols = 5;
+
 
 int main()
 {
@@ -88,33 +90,7 @@ int main()
         };
 
 
-        for(int r = 0; r < rows; r++)
-        {
-            for(int c = 0; c <cols; c++)
-            {
-                //Adds water to window if tile is 0
-                if(MapArray[r][c]==0)
-                {
-                    WaterSpr.setPosition(50.f*c,50.f*r);
-                    window.draw(WaterSpr);
-                }
-                
-                //Adds ground to window if tile is 1
-                else if(MapArray[r][c]==1)
-                {
-                    GroundSpr.setPosition(50.f*c,50.f*r);
-                    window.draw(GroundSpr);
-                }
-
-                //Adds ground to window if tile is 7
-                else if(MapArray[r][c]==7)
-                {
-                    SpawnSpr.setPosition(50.f*c,50.f*r);
-                    window.draw(SpawnSpr);
-                }
-                
-            }
-        }
+        
         window.display();
 
     }
