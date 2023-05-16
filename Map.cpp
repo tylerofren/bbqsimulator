@@ -5,6 +5,21 @@ Map::Map()
 {
    rows = 5;
    cols = 5;
+   //LEVEL 1
+        // 0 - WATER
+        // 1 - GROUND
+        // 2 - GRILL
+        // 3 - SAUSAGE
+        // 4 - GRILLED SAUSAGE
+        // 5 - PLAYER
+        // 6 - FORK
+        // 7 - SPAWN
+        
+        // 0 0 0 0 0
+        // 0 0 0 0 0
+        // 0 0 0 0 0
+        // 0 0 0 0 0
+        // 0 0 0 0 0
    LevelOne = 
     {   
         {0,1,0,0,0},
@@ -46,3 +61,36 @@ void Map::setUpInitialState()
         }
     }
 }
+
+/*Sets Water Texture #0
+    sf::Texture WaterTexture;
+    if(!WaterTexture.loadFromFile("include\\WaterPlaceholder.png"))
+    {
+        cout << "failed to load image" << endl;
+        exit(1);
+    }
+    sf::Sprite WaterSpr;
+    WaterSpr.setTexture(WaterTexture);
+
+    
+    //Sets Ground Texture #1
+    sf::Texture GroundTexture;
+    if(!GroundTexture.loadFromFile("include\\GroundPlaceholder.png"))
+    {
+        cout << "failed to load image" << endl;
+        exit(1);
+    }
+    sf::Sprite GroundSpr;
+    GroundSpr.setTexture(GroundTexture);
+    
+
+    //Sets Spawn Texture #7
+    sf::Texture SpawnTexture;
+    if(!SpawnTexture.loadFromFile("include\\SpawnPlaceholder.png"))
+    {
+        cout << "failed to load image" << endl;
+        exit(1);
+    }
+    sf::Sprite SpawnSpr;
+    SpawnSpr.setTexture(SpawnTexture);
+    */
