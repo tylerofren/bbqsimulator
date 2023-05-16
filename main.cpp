@@ -2,6 +2,7 @@
 #include <SFML/Audio.hpp>
 #include <iostream>
 
+#include "Game.cpp"
 
 
 
@@ -14,30 +15,22 @@ using namespace std;
 
 int main()
 {
-    
-    
-
+    Game game;
     
 
     
+
+    
     
 
 
 
     
-    while(window.isOpen())
+    while(game.running() && !game.getEndGame())
     {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed) window.close();
-        }
-        window.clear(sf::Color(255, 255, 255));
-        
-        
+        game.update();
 
-        
-        window.display();
+        game.render();
 
     }
 
