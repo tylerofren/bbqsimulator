@@ -28,12 +28,11 @@ int main()
 
 
     
-    while(game.running() && !game.getEndGame())
+    while(game.running())
     {
         game.update();
 
         game.render();
-
     }
 
     

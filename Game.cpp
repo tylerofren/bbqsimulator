@@ -7,11 +7,8 @@ using namespace std;
 
 Game::Game()
 {
-    initializeGame();
     initializeWindow();
-
-
-
+    initializeText();
 }
 
 
@@ -22,30 +19,32 @@ void Game::initializeWindow()
     window.create(sf::VideoMode(500, 500), "Game");
 }
 
-void Game::initializeLevel1()
+void Game::initializeText()
 {
-    Level1.create(sf::VideoMode(500, 500), "Level 1");
+    if(!font.loadFromFile("assets/PfennigBold.ttf"))
+    {
+        cout << "Failed to load font..." << endl;
+    }
+    // Initialize text
+    // Game Title
+    gameTitle.setFont(font);
+    gameTitle.setCharacterSize(30);
+    gameTitle.setFillColor(sf::Color::White);
+    gameTitle.setString("Game");
+    gameTitle.setOrigin(gameTitle.getLocalBounds().width / 2, gameTitle.getLocalBounds().height / 2);
+    gameTitle.setPosition(250, 100);
+
+    // Level select
+    levels.setFont(font);
+    levels.setCharacterSize(20);
+    levels.setFillColor(sf::Color::White);
+    levels.setString("Pick a level from 1 - 10 !!!!!!!!!");
+    levels.setOrigin(levels.getLocalBounds().width / 2, levels.getLocalBounds().height / 2);
+    levels.setPosition(250, 250);
 }
 
 
 
-void Game::initializeGame()
-{
-    /* level1 = new Level(map, player, etc)
-        levels = new Level[5]
-        levels[0] = level1
-
-
-
-    */
-
-}
-
-
-void Game::startGame()
-{
-
-}
 
 
 // Accessors
@@ -54,10 +53,7 @@ const bool Game::running() const
 {
     return window.isOpen();
 }
-const bool Game::getEndGame() const
-{
-    return endGame;
-}
+
 
 // Public functions
 
@@ -65,40 +61,9 @@ void Game::pollEvents()
 {
     while(window.pollEvent(ev))
     {
-        switch(ev.type)
+        if(ev.type == sf::Event::Closed)
         {
-            case sf::Event::Closed:
-                window.close();
-                break;
-            case sf::Event::KeyPressed:
-                if(ev.key.code == sf::Keyboard::Escape)
-                    window.close();
-
-                // Select Levels
-                // Level 1
-                if(ev.key.code == sf::Keyboard::Num1)
-
-                    initializeLevel1();
-
-                    while(Level1.isOpen())
-                    {
-                        while(Level1.pollEvent(event1))
-                        {
-                            switch(ev.type)
-                            {
-                                case sf::Event::Closed:
-                                    Level1.close();
-                                    break;
-                                case sf::Event::KeyPressed:
-                                    if(event1.key.code == sf::Keyboard::Escape)
-                                        Level1.close();
-                                    break;
-                            }
-                        }
-                        Level1.clear();
-                        Level1.display();
-                    }
-                break;
+            window.close();
         }
     }
 }
@@ -106,19 +71,15 @@ void Game::pollEvents()
 void Game::update()
 {
     pollEvents();
-    if(!endGame)
-    {
-        // Events 
-    }
-
-
-    // End game condition : Level finished etc
 }
 
 void Game::render()
 {
     window.clear();
-    // render stuff, draw game objects
+
+    window.draw(gameTitle);
+    window.draw(levels);
+
 
     window.display();
 }
