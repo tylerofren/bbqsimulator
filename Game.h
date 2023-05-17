@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
+#include "Menu.cpp"
+
 
 #ifndef GAME_H
 #define GAME_H
@@ -9,23 +11,29 @@ class Game
 {
 private:
     // Window variables
+    sf::RenderWindow menuWindow;
     sf::RenderWindow window;
     sf::Event ev;
 
-    // UI
-    sf::Font font;
-    sf::Text text;
+    sf::Event event1;
 
     // Game logic
     bool endGame;
 
     // Private functions
     // Initialization
-    void initializeGame();
+
     void initializeWindow();
-    void initializeFonts();
-    void initializeText();
+    void initializeGame();
+
+
+
+    // Start
     void startGame();
+
+    // Levels
+    void initializeLevel1();
+    sf::RenderWindow Level1;
 
 
 

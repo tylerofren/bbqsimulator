@@ -9,35 +9,25 @@ Game::Game()
 {
     initializeGame();
     initializeWindow();
-    initializeFonts();
-    initializeText();
+
+
+
 }
 
 
-/*void Game::initializeGame()
-{
 
-}*/
 
 void Game::initializeWindow()
 {
     window.create(sf::VideoMode(500, 500), "Game");
 }
 
-void Game::initializeFonts()
+void Game::initializeLevel1()
 {
-    if(!font.loadFromFile("include/xxxxxxx.ttf"))
-    {
-        cout << "Failed to load font!" << endl;
-    }
+    Level1.create(sf::VideoMode(500, 500), "Level 1");
 }
 
-void Game::initializeText()
-{
-    text.setFont(font);
-    text.setCharacterSize(30);
-    text.setFillColor(sf::Color::White);
-}
+
 
 void Game::initializeGame()
 {
@@ -83,6 +73,31 @@ void Game::pollEvents()
             case sf::Event::KeyPressed:
                 if(ev.key.code == sf::Keyboard::Escape)
                     window.close();
+
+                // Select Levels
+                // Level 1
+                if(ev.key.code == sf::Keyboard::Num1)
+
+                    initializeLevel1();
+
+                    while(Level1.isOpen())
+                    {
+                        while(Level1.pollEvent(event1))
+                        {
+                            switch(ev.type)
+                            {
+                                case sf::Event::Closed:
+                                    Level1.close();
+                                    break;
+                                case sf::Event::KeyPressed:
+                                    if(event1.key.code == sf::Keyboard::Escape)
+                                        Level1.close();
+                                    break;
+                            }
+                        }
+                        Level1.clear();
+                        Level1.display();
+                    }
                 break;
         }
     }
