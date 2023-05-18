@@ -15,13 +15,15 @@
 class Map
 {
 private:
-    void initializeTiles(int[10][10]); 
-        
+    void initializeTiles(std::vector<std::vector<int>>); 
+    ofstream errorFile;
 
 public: 
+    Map();
 
-    Map(int[10][10]);
-    std::vector<std::vector<GameTile *>> tiles;
+    Map(std::vector<std::vector<int>>);
+    GameTile* tiles[10][10];
+
 
 
         

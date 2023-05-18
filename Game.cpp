@@ -9,9 +9,18 @@ Game::Game()
 {
     menuIsOpened = true;
     levelOneIsOpened = false;
+    
     initializeWindow();
+    
+    initializeLevels();
+    
     initializeText();
+    
     initializeMaps();
+
+
+
+
 
 }
 
@@ -27,7 +36,9 @@ void Game::initializeText()
 {
     if(!font.loadFromFile("assets/PfennigBold.ttf"))
     {
-        cout << "Failed to load font..." << endl;
+        errorFile.open("errors.txt");
+        errorFile << "failed to load image" << endl;
+        errorFile.close();
     }
     // Initialize text
     // Game Title
@@ -49,7 +60,7 @@ void Game::initializeText()
 
 void Game::initializeLevels()
 {
-    int levelOne[10][10] =  
+    levelOne =  
     {
         {0, 1, 0, 0, 1, 0, 0, 0, 0, 0},
         {0, 1, 0, 0, 1, 0, 0, 0, 0, 0},
@@ -62,13 +73,14 @@ void Game::initializeLevels()
         {0, 1, 0, 0, 1, 0, 0, 0, 0, 0},
         {0, 1, 0, 0, 1, 0, 0, 0, 0, 0}
     };
+
 }
 
 
 
 void Game::initializeMaps()
 {
-    Map* maps[0] = new Map(levelOne[10][10]);
+    maps[0] = new Map(levelOne);
 }
 
 
@@ -128,21 +140,33 @@ void Game::render()
 {
     window.clear();
 
+
+
     if(menuIsOpened)
     {
         window.draw(gameTitle);
         window.draw(levelSelect);
     }
+    
     if(levelOneIsOpened)
     {
         for(int i = 0; i < 10; i++)
         {
             for(int j = 0; j < 10; j++)
             {
-                window.draw(maps[0].tiles[i][j].getSprite())
+                window.draw(maps[0]->tiles[i][j]->getSprite());
             }
         }
+        
     }
+    
+    
+
+   
+
+
+
+    
 
 
     window.display();

@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -12,13 +13,24 @@ using namespace std;
 
 class GameTile
 {
+private:
+
+    ofstream errorFile;
+
+    sf::Texture texture;
+    sf::Sprite sprite;
+    sf::Vector2f position;
+
 
 public:
-sf::Texture texture;
-sf::Sprite sprite;
-GameTile(std::string, float, float);
 
-sf::Sprite getSprite();
+
+
+    GameTile();
+    GameTile(const std::string&, float, float);
+    sf::Sprite& getSprite();
+
+
 
 
 };
