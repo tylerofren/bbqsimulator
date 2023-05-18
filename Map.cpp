@@ -1,66 +1,34 @@
 #include "Map.h"
 
 
-Map::Map()
+Map::Map(int array[10][10])
 {
-   rows = 5;
-   cols = 5;
-   //LEVEL 1
-        // 0 - WATER
-        // 1 - GROUND
-        // 2 - GRILL
-        // 3 - SAUSAGE
-        // 4 - GRILLED SAUSAGE
-        // 5 - PLAYER
-        // 6 - FORK
-        // 7 - SPAWN
-        
-        // 0 0 0 0 0
-        // 0 0 0 0 0
-        // 0 0 0 0 0
-        // 0 0 0 0 0
-        // 0 0 0 0 0
-   LevelOne = 
-    {   
-        {0,1,0,0,0},
-        {0,1,0,0,0},
-        {0,1,7,0,0},
-        {0,1,0,0,0},
-        {0,1,0,0,0}
-    }; 
-    setUpInitialState();
+    initializeTiles(array);
 }
 
-void Map::setUpInitialState()
-{
-    for(int r = 0; r < rows; r++)
-    {
-        for(int c = 0; c < cols; c++)
-        {
-            //Adds water to window if tile is 0
-            if(LevelOne[r][c] == 0)
-            {
-                WaterSpr.setPosition(50.f*c,50.f*r);
-                window.draw(WaterSpr);
-            }
-            
-            //Adds ground to window if tile is 1
-            else if(LevelOne[r][c] == 1)
-            {
-                GroundSpr.setPosition(50.f*c,50.f*r);
-                window.draw(GroundSpr);
-            }
 
-            //Adds ground to window if tile is 7
-            else if(LevelOne[r][c] == 7)
+// Creates a vector of GameTiles using the array
+void Map::initializeTiles(int array[10][10]) 
+{
+    tiles.clear();
+    for(int i = 0; i < 10; i++)
+    {
+        for(int j = 0; j < 10; j++)
+        {
+            if(array[i][j] == 0)
             {
-                SpawnSpr.setPosition(50.f*c,50.f*r);
-                window.draw(SpawnSpr);
+                tiles[i].push_back(new GameTile("assets/WaterPlaceholder.png", 50.f * i, 50.f * j));
             }
             
+            else if(array[i][j] == 1)
+            {
+                tiles[i].push_back(new GameTile("assets/GroundPlaceholder.png", 50.f * i, 50.f * j));
+            }
         }
     }
 }
+
+
 
 /*Sets Water Texture #0
     sf::Texture WaterTexture;
