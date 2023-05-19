@@ -5,9 +5,10 @@ Map::Map()
 
 }
 
-Map::Map(std::vector<std::vector<int>> array)
+Map::Map(std::vector<std::vector<int>> array, int x, int y, int r)
 {
     initializeTiles(array);
+    player = new Player(50.f * x, 50.f * y, r);
 }
 
 
@@ -51,4 +52,9 @@ void Map::initializeTiles(std::vector<std::vector<int>> array)
 
    }
 
+}
+
+Player* Map::getPlayer()
+{
+    return player;
 }

@@ -88,7 +88,7 @@ void Game::initializeLevels()
 
 void Game::initializeMaps()
 {
-    maps[0] = new Map(levelOne);
+    maps[0] = new Map(levelOne, 2, 2, 2);
 }
 
 
@@ -165,6 +165,7 @@ void Game::render()
                 window.draw(maps[0]->tiles[i][j]->getSprite());
             }
         }
+        window.draw(maps[0]->getPlayer()->getSprite());
         
     }
     
