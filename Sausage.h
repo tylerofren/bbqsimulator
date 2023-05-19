@@ -4,18 +4,17 @@
 
 using namespace std;
 
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef SAUSAGE_H
+#define SAUSAGE_H
 
-class Player
+class Sausage
 {
 private:
-// Player properties
+// Sausage properties
 sf::Sprite sprite;
 sf::Texture texture;
 sf::Vector2f position;
-int rotation;
-
+bool horizontal;
 
 // Error file
 ofstream errorFile;
@@ -23,28 +22,54 @@ ofstream errorFile;
 
 
 
-public:
-Player(float, float, int);
-Player();
 
-bool isHorizontal();
+
+public:
+Sausage();
+Sausage(float, float, bool);
+
 
 // Accessors
-sf::Vector2f getPosition();
 sf::Sprite getSprite();
-int& getRotation();
-
-int getRow() const;
-int getColumn() const;
+sf::Vector2f getPosition();
+bool isHorizontal();
 
 // Modifiers
 void setPosition(const sf::Vector2f);
-void setRotation(const int);
+void setHorizontal(bool);
+
+
+
+
+
 
 
 
 
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

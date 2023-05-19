@@ -28,6 +28,7 @@ private:
     void initializeMaps();
     void initializeLevels();
     void initializePlayer();
+    void initializeSausages();
 
     // Maps
     Map* maps[10];
@@ -36,6 +37,10 @@ private:
 
     // Player
     Player* player;
+
+    // Sausages
+    Sausage* sausage;
+    Sausage* sausage2;
 
     // Arrays
 

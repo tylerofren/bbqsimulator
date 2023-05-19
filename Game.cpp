@@ -13,6 +13,8 @@ Game::Game()
     initializeWindow();
 
     initializePlayer();
+
+    initializeSausages();
     
     initializeLevels();
     
@@ -92,6 +94,11 @@ void Game::initializePlayer()
     player = new Player(0, 0, 0);
 }
 
+void Game::initializeSausages()
+{
+    sausage = new Sausage(0, 0, false);
+    sausage2 = new Sausage(0, 0, false);
+}
 
 
 void Game::initializeMaps()
@@ -148,7 +155,7 @@ void Game::pollEvents()
                 levelOneIsOpened = true;
                 currentMap = 0;
 
-                // Lvl 1 starting player positions
+                // ----------- Level 1 Starting Player Positions --------------
                 // Position: row/col * 50 + 25
                 // Rotations: 0 = North
                 // 1 = East 
@@ -156,6 +163,13 @@ void Game::pollEvents()
                 // 3 = West
                 player->setPosition(sf::Vector2f(225, 125));
                 player->setRotation(1);
+
+                // --------- Level 1 Starting Sausage Positions --------------
+                sausage->setPosition(sf::Vector2f(325, 425));
+                sausage->setHorizontal(false);
+
+                sausage2->setPosition(sf::Vector2f(125, 225));
+                sausage2->setHorizontal(true);
                 break;
 
                 // ----------Player controls------------------------
@@ -239,6 +253,8 @@ void Game::render()
             }
         }
         window.draw(player->getSprite());
+        window.draw(sausage->getSprite());
+        window.draw(sausage2->getSprite());
         
     }
     

@@ -2,6 +2,7 @@
 #include <vector>
 #include "gameTile.cpp"
 #include "Player.cpp"
+#include "Sausage.cpp"
 
 
 
