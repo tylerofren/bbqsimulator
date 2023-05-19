@@ -11,6 +11,8 @@ Game::Game()
     levelOneIsOpened = false;
     
     initializeWindow();
+
+    initializePlayer();
     
     initializeLevels();
     
@@ -58,6 +60,7 @@ void Game::initializeText()
     levelSelect.setPosition(250, 250);
 }
 
+
 void Game::initializeLevels()
 {
     /*
@@ -84,11 +87,16 @@ void Game::initializeLevels()
 
 }
 
+void Game::initializePlayer()
+{
+    player = new Player(0, 0, 0);
+}
+
 
 
 void Game::initializeMaps()
 {
-    maps[0] = new Map(levelOne, 2, 2, 2);
+    maps[0] = new Map(levelOne);
 }
 
 
@@ -104,6 +112,13 @@ const bool Game::running() const
     return window.isOpen();
 }
 
+/*
+
+Fix bug: game crashes when W,A,S,D pressed in main menu
+
+
+
+*/
 
 // Public functions
 
@@ -128,9 +143,64 @@ void Game::pollEvents()
                 levelOneIsOpened = false;
                 break;
 
-                case sf::Keyboard::Num1:
+                case sf::Keyboard::Num1: // Select lvl 1
                 menuIsOpened = false;
                 levelOneIsOpened = true;
+                currentMap = 0;
+
+                // Lvl 1 starting player positions
+                // Position: row/col * 50 + 25
+                // Rotations: 0 = North
+                // 1 = East 
+                // 2 = South 
+                // 3 = West
+                player->setPosition(sf::Vector2f(225, 125));
+                player->setRotation(1);
+                break;
+
+                // ----------Player controls------------------------
+                case sf::Keyboard::W:
+                if(!player->isHorizontal() && maps[currentMap]->tiles[player->getRow() - 1][player->getColumn()]->getPassable())
+                {
+                    player->setPosition(sf::Vector2f(player->getPosition().x, player->getPosition().y - 50));
+                }
+                else if(player->isHorizontal())
+                {
+                    player->setRotation(0);
+                }
+                break;
+
+                case sf::Keyboard::A:
+                if(player->isHorizontal() && maps[currentMap]->tiles[player->getRow()][player->getColumn() - 1]->getPassable())
+                {
+                    player->setPosition(sf::Vector2f(player->getPosition().x - 50, player->getPosition().y));
+                }
+                else if(!player->isHorizontal())
+                {
+                    player->setRotation(3);
+                }
+                break;
+
+                case sf::Keyboard::S:
+                if(!player->isHorizontal() && maps[currentMap]->tiles[player->getRow() + 1][player->getColumn()]->getPassable())
+                {
+                    player->setPosition(sf::Vector2f(player->getPosition().x, player->getPosition().y + 50));
+                }
+                else if(player->isHorizontal())
+                {
+                    player->setRotation(2);
+                }
+                break;
+
+                case sf::Keyboard::D:
+                if(player->isHorizontal() && maps[currentMap]->tiles[player->getRow()][player->getColumn() + 1]->getPassable())
+                {
+                    player->setPosition(sf::Vector2f(player->getPosition().x + 50, player->getPosition().y));
+                }
+                else if(!player->isHorizontal())
+                {
+                    player->setRotation(1);
+                }
                 break;
 
                 
@@ -149,6 +219,9 @@ void Game::render()
     window.clear();
 
 
+    
+
+
 
     if(menuIsOpened)
     {
@@ -165,7 +238,7 @@ void Game::render()
                 window.draw(maps[0]->tiles[i][j]->getSprite());
             }
         }
-        window.draw(maps[0]->getPlayer()->getSprite());
+        window.draw(player->getSprite());
         
     }
     

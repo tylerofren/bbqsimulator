@@ -27,16 +27,22 @@ ofstream errorFile;
 
 public:
 Player(float, float, int);
+Player();
 
+bool isHorizontal();
 
 // Accessors
-sf::Vector2f& getPosition();
+sf::Vector2f getPosition();
 sf::Sprite getSprite();
 int& getRotation();
+
+int getRow() const;
+int getColumn() const;
 
 // Modifiers
 void setPosition(const sf::Vector2f);
 void setRotation(const int);
+
 
 
 

@@ -27,12 +27,17 @@ private:
     void initializeText();
     void initializeMaps();
     void initializeLevels();
+    void initializePlayer();
 
     // Maps
     Map* maps[10];
+    int currentMap;
+
+
+    // Player
+    Player* player;
 
     // Arrays
-    //int levelOne[10][10];
 
     std::vector<std::vector<int>> levelOne;
 

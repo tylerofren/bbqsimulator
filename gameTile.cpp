@@ -5,7 +5,7 @@ GameTile::GameTile()
 
 }
 
-GameTile::GameTile(const std::string& textureName, float x, float y)
+GameTile::GameTile(const std::string& textureName, float x, float y, bool passable)
 {
     if(!texture.loadFromFile(textureName))
     {   
@@ -18,11 +18,18 @@ GameTile::GameTile(const std::string& textureName, float x, float y)
     sprite.setTexture(texture);
     sprite.setPosition(position);
     sprite.setTextureRect(sf::IntRect(0, 0, 50, 50));
+    isPassable = passable;
+    
 }
 
 sf::Sprite& GameTile::getSprite()
 {
     return sprite;
+}
+
+bool GameTile::getPassable()
+{
+    return isPassable;
 }
 
 

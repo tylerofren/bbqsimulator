@@ -20,6 +20,7 @@ private:
     sf::Texture texture;
     sf::Sprite sprite;
     sf::Vector2f position;
+    bool isPassable;
 
 
 public:
@@ -27,8 +28,9 @@ public:
 
 
     GameTile();
-    GameTile(const std::string&, float, float);
+    GameTile(const std::string&, float, float, bool);
     sf::Sprite& getSprite();
+    bool getPassable();
 
 
 
