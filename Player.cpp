@@ -43,6 +43,32 @@ sf::Sprite Player::getSprite()
     return sprite;
 }
 
+sf::Vector2i Player::getRows() const
+{
+    if(rotation == 2) // Not horizontal
+    {
+        return sf::Vector2i((position.y - 25) / 50, (position.y - 25) / 50 + 1);
+    }
+    else if(rotation == 0)
+    {
+        return sf::Vector2i((position.y - 25) / 50 - 1, (position.y - 25) / 50);
+    }
+    return sf::Vector2i((position.y - 25) / 50, (position.y - 25) / 50);
+}
+
+sf::Vector2i Player::getColumns() const
+{
+    if(rotation == 1)
+    {
+        return sf::Vector2i((position.x - 25) / 50, (position.x - 25) / 50 + 1);
+    }
+    else if(rotation == 3)
+    {
+        return sf::Vector2i((position.x - 25) / 50 - 1, (position.x - 25) / 50);
+    }
+    return sf::Vector2i((position.x - 25) / 50, (position.x - 25) / 50);
+}
+
 int Player::getRow() const
 {
     return static_cast<int>((position.y - 25) / 50.f);
@@ -52,7 +78,6 @@ int Player::getColumn() const
 {
     return static_cast<int>((position.x - 25) / 50.f);
 }
-
 
 
 bool Player::isHorizontal()

@@ -78,11 +78,11 @@ void Game::initializeLevels()
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 5, 1, 0, 0, 0, 0},
-        {0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
-        {0, 0, 0, 1, 2, 2, 1, 0, 0, 0},
-        {0, 0, 0, 1, 2, 2, 1, 0, 0, 0},
-        {0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+        {0, 1, 1, 1, 2, 2, 1, 1, 1, 0},
+        {0, 1, 1, 1, 2, 2, 1, 1, 1, 0},
+        {0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+        {0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
@@ -165,10 +165,10 @@ void Game::pollEvents()
                 player->setRotation(1);
 
                 // --------- Level 1 Starting Sausage Positions --------------
-                sausage->setPosition(sf::Vector2f(325, 425));
+                sausage->setPosition(sf::Vector2f(125, 275));
                 sausage->setHorizontal(false);
 
-                sausage2->setPosition(sf::Vector2f(125, 225));
+                sausage2->setPosition(sf::Vector2f(375, 275));
                 sausage2->setHorizontal(true);
                 break;
 
@@ -177,11 +177,52 @@ void Game::pollEvents()
                 if(!player->isHorizontal() && maps[currentMap]->tiles[player->getRow() - 1][player->getColumn()]->getPassable())
                 {
                     player->setPosition(sf::Vector2f(player->getPosition().x, player->getPosition().y - 50));
-                    //if(player->getRotation() == 0 && (sausage->getColumns().y == player->getRow()))
+                    if(player->getRows().x == sausage->getRows().y && (player->getColumns().x == sausage->getColumns().x || player->getColumns().x == sausage->getColumns().y))
+                    {
+                        sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y - 50));
+                    }
+                    else if(player->getRows().x == sausage2->getRows().y && (player->getColumns().x == sausage2->getColumns().x || player->getColumns().x == sausage2->getColumns().y))
+                    {
+                        sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y - 50));
+                    }
                 }
                 else if(player->isHorizontal())
                 {
-                    player->setRotation(0);
+                    if(player->getRotation() == 3)
+                    {
+                        player->setRotation(0);
+
+                        if(player->getRows().x == sausage->getRows().y && (player->getColumns().x + 1 == sausage->getColumns().x || player->getColumns().x - 1 == sausage->getColumns().x))
+                        {
+                            sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y - 50));
+                        }
+                        else if(player->getRows().x == sausage2->getRows().y && (player->getColumns().x + 1 == sausage2->getColumns().x || player->getColumns().x - 1 == sausage2->getColumns().x))
+                        {
+                            sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y - 50));
+                        }
+                        else if(player->getRows().x == sausage->getRows().y && (player->getColumns().x == sausage->getColumns().x || player->getColumns().x == sausage->getColumns().y))
+                        {
+                            sausage->setPosition(sf::Vector2f(sausage->getPosition().x + 50, sausage->getPosition().y));
+                        }
+                        else if(player->getRows().x == sausage2->getRows().y && (player->getColumns().x == sausage2->getColumns().x || player->getColumns().x == sausage2->getColumns().y))
+                        {
+                            sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x + 50, sausage2->getPosition().y));
+                        }
+                        
+                    }
+                    else
+                    {
+                        player->setRotation(0);
+                        if(player->getRows().x == sausage->getRows().y && (player->getColumns().x == sausage->getColumns().x || player->getColumns().x == sausage->getColumns().y))
+                        {
+                            sausage->setPosition(sf::Vector2f(sausage->getPosition().x - 50, sausage->getPosition().y));
+                        }
+                        else if(player->getRows().x == sausage2->getRows().y && (player->getColumns().x == sausage2->getColumns().x || player->getColumns().x == sausage2->getColumns().y))
+                        {
+                            sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x - 50, sausage2->getPosition().y));
+                        }
+                    }
+                    
                 }
                 break;
 
@@ -189,6 +230,14 @@ void Game::pollEvents()
                 if(player->isHorizontal() && maps[currentMap]->tiles[player->getRow()][player->getColumn() - 1]->getPassable())
                 {
                     player->setPosition(sf::Vector2f(player->getPosition().x - 50, player->getPosition().y));
+                    if(player->getColumns().x == sausage->getColumns().y && (player->getRows().x == sausage->getRows().x || player->getRows().x == sausage->getRows().y))
+                    {
+                        sausage->setPosition(sf::Vector2f(sausage->getPosition().x - 50, sausage->getPosition().y));
+                    }
+                    else if(player->getColumns().x == sausage2->getColumns().y && (player->getRows().x == sausage2->getRows().x || player->getRows().x == sausage2->getRows().y))
+                    {
+                        sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x - 50, sausage2->getPosition().y));
+                    }
                 }
                 else if(!player->isHorizontal())
                 {
@@ -200,6 +249,14 @@ void Game::pollEvents()
                 if(!player->isHorizontal() && maps[currentMap]->tiles[player->getRow() + 1][player->getColumn()]->getPassable())
                 {
                     player->setPosition(sf::Vector2f(player->getPosition().x, player->getPosition().y + 50));
+                    if(player->getRows().y == sausage->getRows().x && (player->getColumns().x == sausage->getColumns().x || player->getColumns().x == sausage->getColumns().y))
+                    {
+                        sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y + 50));
+                    }
+                    else if(player->getRows().y == sausage2->getRows().x && (player->getColumns().x == sausage2->getColumns().x || player->getColumns().x == sausage2->getColumns().y))
+                    {
+                        sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y + 50));
+                    }
                 }
                 else if(player->isHorizontal())
                 {
@@ -211,6 +268,14 @@ void Game::pollEvents()
                 if(player->isHorizontal() && maps[currentMap]->tiles[player->getRow()][player->getColumn() + 1]->getPassable())
                 {
                     player->setPosition(sf::Vector2f(player->getPosition().x + 50, player->getPosition().y));
+                    if(player->getColumns().y == sausage->getColumns().x && (player->getRows().x == sausage->getRows().x || player->getRows().x == sausage->getRows().y))
+                    {
+                        sausage->setPosition(sf::Vector2f(sausage->getPosition().x + 50, sausage->getPosition().y));
+                    }
+                    else if(player->getColumns().y == sausage2->getColumns().x && (player->getRows().x == sausage2->getRows().x || player->getRows().x == sausage2->getRows().y))
+                    {
+                        sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x + 50, sausage2->getPosition().y));
+                    }
                 }
                 else if(!player->isHorizontal())
                 {
@@ -257,10 +322,12 @@ void Game::render()
         window.draw(sausage->getSprite());
         window.draw(sausage2->getSprite());
 
+        /*
         errorFile.open("errors.txt");
-        errorFile <<  sausage->isHorizontal() << sausage->getColumns().x << sausage->getColumns().y << sausage->getRows().x << sausage->getRows().y
-        << endl;
+        errorFile << player->getColumns().y << sausage->getColumns().x << endl;
         errorFile.close();
+        */
+        
         
     }
     

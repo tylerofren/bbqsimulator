@@ -34,8 +34,12 @@ sf::Vector2f getPosition();
 sf::Sprite getSprite();
 int& getRotation();
 
+// Only includes player
 int getRow() const;
 int getColumn() const;
+// Includes player and fork
+sf::Vector2i getRows() const;
+sf::Vector2i getColumns() const;
 
 // Modifiers
 void setPosition(const sf::Vector2f);

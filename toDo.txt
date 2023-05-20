@@ -31,5 +31,6 @@ Sausage textures:
         15 - all cooked
 
 
-Grill texture
+Grill texture 
 
+Don't forget sausage w/ sausage interactions
