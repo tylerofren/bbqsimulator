@@ -16,6 +16,13 @@ sf::Texture texture;
 sf::Vector2f position;
 bool horizontal;
 
+bool topRightIsCooked;
+bool topLeftIsCooked;
+bool botRightIsCooked;
+bool botLeftIsCooked;
+
+int cookState;
+
 // Error file
 ofstream errorFile;
 
