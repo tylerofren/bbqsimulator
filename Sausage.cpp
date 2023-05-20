@@ -23,6 +23,7 @@ Sausage::Sausage(float x, float y, bool hor)
     if(hor)
     {
         sprite.rotate(90);
+        sprite.setPosition(position.x, position.y - 50);
     }
     horizontal = hor;
 
@@ -39,6 +40,31 @@ sf::Vector2f Sausage::getPosition()
 {
     return sprite.getPosition();
 }
+
+
+
+sf::Vector2i Sausage::getRows() const
+{
+    if(!horizontal)
+    {
+        return sf::Vector2i((position.y - 25) / 50, (position.y - 25) / 50 - 1);
+    }
+    return sf::Vector2i((position.y - 25) / 50, (position.y - 25) / 50);
+}
+
+sf::Vector2i Sausage::getColumns() const
+{
+    if(horizontal)
+    {
+        return sf::Vector2i((position.x - 25) / 50, (position.x - 25) / 50 + 1);
+    }
+    return sf::Vector2i((position.x - 25) / 50, (position.x - 25) / 50);
+}
+
+
+
+
+
 
 bool Sausage::isHorizontal()
 {
@@ -59,5 +85,5 @@ void Sausage::setHorizontal(bool hor)
     {
         sprite.rotate(90);
     }
-    horizontal = true;
+    horizontal = hor;
 }

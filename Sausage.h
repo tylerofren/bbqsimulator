@@ -16,12 +16,15 @@ sf::Texture texture;
 sf::Vector2f position;
 bool horizontal;
 
+/*
+Cooking variables, do these later, movement first
 bool topRightIsCooked;
 bool topLeftIsCooked;
 bool botRightIsCooked;
 bool botLeftIsCooked;
 
 int cookState;
+*/
 
 // Error file
 ofstream errorFile;
@@ -39,6 +42,8 @@ Sausage(float, float, bool);
 // Accessors
 sf::Sprite getSprite();
 sf::Vector2f getPosition();
+sf::Vector2i getRows() const;
+sf::Vector2i getColumns() const;
 bool isHorizontal();
 
 // Modifiers

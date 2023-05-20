@@ -177,6 +177,7 @@ void Game::pollEvents()
                 if(!player->isHorizontal() && maps[currentMap]->tiles[player->getRow() - 1][player->getColumn()]->getPassable())
                 {
                     player->setPosition(sf::Vector2f(player->getPosition().x, player->getPosition().y - 50));
+                    //if(player->getRotation() == 0 && (sausage->getColumns().y == player->getRow()))
                 }
                 else if(player->isHorizontal())
                 {
@@ -255,6 +256,11 @@ void Game::render()
         window.draw(player->getSprite());
         window.draw(sausage->getSprite());
         window.draw(sausage2->getSprite());
+
+        errorFile.open("errors.txt");
+        errorFile <<  sausage->isHorizontal() << sausage->getColumns().x << sausage->getColumns().y << sausage->getRows().x << sausage->getRows().y
+        << endl;
+        errorFile.close();
         
     }
     
