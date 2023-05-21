@@ -29,8 +29,14 @@ Sausage textures:
         14- top, bottom left cooked
 
         15 - all cooked
-
-
 Grill texture 
 
-Don't forget sausage w/ sausage interactions
+
+
+
+sausage w/ sausage interactions
+sausage w/ water and grill interactions
+
+lost game screen, sausage dropped in water, sausage overcooked
+z for redo? idk how i would implement that
+
