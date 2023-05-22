@@ -87,3 +87,9 @@ void Sausage::setHorizontal(bool hor)
     }
     horizontal = hor;
 }
+
+
+////////////////////////////////////////////////////////
+
+
+

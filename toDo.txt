@@ -33,10 +33,12 @@ Grill texture
 
 
 
+sausage w/ grill interactions
 
-sausage w/ sausage interactions
-sausage w/ water and grill interactions
+add win condition
 
 lost game screen, sausage dropped in water, sausage overcooked
 z for redo? idk how i would implement that
+
+fix bug press wasd in menu causes crash
 

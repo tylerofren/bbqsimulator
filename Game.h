@@ -20,6 +20,8 @@ private:
     sf::Font font;
     sf::Text gameTitle;
     sf::Text levelSelect;
+    sf::Text lostScreen;
+    sf::Text lostScreen2;
 
 
     // Initialization
@@ -42,6 +44,9 @@ private:
     Sausage* sausage;
     Sausage* sausage2;
 
+    bool sausageIntersects();
+    bool forkIntersects();
+
     // Arrays
 
     std::vector<std::vector<int>> levelOne;
@@ -50,6 +55,9 @@ private:
     bool menuIsOpened;
     // // Level Booleans
     bool levelOneIsOpened;
+
+    // Lost screen
+    bool lostScreenIsOpened;
 
     // Error file
     ofstream errorFile;

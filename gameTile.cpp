@@ -5,7 +5,7 @@ GameTile::GameTile()
 
 }
 
-GameTile::GameTile(const std::string& textureName, float x, float y, bool passable)
+GameTile::GameTile(const std::string& textureName, float x, float y, bool passable, bool sausagePassable)
 {
     if(!texture.loadFromFile(textureName))
     {   
@@ -19,6 +19,7 @@ GameTile::GameTile(const std::string& textureName, float x, float y, bool passab
     sprite.setPosition(position);
     sprite.setTextureRect(sf::IntRect(0, 0, 50, 50));
     isPassable = passable;
+    isSausagePassable = sausagePassable;
     
 }
 
@@ -30,6 +31,11 @@ sf::Sprite& GameTile::getSprite()
 bool GameTile::getPassable()
 {
     return isPassable;
+}
+
+bool GameTile::getSausagePassable()
+{
+    return isSausagePassable;
 }
 
 

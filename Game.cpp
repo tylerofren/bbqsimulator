@@ -9,6 +9,7 @@ Game::Game()
 {
     menuIsOpened = true;
     levelOneIsOpened = false;
+    lostScreenIsOpened = false;
     
     initializeWindow();
 
@@ -60,6 +61,21 @@ void Game::initializeText()
     levelSelect.setString("Pick a level from 1 - 10 !!!!!!!!!");
     levelSelect.setOrigin(levelSelect.getLocalBounds().width / 2, levelSelect.getLocalBounds().height / 2);
     levelSelect.setPosition(250, 250);
+
+    // Lost screen
+    lostScreen.setFont(font);
+    lostScreen.setCharacterSize(75);
+    lostScreen.setFillColor(sf::Color::White);
+    lostScreen.setString("Lost");
+    lostScreen.setOrigin(lostScreen.getLocalBounds().width / 2, lostScreen.getLocalBounds().height / 2);
+    lostScreen.setPosition(250, 80);
+
+    lostScreen2.setFont(font);
+    lostScreen2.setCharacterSize(80);
+    lostScreen2.setFillColor(sf::Color::Black);
+    lostScreen2.setString("Lost");
+    lostScreen2.setOrigin(lostScreen2.getLocalBounds().width / 2, lostScreen2.getLocalBounds().height / 2);
+    lostScreen2.setPosition(250, 80);
 }
 
 
@@ -110,6 +126,20 @@ void Game::initializeMaps()
 
 
 
+bool Game::sausageIntersects()
+{
+    return (sausage->getSprite().getGlobalBounds().intersects(sausage2->getSprite().getGlobalBounds()));
+}
+
+bool Game::forkIntersects()
+{
+    return (player->getSprite().getGlobalBounds().intersects(sausage->getSprite().getGlobalBounds())) || (player->getSprite().getGlobalBounds().intersects(sausage2->getSprite().getGlobalBounds()));
+}
+
+
+
+
+
 
 
 // Accessors
@@ -118,14 +148,6 @@ const bool Game::running() const
 {
     return window.isOpen();
 }
-
-/*
-
-Fix bug: game crashes when W,A,S,D pressed in main menu
-
-
-
-*/
 
 // Public functions
 
@@ -148,11 +170,13 @@ void Game::pollEvents()
                 case sf::Keyboard::M: // M returns to the menu
                 menuIsOpened = true;
                 levelOneIsOpened = false;
+                lostScreenIsOpened = false;
                 break;
 
                 case sf::Keyboard::Num1: // Select lvl 1
                 menuIsOpened = false;
                 levelOneIsOpened = true;
+                lostScreenIsOpened = false;
                 currentMap = 0;
 
                 // ----------- Level 1 Starting Player Positions --------------
@@ -172,6 +196,7 @@ void Game::pollEvents()
                 sausage2->setHorizontal(true);
                 break;
 
+                
                 // ----------Player controls------------------------
                 case sf::Keyboard::W:
                 if(!player->isHorizontal() && maps[currentMap]->tiles[player->getRow() - 1][player->getColumn()]->getPassable())
@@ -180,10 +205,12 @@ void Game::pollEvents()
                     if(player->getRows().x == sausage->getRows().y && (player->getColumns().x == sausage->getColumns().x || player->getColumns().x == sausage->getColumns().y))
                     {
                         sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y - 50));
+                        if(sausageIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y - 50));
                     }
                     else if(player->getRows().x == sausage2->getRows().y && (player->getColumns().x == sausage2->getColumns().x || player->getColumns().x == sausage2->getColumns().y))
                     {
                         sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y - 50));
+                        if(sausageIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y - 50));
                     }
                 }
                 else if(player->isHorizontal())
@@ -195,18 +222,24 @@ void Game::pollEvents()
                         if(player->getRows().x == sausage->getRows().y && (player->getColumns().x - 1 == sausage->getColumns().x || player->getColumns().x - 1 == sausage->getColumns().y))
                         {
                             sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y - 50));
+                            if(sausageIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y - 50));
+                            if(forkIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x + 50, sausage2->getPosition().y));
                         }
                         else if(player->getRows().x == sausage2->getRows().y && (player->getColumns().x - 1 == sausage2->getColumns().x || player->getColumns().x - 1 == sausage2->getColumns().y))
                         {
                             sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y - 50));
+                            if(sausageIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y - 50));
+                            if(forkIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x + 50, sausage->getPosition().y));
                         }
                         else if(player->getRows().x == sausage->getRows().y && (player->getColumns().x == sausage->getColumns().x || player->getColumns().x == sausage->getColumns().y))
                         {
                             sausage->setPosition(sf::Vector2f(sausage->getPosition().x + 50, sausage->getPosition().y));
+                            if(sausageIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x + 50, sausage2->getPosition().y));
                         }
                         else if(player->getRows().x == sausage2->getRows().y && (player->getColumns().x == sausage2->getColumns().x || player->getColumns().x == sausage2->getColumns().y))
                         {
                             sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x + 50, sausage2->getPosition().y));
+                            if(sausageIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x + 50, sausage->getPosition().y));
                         }
                         
                     }
@@ -216,18 +249,24 @@ void Game::pollEvents()
                         if(player->getRows().x == sausage->getRows().y && (player->getColumns().x + 1 == sausage->getColumns().x || player->getColumns().x + 1 == sausage->getColumns().y))
                         {
                             sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y - 50));
+                            if(sausageIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y - 50));
+                            if(forkIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x - 50, sausage2->getPosition().y));
                         }
                         else if(player->getRows().x == sausage2->getRows().y && (player->getColumns().x + 1 == sausage2->getColumns().x || player->getColumns().x + 1 == sausage2->getColumns().y))
                         {
                             sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y - 50));
+                            if(sausageIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y - 50));
+                            if(forkIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x - 50, sausage->getPosition().y));
                         }
                         else if(player->getRows().x == sausage->getRows().y && (player->getColumns().x == sausage->getColumns().x || player->getColumns().x == sausage->getColumns().y))
                         {
                             sausage->setPosition(sf::Vector2f(sausage->getPosition().x - 50, sausage->getPosition().y));
+                            if(sausageIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x - 50, sausage2->getPosition().y));
                         }
                         else if(player->getRows().x == sausage2->getRows().y && (player->getColumns().x == sausage2->getColumns().x || player->getColumns().x == sausage2->getColumns().y))
                         {
                             sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x - 50, sausage2->getPosition().y));
+                            if(sausageIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x - 50, sausage->getPosition().y));
                         }
                     }
                     
@@ -241,10 +280,12 @@ void Game::pollEvents()
                     if(player->getColumns().x == sausage->getColumns().y && (player->getRows().x == sausage->getRows().x || player->getRows().x == sausage->getRows().y))
                     {
                         sausage->setPosition(sf::Vector2f(sausage->getPosition().x - 50, sausage->getPosition().y));
+                        if(sausageIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x - 50, sausage2->getPosition().y));
                     }
                     else if(player->getColumns().x == sausage2->getColumns().y && (player->getRows().x == sausage2->getRows().x || player->getRows().x == sausage2->getRows().y))
                     {
                         sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x - 50, sausage2->getPosition().y));
+                        if(sausageIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x - 50, sausage->getPosition().y));
                     }
                 }
                 else if(!player->isHorizontal())
@@ -256,40 +297,52 @@ void Game::pollEvents()
                         if(player->getColumns().x == sausage->getColumns().y && (player->getRows().x - 1 == sausage->getRows().x || player->getRows().x - 1 == sausage->getRows().y))
                         {
                             sausage->setPosition(sf::Vector2f(sausage->getPosition().x - 50, sausage->getPosition().y));
+                            if(sausageIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x - 50, sausage2->getPosition().y));
+                            if(forkIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y + 50));
                         }
                         else if(player->getColumns().x == sausage2->getColumns().y && (player->getRows().x - 1 == sausage2->getRows().x || player->getRows().x - 1 == sausage2->getRows().y))
                         {
                             sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x - 50, sausage2->getPosition().y));
+                            if(sausageIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x - 50, sausage->getPosition().y));
+                            if(forkIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y + 50));
                         }
 
                         else if(player->getColumns().x == sausage->getColumns().y && (player->getRows().x == sausage->getRows().x || player->getRows().x == sausage->getRows().y))
                         {
                             sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y + 50));
+                            if(sausageIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y + 50));
                         }
                         else if(player->getColumns().x == sausage2->getColumns().y && (player->getRows().x == sausage2->getRows().x || player->getRows().x == sausage2->getRows().y))
                         {
                             sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y + 50));
+                            if(sausageIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y + 50));
                         }
                     }
                     else
                     {
                         player->setRotation(3);
 
-                        if(player->getColumns().x == sausage->getColumns().y && (player->getRows().x + 1 == sausage->getRows().x || player->getRows().x - 1 == sausage->getRows().y))
+                        if(player->getColumns().x == sausage->getColumns().y && (player->getRows().x + 1 == sausage->getRows().x || player->getRows().x + 1 == sausage->getRows().y))
                         {
                             sausage->setPosition(sf::Vector2f(sausage->getPosition().x - 50, sausage->getPosition().y));
+                            if(sausageIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x - 50, sausage2->getPosition().y));
+                            if(forkIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y - 50));
                         }
-                        else if(player->getColumns().x == sausage2->getColumns().y && (player->getRows().x + 1 == sausage2->getRows().x || player->getRows().x - 1 == sausage2->getRows().y))
+                        else if(player->getColumns().x == sausage2->getColumns().y && (player->getRows().x + 1 == sausage2->getRows().x || player->getRows().x + 1 == sausage2->getRows().y))
                         {
                             sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x - 50, sausage2->getPosition().y));
+                            if(sausageIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x - 50, sausage->getPosition().y));
+                            if(forkIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y - 50));
                         }
                         else if(player->getColumns().x == sausage->getColumns().y && (player->getRows().x == sausage->getRows().x || player->getRows().x == sausage->getRows().y))
                         {
                             sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y - 50));
+                            if(sausageIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y - 50));
                         }
                         else if(player->getColumns().x == sausage2->getColumns().y && (player->getRows().x == sausage2->getRows().x || player->getRows().x == sausage2->getRows().y))
                         {
                             sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y - 50));
+                            if(sausageIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y - 50));
                         }
                     }
                     
@@ -305,10 +358,12 @@ void Game::pollEvents()
                     if(player->getRows().y == sausage->getRows().x && (player->getColumns().x == sausage->getColumns().x || player->getColumns().x == sausage->getColumns().y))
                     {
                         sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y + 50));
+                        if(sausageIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y + 50));
                     }
                     else if(player->getRows().y == sausage2->getRows().x && (player->getColumns().x == sausage2->getColumns().x || player->getColumns().x == sausage2->getColumns().y))
                     {
                         sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y + 50));
+                        if(sausageIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y + 50));
                     }
                 }
                 else if(player->isHorizontal())
@@ -320,18 +375,24 @@ void Game::pollEvents()
                         if(player->getRows().y == sausage->getRows().x && (player->getColumns().x + 1 == sausage->getColumns().y || player->getColumns().x + 1 == sausage->getColumns().x))
                         {
                             sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y + 50));
+                            if(sausageIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y + 50));
+                            if(forkIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x - 50, sausage2->getPosition().y));
                         }
                         else if(player->getRows().y == sausage2->getRows().x && (player->getColumns().x + 1 == sausage2->getColumns().y || player->getColumns().x + 1 == sausage2->getColumns().x))
                         {
                             sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y + 50));
+                            if(sausageIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y + 50));
+                            if(forkIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x - 50, sausage->getPosition().y));
                         }
                         else if(player->getRows().y == sausage->getRows().x && (player->getColumns().x == sausage->getColumns().x || player->getColumns().x == sausage->getColumns().y))
                         {
                             sausage->setPosition(sf::Vector2f(sausage->getPosition().x - 50, sausage->getPosition().y));
+                            if(sausageIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x - 50, sausage2->getPosition().y));
                         }
                         else if(player->getRows().y == sausage2->getRows().x && (player->getColumns().x == sausage2->getColumns().x || player->getColumns().x == sausage2->getColumns().y))
                         {
                             sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x - 50, sausage2->getPosition().y));
+                            if(sausageIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x - 50, sausage->getPosition().y));
                         }
                     }
                     else
@@ -340,18 +401,24 @@ void Game::pollEvents()
                         if(player->getRows().y == sausage->getRows().x && (player->getColumns().x - 1 == sausage->getColumns().y || player->getColumns().x - 1 == sausage->getColumns().x))
                         {
                             sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y + 50));
+                            if(sausageIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y + 50));
+                            if(forkIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x + 50, sausage2->getPosition().y));
                         }
                         else if(player->getRows().y == sausage2->getRows().x && (player->getColumns().x - 1 == sausage2->getColumns().y || player->getColumns().x - 1 == sausage2->getColumns().x))
                         {
                             sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y + 50));
+                            if(sausageIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y + 50));
+                            if(forkIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x + 50, sausage->getPosition().y));
                         }
                         else if(player->getRows().y == sausage->getRows().x && (player->getColumns().x == sausage->getColumns().x || player->getColumns().x == sausage->getColumns().y))
                         {
                             sausage->setPosition(sf::Vector2f(sausage->getPosition().x + 50, sausage->getPosition().y));
+                            if(sausageIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x + 50, sausage2->getPosition().y));
                         }
                         else if(player->getRows().y == sausage2->getRows().x && (player->getColumns().x == sausage2->getColumns().x || player->getColumns().x == sausage2->getColumns().y))
                         {
                             sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x + 50, sausage2->getPosition().y));
+                            if(sausageIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x + 50, sausage->getPosition().y));
                         }
                     }
                     
@@ -365,34 +432,44 @@ void Game::pollEvents()
                     if(player->getColumns().y == sausage->getColumns().x && (player->getRows().x == sausage->getRows().x || player->getRows().x == sausage->getRows().y))
                     {
                         sausage->setPosition(sf::Vector2f(sausage->getPosition().x + 50, sausage->getPosition().y));
+                        if(sausageIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x + 50, sausage2->getPosition().y));
                     }
                     else if(player->getColumns().y == sausage2->getColumns().x && (player->getRows().x == sausage2->getRows().x || player->getRows().x == sausage2->getRows().y))
                     {
                         sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x + 50, sausage2->getPosition().y));
+                        if(sausageIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x + 50, sausage->getPosition().y));
                     }
                 }
                 else if(!player->isHorizontal())
-                {
-                    
+                {  
                     if(player->getRotation() == 2)
                     {
                         player->setRotation(1);
 
                         if(player->getColumns().y == sausage->getColumns().x && (player->getRows().x + 1 == sausage->getRows().x || player->getRows().x + 1 == sausage->getRows().y))
                         {
-                            sausage->setPosition(sf::Vector2f(sausage->getPosition().x + 50, sausage->getPosition().y));   
+                            sausage->setPosition(sf::Vector2f(sausage->getPosition().x + 50, sausage->getPosition().y));
+                            if(sausageIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x + 50, sausage2->getPosition().y)); 
+                            if(forkIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y - 50)); 
                         }
                         else if(player->getColumns().y == sausage2->getColumns().x && (player->getRows().x + 1 == sausage2->getRows().x || player->getRows().x + 1 == sausage2->getRows().y))
                         {
-                            sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x + 50, sausage2->getPosition().y));   
+                            sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x + 50, sausage2->getPosition().y));  
+                            if(sausageIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x + 50, sausage->getPosition().y)); 
+                            if(forkIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y - 50));
+
                         }
                         else if(player->getColumns().y == sausage->getColumns().x && (player->getRows().x == sausage->getRows().x || player->getRows().x == sausage->getRows().y))
                         {
                             sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y - 50));
+                            if(sausageIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y - 50)); 
+
                         }
                         else if(player->getColumns().y == sausage2->getColumns().x && (player->getRows().x == sausage2->getRows().x || player->getRows().x == sausage2->getRows().y))
                         {
                             sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y - 50));
+                            if(sausageIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y - 50)); 
+
                         }
                     }
                     else
@@ -401,19 +478,29 @@ void Game::pollEvents()
 
                         if(player->getColumns().y == sausage->getColumns().x && (player->getRows().x - 1 == sausage->getRows().x || player->getRows().x - 1 == sausage->getRows().y))
                         {
-                            sausage->setPosition(sf::Vector2f(sausage->getPosition().x + 50, sausage->getPosition().y));   
+                            sausage->setPosition(sf::Vector2f(sausage->getPosition().x + 50, sausage->getPosition().y));
+                            if(sausageIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x + 50, sausage2->getPosition().y)); 
+                            if(forkIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y + 50));
+
                         }
                         else if(player->getColumns().y == sausage2->getColumns().x && (player->getRows().x - 1 == sausage2->getRows().x || player->getRows().x - 1 == sausage2->getRows().y))
                         {
                             sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x + 50, sausage2->getPosition().y));   
+                            if(sausageIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x + 50, sausage->getPosition().y)); 
+                            if(forkIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y + 50));
+
                         }
                         else if(player->getColumns().y == sausage->getColumns().x && (player->getRows().x == sausage->getRows().x || player->getRows().x == sausage->getRows().y))
                         {
                             sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y + 50));
+                            if(sausageIntersects()) sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y + 50)); 
+
                         }
                         else if(player->getColumns().y == sausage2->getColumns().x && (player->getRows().x == sausage2->getRows().x || player->getRows().x == sausage2->getRows().y))
                         {
                             sausage2->setPosition(sf::Vector2f(sausage2->getPosition().x, sausage2->getPosition().y + 50));
+                            if(sausageIntersects()) sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y + 50)); 
+
                         }
                     }
                 }
@@ -428,6 +515,7 @@ void Game::pollEvents()
 void Game::update()
 {
     pollEvents();
+    
 }
 
 void Game::render()
@@ -460,12 +548,28 @@ void Game::render()
 
         /*
         errorFile.open("errors.txt");
-        errorFile << player->getColumns().x + 1 << sausage->getColumns().x << endl;
+        errorFile << noboolalpha << forkIntersects() << endl;
         errorFile.close();
         */
+       if(!maps[currentMap]->tiles[sausage->getRows().x][sausage->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage->getRows().y][sausage->getColumns().y]->getSausagePassable())
+        {
+            lostScreenIsOpened = true;
+
+        }
+        if(!maps[currentMap]->tiles[sausage2->getRows().x][sausage2->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage2->getRows().y][sausage2->getColumns().y]->getSausagePassable())
+        {
+            lostScreenIsOpened = true;
+
+        }
         
         
         
+    }
+
+    if(lostScreenIsOpened)
+    {
+        window.draw(lostScreen2);
+        window.draw(lostScreen);
     }
     
     

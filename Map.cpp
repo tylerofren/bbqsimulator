@@ -29,21 +29,21 @@ void Map::initializeTiles(std::vector<std::vector<int>> array)
             
             if(array[i][j] == 1)
             {
-                tiles[i][j] = new GameTile("assets/GroundPlaceholder.png", 50.f * j, 50.f * i, true);
+                tiles[i][j] = new GameTile("assets/GroundPlaceholder.png", 50.f * j, 50.f * i, true, true);
             }
             else if(array[i][j] == 2)
             {
-                tiles[i][j] = new GameTile("assets/grill.png", 50.f * j, 50.f * i, false);
+                tiles[i][j] = new GameTile("assets/grill.png", 50.f * j, 50.f * i, false, true);
             }
             else if(array[i][j] == 5)
             {
-                tiles[i][j] = new GameTile("assets/SpawnPlaceholder.png", 50.f * j, 50.f * i, true);
+                tiles[i][j] = new GameTile("assets/SpawnPlaceholder.png", 50.f * j, 50.f * i, true, true);
             }
             
             
             else 
             {
-                tiles[i][j] = new GameTile("assets/water.png", 50.f * j, 50.f * i, false);
+                tiles[i][j] = new GameTile("assets/water.png", 50.f * j, 50.f * i, false, false);
             }
 
             
