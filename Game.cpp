@@ -138,7 +138,73 @@ bool Game::forkIntersects()
 
 
 
+void Game::updateSausages()
+{
+    if(!maps[currentMap]->tiles[sausage->getRows().x][sausage->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage->getRows().y][sausage->getColumns().y]->getSausagePassable())
+    {
+        lostScreenIsOpened = true;
+    }
+    if(!maps[currentMap]->tiles[sausage2->getRows().x][sausage2->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage2->getRows().y][sausage2->getColumns().y]->getSausagePassable())
+    {
+        lostScreenIsOpened = true;
+    }
 
+    // Sausage
+    if(maps[currentMap]->tiles[sausage->getRows().x][sausage->getColumns().x]->getIsGrill())
+    {
+        if(!sausage->getIsCookedOnCurrentGrill())
+        {
+            if(sausage->getIsFacingUp()) sausage->cook(2);
+            else sausage->cook(0);
+            sausage->setCookedOnCurrentGrill(true);
+        }
+    }
+    else
+    {
+        sausage->setCookedOnCurrentGrill(false);
+    }
+    if(maps[currentMap]->tiles[sausage->getRows().y][sausage->getColumns().y]->getIsGrill())
+    {
+        if(!sausage->getIsCookedOnCurrentGrill())
+        {
+            if(sausage->getIsFacingUp()) sausage->cook(3);
+            else sausage->cook(1);
+            sausage->setCookedOnCurrentGrill(true);
+        }
+    }
+    else
+    {
+        sausage->setCookedOnCurrentGrill(false);
+    }
+    // Sausage 2
+    if(maps[currentMap]->tiles[sausage2->getRows().y][sausage2->getColumns().y]->getIsGrill())
+    {
+        if(!sausage2->getIsCookedOnCurrentGrill())
+        {
+            if(sausage2->getIsFacingUp()) sausage2->cook(2);
+            else sausage2->cook(0);
+            sausage2->setCookedOnCurrentGrill(true);
+        }
+    }
+    else
+    {
+        sausage2->setCookedOnCurrentGrill(false);
+    }
+    if(maps[currentMap]->tiles[sausage2->getRows().x][sausage2->getColumns().x]->getIsGrill())
+    {
+        if(!sausage2->getIsCookedOnCurrentGrill())
+        {
+            if(sausage2->getIsFacingUp()) sausage2->cook(3);
+            else sausage2->cook(1);
+            sausage2->setCookedOnCurrentGrill(true);
+        }
+    }
+    else
+    {
+        sausage2->setCookedOnCurrentGrill(false);
+    }
+    
+}
 
 
 
@@ -179,6 +245,9 @@ void Game::pollEvents()
                 lostScreenIsOpened = false;
                 currentMap = 0;
 
+                sausage->reset();
+                sausage2->reset();
+
                 // ----------- Level 1 Starting Player Positions --------------
                 // Position: row/col * 50 + 25
                 // Rotations: 0 = North
@@ -198,7 +267,7 @@ void Game::pollEvents()
 
                 
                 // ----------Player controls------------------------
-                case sf::Keyboard::W:
+                case sf::Keyboard::W:               
                 if(!player->isHorizontal() && maps[currentMap]->tiles[player->getRow() - 1][player->getColumn()]->getPassable())
                 {
                     player->setPosition(sf::Vector2f(player->getPosition().x, player->getPosition().y - 50));
@@ -271,6 +340,7 @@ void Game::pollEvents()
                     }
                     
                 }
+                updateSausages();
                 break;
 
                 case sf::Keyboard::A:
@@ -349,6 +419,7 @@ void Game::pollEvents()
                     
                     
                 }
+                updateSausages();
                 break;
 
                 case sf::Keyboard::S:
@@ -423,6 +494,7 @@ void Game::pollEvents()
                     }
                     
                 }
+                updateSausages();
                 break;
 
                 case sf::Keyboard::D:
@@ -504,6 +576,7 @@ void Game::pollEvents()
                         }
                     }
                 }
+                updateSausages();
                 break;
 
                 
@@ -546,21 +619,17 @@ void Game::render()
         window.draw(sausage->getSprite());
         window.draw(sausage2->getSprite());
 
+        
+        
+        
+
         /*
         errorFile.open("errors.txt");
-        errorFile << noboolalpha << forkIntersects() << endl;
+        errorFile << boolalpha << sausage->getIsCookedOnCurrentGrill()  << endl;
         errorFile.close();
         */
-       if(!maps[currentMap]->tiles[sausage->getRows().x][sausage->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage->getRows().y][sausage->getColumns().y]->getSausagePassable())
-        {
-            lostScreenIsOpened = true;
-
-        }
-        if(!maps[currentMap]->tiles[sausage2->getRows().x][sausage2->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage2->getRows().y][sausage2->getColumns().y]->getSausagePassable())
-        {
-            lostScreenIsOpened = true;
-
-        }
+        
+       
         
         
         

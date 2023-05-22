@@ -22,6 +22,7 @@ private:
     sf::Vector2f position;
     bool isPassable;
     bool isSausagePassable;
+    bool isGrill;
 
 
 public:
@@ -29,10 +30,11 @@ public:
 
 
     GameTile();
-    GameTile(const std::string&, float, float, bool, bool);
+    GameTile(const std::string&, float, float, bool, bool, bool);
     sf::Sprite& getSprite();
     bool getPassable();
     bool getSausagePassable();
+    bool getIsGrill();
 
 
 

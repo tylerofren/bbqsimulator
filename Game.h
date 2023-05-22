@@ -47,6 +47,8 @@ private:
     bool sausageIntersects();
     bool forkIntersects();
 
+    void updateSausages();
+
     // Arrays
 
     std::vector<std::vector<int>> levelOne;
