@@ -8,7 +8,7 @@ Sausage::Sausage()
 
 Sausage::Sausage(float x, float y, bool hor)
 {
-    if(!texture.loadFromFile("assets/sausage.png"))
+    if(!texture.loadFromFile("assets/sausage0.png"))
     {
         errorFile.open("errors.txt");
         errorFile << "Failed to load sausage image" << endl;
@@ -26,6 +26,8 @@ Sausage::Sausage(float x, float y, bool hor)
         sprite.setPosition(position.x, position.y - 50);
     }
     horizontal = hor;
+
+    partStates.resize(4, false);
 
 }
 
@@ -62,6 +64,30 @@ sf::Vector2i Sausage::getColumns() const
 }
 
 
+
+/*
+1 = Bottom left
+2 = Bottom right
+3 = Top left
+4 = Top right
+*/
+void Sausage::cook(int part)
+{
+    partStates[part] = true;
+}
+
+void Sausage::reset()
+{
+    for(int i = 0; i < 4; i++)
+    {
+        partStates[i] = false;
+    }
+}
+
+bool Sausage::isPartCooked(int part)
+{
+    return partStates[part];
+}
 
 
 

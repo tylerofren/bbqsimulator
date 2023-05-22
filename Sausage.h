@@ -26,6 +26,8 @@ bool botLeftIsCooked;
 int cookState;
 */
 
+vector<bool> partStates;
+
 // Error file
 ofstream errorFile;
 
@@ -46,9 +48,18 @@ sf::Vector2i getRows() const;
 sf::Vector2i getColumns() const;
 bool isHorizontal();
 
+// // Cooking
+bool isPartCooked(int);
+
+
 // Modifiers
 void setPosition(const sf::Vector2f);
 void setHorizontal(bool);
+
+
+// // Cooking
+void cook(int);
+void reset();
 
 
 
