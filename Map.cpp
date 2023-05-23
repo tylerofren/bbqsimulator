@@ -29,7 +29,7 @@ void Map::initializeTiles(std::vector<std::vector<int>> array)
             
             if(array[i][j] == 1)
             {
-                tiles[i][j] = new GameTile("assets/GroundPlaceholder.png", 50.f * j, 50.f * i, true, true, false);
+                tiles[i][j] = new GameTile("assets/GrassV3.png", 50.f * j, 50.f * i, true, true, false);
             }
             else if(array[i][j] == 2)
             {
