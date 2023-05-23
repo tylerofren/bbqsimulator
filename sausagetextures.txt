@@ -1,0 +1,13 @@
+Sausage states
+
+0 - uncooked
+
+1 - top cooked, bottom raw
+2 - top raw, bottom cooked
+3 - top cooked, bottom cooked
+4 - top overcooked, bottom raw
+5 - top overcooked, bottom cooked
+6 - top overcooked, bottom overcooked
+7 - top raw, bottom overcooked
+8 - top cooked, bottom overcooked
+
