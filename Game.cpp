@@ -82,24 +82,28 @@ void Game::initializeText()
 void Game::initializeLevels()
 {
     /*
-        0 - WATER
+        0 - WATER0S
         1 - GROUND
         2 - GRILL
         3 - SAUSAGE
         4 - PLAYER
-        5 - SPAWN
+        -----------
+        7 - WATER1S
+        8 - WATER2S
+        9 - WATER2SC
+        10 - WATER3S
     */
     levelOne =  
     {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 5, 1, 0, 0, 0, 0},
-        {0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-        {0, 1, 1, 1, 2, 2, 1, 1, 1, 0},
-        {0, 1, 1, 1, 2, 2, 1, 1, 1, 0},
-        {0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-        {0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 7, 7, 0, 0, 0, 0},
+        {0, 7, 7, 9, 1, 1, 9, 7, 7, 0},
+        {7, 1, 1, 1, 1, 1, 1, 1, 1, 7},
+        {7, 1, 1, 1, 2, 2, 1, 1, 1, 7},
+        {7, 1, 1, 1, 2, 2, 1, 1, 1, 7},
+        {7, 1, 1, 1, 1, 1, 1, 1, 1, 7},
+        {7, 1, 1, 1, 1, 1, 1, 1, 1, 7},
+        {0, 7, 7, 7, 7, 7, 7, 7, 7, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
 
@@ -148,7 +152,7 @@ void Game::updateSausages()
     {
         lostScreenIsOpened = true;
     }
-
+    /*
     // Sausage
     if(maps[currentMap]->tiles[sausage->getRows().x][sausage->getColumns().x]->getIsGrill())
     {
@@ -203,6 +207,7 @@ void Game::updateSausages()
     {
         sausage2->setCookedOnCurrentGrill(false);
     }
+    */
     
 }
 

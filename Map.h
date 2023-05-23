@@ -19,6 +19,8 @@ class Map
 private:
     void initializeTiles(std::vector<std::vector<int>>); 
     ofstream errorFile;
+    void rotateTile(int, int, std::vector<std::vector<int>>);
+    void rotateTileCorner(int, int, std::vector<std::vector<int>>);
 
 public: 
     Map();
