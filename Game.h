@@ -48,6 +48,7 @@ private:
     bool forkIntersects();
 
     void updateSausages();
+    void updateSausages2();
 
     // Arrays
 
