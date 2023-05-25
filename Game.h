@@ -22,6 +22,7 @@ private:
     sf::Text levelSelect;
     sf::Text lostScreen;
     sf::Text lostScreen2;
+    sf::Text winScreen;
 
 
     // Initialization
@@ -50,6 +51,8 @@ private:
     void updateSausages();
     void updateSausages2();
 
+    void winLossConditions();
+
     // Arrays
 
     std::vector<std::vector<int>> levelOne;
@@ -61,6 +64,7 @@ private:
 
     // Lost screen
     bool lostScreenIsOpened;
+    bool winScreenIsOpened;
 
     // Error file
     ofstream errorFile;

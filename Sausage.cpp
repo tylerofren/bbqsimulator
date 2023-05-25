@@ -97,7 +97,7 @@ cookState Sausage::getCookState(int part)
 
 void Sausage::updateTexture()
 {
-    if(isFacingUp)
+    if(!isFacingUp)
     {
         if(partStates[2] == Raw && partStates[3] == Raw) sprite.setTexture(texture);
         else if(partStates[2] == Cooked && partStates[3] == Raw) sprite.setTexture(texture1);
@@ -190,6 +190,15 @@ void Sausage::flip()
 {
     if(isFacingUp) isFacingUp = false;
     else isFacingUp = true;
+    if(sprite.getScale().x == 1)
+    {
+        sprite.setScale(-1.0f, 1.0f); // flips over
+    }
+    else
+    {
+        sprite.setScale(1.0f, 1.0f);
+    }
+
     updateTexture();
 }
 
@@ -230,6 +239,20 @@ bool Sausage::isHorizontal()
 
 void Sausage::setPosition(const sf::Vector2f pos)
 {
+    if(horizontal)
+    {
+        if(pos.y - position.y != 0)
+        {
+            this->flip();
+        }
+    }
+    else
+    {
+        if(pos.x - position.x != 0)
+        {
+            this->flip();
+        }
+    }
     position = pos;
     sprite.setPosition(pos);
 }

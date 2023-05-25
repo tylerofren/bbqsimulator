@@ -10,6 +10,7 @@ Game::Game()
     menuIsOpened = true;
     levelOneIsOpened = false;
     lostScreenIsOpened = false;
+    winScreenIsOpened = false;
     
     initializeWindow();
 
@@ -76,6 +77,14 @@ void Game::initializeText()
     lostScreen2.setString("Lost");
     lostScreen2.setOrigin(lostScreen2.getLocalBounds().width / 2, lostScreen2.getLocalBounds().height / 2);
     lostScreen2.setPosition(250, 80);
+
+    // Win screen
+    winScreen.setFont(font);
+    winScreen.setCharacterSize(80);
+    winScreen.setFillColor(sf::Color::Black);
+    winScreen.setString("Win");
+    winScreen.setOrigin(lostScreen2.getLocalBounds().width / 2, lostScreen2.getLocalBounds().height / 2);
+    winScreen.setPosition(250, 80);
 }
 
 
@@ -158,8 +167,7 @@ void Game::updateSausages()
     {
             if(sausage->getIsFacingUp()) sausage->cook(3);
             else sausage->cook(1);
-    }
-    
+    }   
 }
 
 void Game::updateSausages2()
@@ -179,6 +187,27 @@ void Game::updateSausages2()
             if(sausage2->getIsFacingUp()) sausage2->cook(3);
             else sausage2->cook(1);
     }
+}
+
+void Game::winLossConditions()
+{
+    for(int i = 0; i < 4; i++)
+    {
+        if(sausage->getCookState(i) == Overcooked || sausage2->getCookState(i) == Overcooked)
+        {
+            lostScreenIsOpened = true;
+        }
+    }
+    winScreenIsOpened = true;
+    for(int i = 0; i < 4; i++)
+    {
+        if(!sausage->getCookState(i) == Cooked || !sausage2->getCookState(i) == Cooked)
+        {
+            winScreenIsOpened = false;
+        }
+    }
+
+
 }
 
 
@@ -212,12 +241,14 @@ void Game::pollEvents()
                 menuIsOpened = true;
                 levelOneIsOpened = false;
                 lostScreenIsOpened = false;
+                winScreenIsOpened = false;
                 break;
 
                 case sf::Keyboard::Num1: // Select lvl 1
                 menuIsOpened = false;
                 levelOneIsOpened = true;
                 lostScreenIsOpened = false;
+                winScreenIsOpened = false;
                 currentMap = 0;
 
                 sausage->reset();
@@ -242,7 +273,7 @@ void Game::pollEvents()
 
                 
                 // ----------Player controls------------------------
-                case sf::Keyboard::W:               
+                case sf::Keyboard::W:              
                 if(!player->isHorizontal() && maps[currentMap]->tiles[player->getRow() - 1][player->getColumn()]->getPassable())
                 {
                     player->setPosition(sf::Vector2f(player->getPosition().x, player->getPosition().y - 50));
@@ -382,9 +413,10 @@ void Game::pollEvents()
                     }
                     
                 }
+                winLossConditions();
                 break;
 
-                case sf::Keyboard::A:
+                case sf::Keyboard::A:               
                 if(player->isHorizontal() && maps[currentMap]->tiles[player->getRow()][player->getColumn() - 1]->getPassable())
                 {
                     player->setPosition(sf::Vector2f(player->getPosition().x - 50, player->getPosition().y));
@@ -527,9 +559,10 @@ void Game::pollEvents()
                     
                     
                 }
+                winLossConditions();
                 break;
 
-                case sf::Keyboard::S:
+                case sf::Keyboard::S:               
                 if(!player->isHorizontal() && maps[currentMap]->tiles[player->getRow() + 1][player->getColumn()]->getPassable())
                 {
                     player->setPosition(sf::Vector2f(player->getPosition().x, player->getPosition().y + 50));
@@ -667,9 +700,10 @@ void Game::pollEvents()
                     }
                     
                 }
+                winLossConditions();
                 break;
 
-                case sf::Keyboard::D:
+                case sf::Keyboard::D:    
                 if(player->isHorizontal() && maps[currentMap]->tiles[player->getRow()][player->getColumn() + 1]->getPassable())
                 {
                     player->setPosition(sf::Vector2f(player->getPosition().x + 50, player->getPosition().y));
@@ -814,6 +848,7 @@ void Game::pollEvents()
                         }
                     }
                 }
+                winLossConditions();
                 break;
 
                 
@@ -862,7 +897,7 @@ void Game::render()
 
         /*
         errorFile.open("errors.txt");
-        errorFile << boolalpha << sausage->getIsCookedOnCurrentGrill()  << endl;
+        errorFile << sausage->getSprite().getOrigin().x << sausage->getSprite().getOrigin().y << sausage->getSprite().getRotation() << endl;
         errorFile.close();
         */
         
@@ -878,7 +913,10 @@ void Game::render()
         window.draw(lostScreen);
     }
     
-    
+    if(winScreenIsOpened)
+    {
+        window.draw(winScreen);
+    }
 
    
 
