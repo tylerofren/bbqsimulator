@@ -18,6 +18,13 @@ level select:
     shows when completed a level
     turns green? box changes colour?
     reward system?
+    each level has a box around it --- crossed out once finished
+
+loss screen:
+    add z to undo
+    press r to restart
+    press l for level select
+    press esc to quit
 
 
 organize code, add comments into .h files, not cpp files
