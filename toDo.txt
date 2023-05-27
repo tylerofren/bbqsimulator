@@ -1,56 +1,24 @@
-Water tile texture
-Player texture
-Grass textures:
-    Normal Grass
-    Grass with some variation
-Sausage textures:
+z for undo 
 
-        0 - uncooked
+Find a title 
 
-        ------ 1 cooked ---
-        1 - bottom right cooked
-        2 - bottom left cooked
-        3 - top right cooked
-        4 - top left cooked
-
-        -------- 2 cooked --------
-        5 - bottom right, left cooked
-        6 - top right, left cooked
-        7 - bottom right, top right cooked
-        8 - bottom left, top left cooked
-        9 - bottom right, top left cooked
-        10 - bottom left, top right cooked
+Make 10 levels
 
 
-        --------- 3 cooked ---------
-        11 - bottom, top right cooked
-        12 - bottom, top left cooked
-        13 - top, bottom right cooked
-        14- top, bottom left cooked
-
-        15 - all cooked
-Grill texture 
-
-
-
-
-
-
-10 more levels  
-
-sausage grill sfx
+----- sound -----
+woosh sound effect when rotate?
 
 sausage dropped in water sfx
 
-fix ui
-
-
-
 level soundtrack
 
-z for undo  
 
-fix bug press wasd in menu causes crash
+----- ui -----
+level select:
+    shows when completed a level
+    turns green? box changes colour?
+    reward system?
+
 
 organize code, add comments into .h files, not cpp files
 

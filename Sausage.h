@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 #include <fstream>
 
@@ -26,15 +27,12 @@ bool horizontal;
 // Error file
 ofstream errorFile;
 
-/*
+// Cooking sounds
+sf::Sound sizzle;
+sf::SoundBuffer buffer;
 
-bool topRightIsCooked;
-bool topLeftIsCooked;
-bool botRightIsCooked;
-bool botLeftIsCooked;
+void loadSizzle();
 
-int cookState;
-*/
 
 vector<cookState> partStates;
 bool isFacingUp;

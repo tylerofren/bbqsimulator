@@ -9,6 +9,7 @@ Sausage::Sausage()
 Sausage::Sausage(float x, float y, bool hor)
 {
     loadTextures();
+    loadSizzle();
     texture.setSmooth(true);
     sprite.setTexture(texture);
     sprite.setOrigin(25, 75);
@@ -78,6 +79,9 @@ void Sausage::cook(int part)
     if(partStates[part] == Raw) partStates[part] = Cooked;
     else partStates[part] = Overcooked;
     updateTexture();
+
+    sizzle.play();
+    sizzle.setPlayingOffset(sf::seconds(0.5f));
 
 }
 
@@ -264,6 +268,24 @@ void Sausage::setHorizontal(bool hor)
         sprite.setRotation(90);
     }
     horizontal = hor;
+}
+
+
+
+
+
+
+
+
+void Sausage::loadSizzle()
+{
+    if(!buffer.loadFromFile("assets/sizzle.wav"))
+    {
+        errorFile.open("errors.txt");
+        errorFile << "Failed to load sizzle sound" << endl;
+        errorFile.close();
+    }
+    sizzle.setBuffer(buffer);
 }
 
 

@@ -17,12 +17,26 @@ private:
     sf::Event ev;
 
     // UI
-    sf::Font font;
+    // // Fonts
+    sf::Font roundFont;
+    sf::Font seriousFont;
+
+    // Texts
     sf::Text gameTitle;
+    sf::Text pressAnyButton;
     sf::Text levelSelect;
+    sf::Text levelNumbers;
     sf::Text lostScreen;
     sf::Text lostScreen2;
     sf::Text winScreen;
+
+    // Menu background
+    sf::Texture backgroundTexture;
+    sf::Sprite background;
+
+    // Level select background
+    sf::Texture levelSelectBackgroundTexture;
+    sf::Sprite levelSelectBackground;
 
 
     // Initialization
@@ -33,6 +47,7 @@ private:
     void initializePlayer();
     void initializeSausages();
     void initializePlayerOutline(); // Player outline is for the win condition
+    void initializeBackground();
 
     // Maps
     Map* maps[10];
@@ -57,12 +72,15 @@ private:
 
     void winLossConditions();
 
+    void resetCurrentLevel();
+
     // Arrays
 
     std::vector<std::vector<std::vector<int>>> levels;
 
     // Boolean
     bool menuIsOpened;
+    bool levelSelectIsOpened;
     // // Level Booleans
     bool levelIsOpened[10];
 
