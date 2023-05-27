@@ -33,12 +33,24 @@ Grill texture
 
 
 
-sausage w/ grill interactions
 
-add win condition
 
-lost game screen, sausage dropped in water, sausage overcooked
-z for redo? idk how i would implement that
+
+10 more levels  
+
+sausage grill sfx
+
+sausage dropped in water sfx
+
+fix ui
+
+
+
+level soundtrack
+
+z for undo  
 
 fix bug press wasd in menu causes crash
+
+organize code, add comments into .h files, not cpp files
 

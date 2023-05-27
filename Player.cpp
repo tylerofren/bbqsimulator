@@ -91,13 +91,18 @@ bool Player::isHorizontal()
 
 
 
-
+// Position: row/col * 50 + 25
 void Player::setPosition(const sf::Vector2f pos)
 {
     position = pos;
     sprite.setPosition(pos);
 }
 
+
+// Rotations: 0 = North
+// 1 = East 
+// 2 = South 
+// 3 = West
 void Player::setRotation(const int rot)
 {
     rotation = rot;

@@ -32,6 +32,7 @@ private:
     void initializeLevels();
     void initializePlayer();
     void initializeSausages();
+    void initializePlayerOutline(); // Player outline is for the win condition
 
     // Maps
     Map* maps[10];
@@ -40,10 +41,13 @@ private:
 
     // Player
     Player* player;
+    sf::Sprite playerOutline;
+    sf::Texture playerOutlineTexture;
 
     // Sausages
     Sausage* sausage;
     Sausage* sausage2;
+
 
     bool sausageIntersects();
     bool forkIntersects();
@@ -55,15 +59,18 @@ private:
 
     // Arrays
 
-    std::vector<std::vector<int>> levelOne;
+    std::vector<std::vector<std::vector<int>>> levels;
 
     // Boolean
     bool menuIsOpened;
     // // Level Booleans
-    bool levelOneIsOpened;
+    bool levelIsOpened[10];
+
+    void resetLevels();
 
     // Lost screen
     bool lostScreenIsOpened;
+    bool sausagesPerfectlyCooked;
     bool winScreenIsOpened;
 
     // Error file
