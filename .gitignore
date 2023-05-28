@@ -14,3 +14,5 @@ sfml-system-2.dll
 sfml-system-d-2.dll
 sfml-window-d-2.dll
 .vscode/tasks.json
+main.exe
+main.o
