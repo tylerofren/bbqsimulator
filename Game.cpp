@@ -206,12 +206,12 @@ void Game::initializeLevels()
     {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 7, 7, 7, 0, 0, 0},
+        {0, 0, 0, 7, 1, 1, 1, 7, 0, 0},
+        {0, 0, 7, 9, 1, 1, 1, 9, 0, 0},
+        {0, 7, 2, 2, 1, 1, 1, 2, 9, 0},
+        {0, 7, 2, 2, 9, 7, 9, 2, 2, 7},
+        {0, 0, 7, 7, 0, 0, 0, 7, 7, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
@@ -354,10 +354,10 @@ void Game::resetCurrentLevel() // Must change this function as levels are change
     }
     else if(currentMap == 1)
     {
-        player->setPosition(sf::Vector2f(225, 125));
-        player->setRotation(1);
-        sausage->setPosition(sf::Vector2f(125, 275));
-        sausage2->setPosition(sf::Vector2f(375, 275));
+        player->setPosition(sf::Vector2f(275, 275));
+        player->setRotation(3);
+        sausage->setPosition(sf::Vector2f(225, 225));
+        sausage2->setPosition(sf::Vector2f(325, 275));
     }
 }
 
@@ -435,16 +435,16 @@ void Game::pollEvents()
                     sausage->reset();
                     sausage2->reset();
                     // Starting Player Position
-                    player->setPosition(sf::Vector2f(225, 125));
-                    player->setRotation(1);
+                    player->setPosition(sf::Vector2f(275, 275));
+                    player->setRotation(3);
                     // Player outline position
-                    playerOutline.setPosition(sf::Vector2f(225, 125));
-                    playerOutline.setRotation(90);
+                    playerOutline.setPosition(sf::Vector2f(275, 275));
+                    playerOutline.setRotation(270);
                     // Starting Sausage Positions
-                    sausage->setPosition(sf::Vector2f(125, 275));
-                    sausage->setHorizontal(false);
-                    sausage2->setPosition(sf::Vector2f(375, 275));
-                    sausage2->setHorizontal(true);
+                    sausage->setPosition(sf::Vector2f(225, 225));
+                    sausage->setHorizontal(true);
+                    sausage2->setPosition(sf::Vector2f(325, 275));
+                    sausage2->setHorizontal(false);
                     break;
                 }
             }
