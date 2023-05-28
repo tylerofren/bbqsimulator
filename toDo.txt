@@ -12,9 +12,7 @@ Make 9 levels
 ----- sound -----
 woosh sound effect when rotate?
 walk sound effect?
-
 sausage dropped in water sfx
-
 level soundtrack
 
 
@@ -24,6 +22,8 @@ level select:
     turns green? box changes colour?
     reward system?
     each level has a box around it --- crossed out once finished
+
+----- bugs --------
 
 
 

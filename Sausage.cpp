@@ -267,6 +267,10 @@ void Sausage::setHorizontal(bool hor)
     {
         sprite.setRotation(90);
     }
+    else
+    {
+        sprite.setRotation(0);
+    }
     horizontal = hor;
 }
 
