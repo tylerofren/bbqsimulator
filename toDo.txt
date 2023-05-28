@@ -6,11 +6,12 @@ Find a title
     meat flipper
     
 
-Make 10 levels
+Make 9 levels
 
 
 ----- sound -----
 woosh sound effect when rotate?
+walk sound effect?
 
 sausage dropped in water sfx
 
@@ -24,11 +25,6 @@ level select:
     reward system?
     each level has a box around it --- crossed out once finished
 
-loss screen:
-    add z to undo
-    press r to restart
-    press l for level select
-    press esc to quit
 
 
 organize code, add comments into .h files, not cpp files

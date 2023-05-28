@@ -24,11 +24,14 @@ private:
     // Texts
     sf::Text gameTitle;
     sf::Text pressAnyButton;
+    sf::Text copyrightDisclaimer;
     sf::Text levelSelect;
     sf::Text levelNumbers;
     sf::Text lostScreen;
     sf::Text lostScreen2;
     sf::Text winScreen;
+    sf::Text winScreen2;
+    sf::Text overcookedScreen;
 
     // Menu background
     sf::Texture backgroundTexture;
@@ -90,6 +93,7 @@ private:
     bool lostScreenIsOpened;
     bool sausagesPerfectlyCooked;
     bool winScreenIsOpened;
+    bool overcookedScreenIsOpened;
 
     // Error file
     ofstream errorFile;

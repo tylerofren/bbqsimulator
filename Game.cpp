@@ -13,6 +13,7 @@ Game::Game()
     winScreenIsOpened = false;
     sausagesPerfectlyCooked = false;
     levelSelectIsOpened = false;
+    overcookedScreenIsOpened = false;
     
     initializeWindow();
 
@@ -71,6 +72,14 @@ void Game::initializeText()
     pressAnyButton.setPosition(250, 375);
     pressAnyButton.setOutlineThickness(3.5);
 
+    copyrightDisclaimer.setFont(seriousFont);
+    copyrightDisclaimer.setCharacterSize(20);
+    copyrightDisclaimer.setFillColor(sf::Color::White);
+    copyrightDisclaimer.setString(L"© 2018 - 2023 RoastWorks");
+    copyrightDisclaimer.setOrigin(copyrightDisclaimer.getLocalBounds().width / 2, copyrightDisclaimer.getLocalBounds().height / 2);
+    copyrightDisclaimer.setPosition(250, 475);
+    copyrightDisclaimer.setOutlineThickness(3.5);
+
     // ----------------- Level Select --------------
     levelSelect.setFont(seriousFont);
     levelSelect.setCharacterSize(40);
@@ -97,26 +106,51 @@ void Game::initializeText()
     lostScreen.setFillColor(sf::Color::White);
     lostScreen.setString("Lost");
     lostScreen.setOrigin(lostScreen.getLocalBounds().width / 2, lostScreen.getLocalBounds().height / 2);
-    lostScreen.setPosition(250, 80);
-    lostScreen.setLetterSpacing(3.0f);
+    lostScreen.setPosition(220, 100);
+    lostScreen.setLetterSpacing(4.5);
     lostScreen.setOutlineThickness(4.0);
 
     lostScreen2.setFont(roundFont);
-    lostScreen2.setCharacterSize(92);
-    lostScreen2.setFillColor(sf::Color::Black);
-    lostScreen2.setString("asdfsfadf");
+    lostScreen2.setCharacterSize(32);
+    lostScreen2.setFillColor(sf::Color::White);
+    lostScreen2.setString("R to Restart\n  Z to Undo\n L to Leave");
     lostScreen2.setOrigin(lostScreen2.getLocalBounds().width / 2, lostScreen2.getLocalBounds().height / 2);
-    lostScreen2.setPosition(250, 190);
-    lostScreen2.setLetterSpacing(2.0);
+    lostScreen2.setPosition(220, 275);
+    lostScreen2.setLineSpacing(1.5);
+    lostScreen2.setLetterSpacing(4.0);
+    lostScreen2.setOutlineThickness(3.0);
+
+    // ---------------- Overcooked -------------
+    overcookedScreen.setFont(roundFont);
+    overcookedScreen.setCharacterSize(50);
+    overcookedScreen.setFillColor(sf::Color::White);
+    overcookedScreen.setString("Overcooked");
+    overcookedScreen.setOrigin(overcookedScreen.getLocalBounds().width / 2, overcookedScreen.getLocalBounds().height / 2);
+    overcookedScreen.setPosition(200, 100);
+    overcookedScreen.setLetterSpacing(4.5);
+    overcookedScreen.setOutlineThickness(3.0);
 
 
     // -------------- Win Screen -------------
     winScreen.setFont(roundFont);
-    winScreen.setCharacterSize(80);
-    winScreen.setFillColor(sf::Color::Black);
-    winScreen.setString("Win");
-    winScreen.setOrigin(lostScreen2.getLocalBounds().width / 2, lostScreen2.getLocalBounds().height / 2);
-    winScreen.setPosition(250, 80);
+    winScreen.setCharacterSize(50);
+    winScreen.setFillColor(sf::Color::White);
+    winScreen.setString("Level Complete!");
+    winScreen.setOrigin(winScreen.getLocalBounds().width / 2, winScreen.getLocalBounds().height / 2);
+    winScreen.setPosition(200, 80);
+    winScreen.setLetterSpacing(3.0);
+    winScreen.setOutlineThickness(3.0);
+
+    winScreen2.setFont(roundFont);
+    winScreen2.setCharacterSize(25);
+    winScreen2.setFillColor(sf::Color::White);
+    winScreen2.setString("L to Return to Level Select");
+    winScreen2.setOrigin(winScreen2.getLocalBounds().width / 2, winScreen2.getLocalBounds().height / 2);
+    winScreen2.setPosition(200, 250);
+    winScreen2.setLetterSpacing(3.0);
+    winScreen2.setOutlineThickness(2.0);
+
+
 }
 
 void Game::initializeBackground()
@@ -231,7 +265,7 @@ bool Game::forkIntersects()
 
 void Game::updateSausages()
 {
-    if(!maps[currentMap]->tiles[sausage->getRows().x][sausage->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage->getRows().y][sausage->getColumns().y]->getSausagePassable())
+    if(!maps[currentMap]->tiles[sausage->getRows().x][sausage->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage->getRows().y][sausage->getColumns().y]->getSausagePassable() && !overcookedScreenIsOpened)
     {
         lostScreenIsOpened = true;
     }   
@@ -250,7 +284,7 @@ void Game::updateSausages()
 
 void Game::updateSausages2()
 {
-    if(!maps[currentMap]->tiles[sausage2->getRows().x][sausage2->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage2->getRows().y][sausage2->getColumns().y]->getSausagePassable())
+    if(!maps[currentMap]->tiles[sausage2->getRows().x][sausage2->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage2->getRows().y][sausage2->getColumns().y]->getSausagePassable() && !overcookedScreenIsOpened)
     {
         lostScreenIsOpened = true;
     }
@@ -271,9 +305,9 @@ void Game::winLossConditions()
 {
     for(int i = 0; i < 4; i++)
     {
-        if(sausage->getCookState(i) == Overcooked || sausage2->getCookState(i) == Overcooked)
+        if((sausage->getCookState(i) == Overcooked || sausage2->getCookState(i) == Overcooked) && !lostScreenIsOpened)
         {
-            lostScreenIsOpened = true;
+            overcookedScreenIsOpened = true;
         }
     }
 
@@ -310,6 +344,7 @@ void Game::resetCurrentLevel() // Must change this function as levels are change
     lostScreenIsOpened = false;
     winScreenIsOpened = false;
     sausagesPerfectlyCooked = false;
+    overcookedScreenIsOpened = false;
     if(currentMap == 0)
     {
         player->setPosition(sf::Vector2f(225, 125));
@@ -370,6 +405,7 @@ void Game::pollEvents()
                     winScreenIsOpened = false;
                     sausagesPerfectlyCooked = false;
                     levelSelectIsOpened = false;
+                    overcookedScreenIsOpened = false;
                     sausage->reset();
                     sausage2->reset();
                     // Starting Player Position
@@ -395,6 +431,7 @@ void Game::pollEvents()
                     winScreenIsOpened = false;
                     sausagesPerfectlyCooked = false;
                     levelSelectIsOpened = false;
+                    overcookedScreenIsOpened = false;
                     sausage->reset();
                     sausage2->reset();
                     // Starting Player Position
@@ -411,7 +448,7 @@ void Game::pollEvents()
                     break;
                 }
             }
-            else
+            else if(!winScreenIsOpened) // During gameplay
             {
                 switch(ev.key.code)
                 {
@@ -422,6 +459,7 @@ void Game::pollEvents()
                     winScreenIsOpened = false;
                     levelSelectIsOpened = false;
                     sausagesPerfectlyCooked = false;
+                    overcookedScreenIsOpened = false;
                     break;
 
                     case sf::Keyboard::L: // L returns to level select
@@ -431,6 +469,7 @@ void Game::pollEvents()
                     winScreenIsOpened = false;
                     levelSelectIsOpened = true;
                     sausagesPerfectlyCooked = false;
+                    overcookedScreenIsOpened = false;
                     break;
 
                     case sf::Keyboard::R: // R restets the level
@@ -1017,6 +1056,19 @@ void Game::pollEvents()
                     break;
                 }
             }
+            else // Win screen is opened
+            {
+                if(ev.key.code == sf::Keyboard::L)
+                {
+                    menuIsOpened = false;
+                    resetLevels();
+                    lostScreenIsOpened = false;
+                    winScreenIsOpened = false;
+                    levelSelectIsOpened = true;
+                    sausagesPerfectlyCooked = false;
+                    overcookedScreenIsOpened = false;
+                }
+            }
         }
     }
 }
@@ -1038,6 +1090,7 @@ void Game::render()
         window.draw(background);
         window.draw(gameTitle);
         window.draw(pressAnyButton);
+        window.draw(copyrightDisclaimer);
     }
 
     if(levelSelectIsOpened)
@@ -1083,7 +1136,7 @@ void Game::render()
     
     
 
-    if(sausagesPerfectlyCooked)
+    if(sausagesPerfectlyCooked && !lostScreenIsOpened && !overcookedScreenIsOpened)
     {
         window.draw(playerOutline);
     }
@@ -1093,10 +1146,17 @@ void Game::render()
         window.draw(lostScreen);
         window.draw(lostScreen2);
     }
+
+    if(overcookedScreenIsOpened)
+    {
+        window.draw(overcookedScreen);
+        window.draw(lostScreen2);
+    }
     
     if(winScreenIsOpened)
     {
         window.draw(winScreen);
+        window.draw(winScreen2);
     }
 
     window.display();
