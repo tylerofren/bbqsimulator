@@ -68,17 +68,17 @@ void Map::initializeTiles(std::vector<std::vector<int>> array)
 void Map::rotateTile(int i, int j, std::vector<std::vector<int>> array)
 {
 
-    if(array[i][j + 1] == 1)
+    if(array[i][j + 1] == 1 || array[i][j + 1] == 2)
     {
         tiles[i][j]->getSprite().rotate(180);
         tiles[i][j]->getSprite().move(sf::Vector2f(50, 50));
     }
-    else if(array[i + 1][j] == 1)
+    else if(array[i + 1][j] == 1 || array[i + 1][j] == 2)
     {
         tiles[i][j]->getSprite().rotate(270);
         tiles[i][j]->getSprite().move(sf::Vector2f(0, 50));
     }
-    else if(array[i - 1][j] == 1)
+    else if(array[i - 1][j] == 1 || array[i - 1][j] == 2)
     {
         tiles[i][j]->getSprite().rotate(90);
         tiles[i][j]->getSprite().move(sf::Vector2f(50, 0));
@@ -87,17 +87,17 @@ void Map::rotateTile(int i, int j, std::vector<std::vector<int>> array)
 
 void Map::rotateTileCorner(int i, int j, std::vector<std::vector<int>> array)
 {
-    if(array[i][j + 1] == 1 && array[i + 1][j] == 1)
+    if((array[i][j + 1] == 1 && array[i + 1][j] == 1) || (array[i][j + 1] == 2 && array[i + 1][j] == 2) || (array[i][j + 1] == 2 && array[i + 1][j] == 1) || (array[i][j + 1] == 1 && array[i + 1][j] == 2))
     {
         tiles[i][j]->getSprite().rotate(270);
         tiles[i][j]->getSprite().move(sf::Vector2f(0, 50));
     }
-    else if(array[i - 1][j] == 1 && array[i][j - 1] == 1)
+    else if((array[i - 1][j] == 1 && array[i][j - 1] == 1) || (array[i - 1][j] == 2 && array[i][j - 1] == 2) || (array[i - 1][j] == 2 && array[i][j - 1] == 1) || (array[i - 1][j] == 1 && array[i][j - 1] == 2))
     {
         tiles[i][j]->getSprite().rotate(90);
         tiles[i][j]->getSprite().move(sf::Vector2f(50, 0));
     }
-    else if(array[i - 1][j] == 1 && array[i][j + 1] == 1)
+    else if((array[i - 1][j] == 1 && array[i][j + 1] == 1) || (array[i - 1][j] == 2 && array[i][j + 1] == 2) || (array[i - 1][j] == 2 && array[i][j + 1] == 1) || (array[i - 1][j] == 1 && array[i][j + 1] == 2))
     {
         tiles[i][j]->getSprite().rotate(180);
         tiles[i][j]->getSprite().move(sf::Vector2f(50, 50));
