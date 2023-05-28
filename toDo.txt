@@ -1,31 +1,60 @@
-z for undo 
+z for undo - tyler
+
+Make 8 levels - philip
+
+
+----- sound -----
+swoosh sound effect when rotate?
+walk sound effect?
+sausage dropped in water sfx
+
+philip will do these ^^^^^
+
+together:
+level soundtrack
+menu soundtrack
+
+
+----- ui ----- philip
+level select:
+    shows when completed a level
+    draw boxes around each level
+    star when level completed
+    reward system?
+        credits!!!!
+
+                            A symphony of scents begins to rise,
+                            As sausages meet the grill's fiery eyes,
+                            The grill, a conductor, holds the baton,
+                            Cooking sausages to perfection's dawn.
+
+                            Each sausage sings its own unique song,
+                            A medley of flavors, bold and strong.
+                            A burst of pleasure with each tender bite,
+                            Grilling sausages is pure delight.
+                            
+                            The grill master, a culinary hero,
+                            Flipping and turning with a rhythmic flow,
+                            Tending to the sausages with loving care,
+                            Ensuring they're cooked with expertise rare.
+
+                            So gather 'round the grill, one and all,
+                            Let's savor the sausages, big and small,
+                            With flames as our guide, we shall unite,
+                            In the joy of grilling, a culinary delight.
+
+sausage dropped: 
+    disappears when dropped in water?
+    water ripples when dropped
+    water sound effect
+
+----- bugs --------
+
+
+tyler
+organize code, add comments into .h files, not cpp files
 
 Find a title 
     sausage party
     sausage sultans
     meat flipper
-    
-
-Make 9 levels
-
-
------ sound -----
-woosh sound effect when rotate?
-walk sound effect?
-sausage dropped in water sfx
-level soundtrack
-
-
------ ui -----
-level select:
-    shows when completed a level
-    turns green? box changes colour?
-    reward system?
-    each level has a box around it --- crossed out once finished
-
------ bugs --------
-
-
-
-organize code, add comments into .h files, not cpp files
-
