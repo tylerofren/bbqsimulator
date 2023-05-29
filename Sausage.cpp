@@ -293,6 +293,17 @@ void Sausage::loadSizzle()
 }
 
 
+vector<cookState> Sausage::getCookStates()
+{
+    return partStates;
+}
+
+
+void Sausage::setCookStates(vector<cookState> cookStates)
+{
+    partStates = cookStates;
+    updateTexture();
+}
 ////////////////////////////////////////////////////////
 
 

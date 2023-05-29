@@ -4,6 +4,7 @@
 
 
 #include "Map.cpp"
+#include "gameState.cpp"
 
 #ifndef GAME_H
 #define GAME_H
@@ -99,7 +100,11 @@ private:
     ofstream errorFile;
 
     
-
+    // Undo function
+    std::vector<GameState*> gameStates;
+    void resetGameStates();
+    void addGameState();
+    void undo();
 
 
 

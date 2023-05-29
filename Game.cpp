@@ -265,10 +265,7 @@ bool Game::forkIntersects()
 
 void Game::updateSausages()
 {
-    if(!maps[currentMap]->tiles[sausage->getRows().x][sausage->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage->getRows().y][sausage->getColumns().y]->getSausagePassable() && !overcookedScreenIsOpened)
-    {
-        lostScreenIsOpened = true;
-    }   
+    
     // Sausage
     if(maps[currentMap]->tiles[sausage->getRows().x][sausage->getColumns().x]->getIsGrill())
     {
@@ -284,10 +281,7 @@ void Game::updateSausages()
 
 void Game::updateSausages2()
 {
-    if(!maps[currentMap]->tiles[sausage2->getRows().x][sausage2->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage2->getRows().y][sausage2->getColumns().y]->getSausagePassable() && !overcookedScreenIsOpened)
-    {
-        lostScreenIsOpened = true;
-    }
+
     // Sausage 2
     if(maps[currentMap]->tiles[sausage2->getRows().y][sausage2->getColumns().y]->getIsGrill())
     {
@@ -303,6 +297,16 @@ void Game::updateSausages2()
 
 void Game::winLossConditions()
 {
+    if((!maps[currentMap]->tiles[sausage->getRows().x][sausage->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage->getRows().y][sausage->getColumns().y]->getSausagePassable() && !overcookedScreenIsOpened) || (!maps[currentMap]->tiles[sausage2->getRows().x][sausage2->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage2->getRows().y][sausage2->getColumns().y]->getSausagePassable() && !overcookedScreenIsOpened))
+    {
+        lostScreenIsOpened = true;
+    }
+    else
+    {
+        lostScreenIsOpened = false;
+    }   
+
+    overcookedScreenIsOpened = false;
     for(int i = 0; i < 4; i++)
     {
         if((sausage->getCookState(i) == Overcooked || sausage2->getCookState(i) == Overcooked) && !lostScreenIsOpened)
@@ -362,6 +366,40 @@ void Game::resetCurrentLevel() // Must change this function as levels are change
 }
 
 
+void Game::resetGameStates()
+{
+    while(!gameStates.empty())
+    {
+        gameStates.pop_back();
+    }
+
+    GameState* gameState = new GameState(player->getPosition(), sausage->getPosition(), sausage2->getPosition(), player->getRotation(), sausage->getCookStates(), sausage2->getCookStates());
+    gameStates.push_back(gameState);
+}
+
+void Game::addGameState()
+{
+    GameState* gameState = new GameState(player->getPosition(), sausage->getPosition(), sausage2->getPosition(), player->getRotation(), sausage->getCookStates(), sausage2->getCookStates()); 
+    gameStates.push_back(gameState);
+}
+
+void Game::undo()
+{
+    if(gameStates.size() > 1)
+    {
+        player->setPosition(gameStates[gameStates.size() - 2]->getPlayerPosition());
+        player->setRotation(gameStates[gameStates.size() - 2]->getPlayerRotation());
+        sausage->setPosition(gameStates[gameStates.size() - 2]->getSausagePosition());
+        sausage2->setPosition(gameStates[gameStates.size() - 2]->getSausage2Position());
+        sausage->setCookStates(gameStates[gameStates.size() - 2]->getCookStates());
+        sausage2->setCookStates(gameStates[gameStates.size() - 2]->getCookStates2());
+        gameStates.pop_back();
+    }
+    
+}
+
+
+
 // Accessors
 
 const bool Game::running() const
@@ -419,6 +457,7 @@ void Game::pollEvents()
                     sausage->setHorizontal(false);
                     sausage2->setPosition(sf::Vector2f(375, 275));
                     sausage2->setHorizontal(true);
+                    resetGameStates();
                     break;
 
                     // --------------------- Level 2 ----------------------
@@ -445,6 +484,7 @@ void Game::pollEvents()
                     sausage->setHorizontal(true);
                     sausage2->setPosition(sf::Vector2f(325, 275));
                     sausage2->setHorizontal(false);
+                    resetGameStates();
                     break;
                 }
             }
@@ -455,6 +495,7 @@ void Game::pollEvents()
                     case sf::Keyboard::M: // M returns to the menu
                     menuIsOpened = true;
                     resetLevels();
+                    resetGameStates();
                     lostScreenIsOpened = false;
                     winScreenIsOpened = false;
                     levelSelectIsOpened = false;
@@ -465,6 +506,7 @@ void Game::pollEvents()
                     case sf::Keyboard::L: // L returns to level select
                     menuIsOpened = false;
                     resetLevels();
+                    resetGameStates();
                     lostScreenIsOpened = false;
                     winScreenIsOpened = false;
                     levelSelectIsOpened = true;
@@ -474,6 +516,12 @@ void Game::pollEvents()
 
                     case sf::Keyboard::R: // R restets the level
                     resetCurrentLevel();
+                    resetGameStates();
+                    break;
+
+                    case sf::Keyboard::Z:
+                    undo();
+                    winLossConditions();
                     break;
              
                     // ----------Player controls------------------------
@@ -618,6 +666,7 @@ void Game::pollEvents()
                         
                     }
                     winLossConditions();
+                    addGameState();
                     break;
 
                     case sf::Keyboard::A:               
@@ -764,6 +813,7 @@ void Game::pollEvents()
                         
                     }
                     winLossConditions();
+                    addGameState();
                     break;
 
                     case sf::Keyboard::S:               
@@ -905,6 +955,7 @@ void Game::pollEvents()
                         
                     }
                     winLossConditions();
+                    addGameState();
                     break;
 
                     case sf::Keyboard::D:    
@@ -1053,6 +1104,7 @@ void Game::pollEvents()
                         }
                     }
                     winLossConditions();
+                    addGameState();
                     break;
                 }
             }
@@ -1115,7 +1167,7 @@ void Game::render()
 
         /*
         errorFile.open("errors.txt");
-        errorFile << sausage->getSprite().getOrigin().x << sausage->getSprite().getOrigin().y << sausage->getSprite().getRotation() << endl;
+        errorFile << gameStates.size() << endl;
         errorFile.close();
         */
     }

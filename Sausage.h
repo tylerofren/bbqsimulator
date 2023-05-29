@@ -35,6 +35,7 @@ void loadSizzle();
 
 
 vector<cookState> partStates;
+
 bool isFacingUp;
 bool cookedOnCurrentGrill;
 
@@ -68,6 +69,7 @@ sf::Sprite getSprite();
 sf::Vector2f getPosition();
 sf::Vector2i getRows() const;
 sf::Vector2i getColumns() const;
+vector<cookState> getCookStates();
 bool isHorizontal();
 
 
@@ -78,6 +80,8 @@ void setPosition(const sf::Vector2f);
 void setHorizontal(bool);
 
 void setCookedOnCurrentGrill(bool);
+
+void setCookStates(vector<cookState>);
 
 
 
