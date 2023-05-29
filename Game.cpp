@@ -1165,11 +1165,11 @@ void Game::render()
         window.draw(sausage->getSprite());
         window.draw(sausage2->getSprite());
 
-        /*
         errorFile.open("errors.txt");
-        errorFile << gameStates.size() << endl;
+        errorFile << sausage2->getCookStates()[0] << sausage2->getCookStates()[1] <<
+        sausage2->getCookStates()[2] << sausage2->getCookStates()[3] <<  " " << sausage2->getSprite().getRotation() <<endl;
         errorFile.close();
-        */
+        
     }
     
     if(levelIsOpened[1])
@@ -1183,7 +1183,14 @@ void Game::render()
         }
         window.draw(player->getSprite());
         window.draw(sausage->getSprite());
-        window.draw(sausage2->getSprite());        
+        window.draw(sausage2->getSprite());  
+
+        
+        errorFile.open("errors.txt");
+        errorFile << sausage->getCookStates()[0] << sausage->getCookStates()[1] <<
+        sausage->getCookStates()[2] << sausage->getCookStates()[3] <<  " " << sausage->getSprite().getRotation() <<endl;
+        errorFile.close();
+          
     }
     
     

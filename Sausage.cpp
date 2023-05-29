@@ -36,7 +36,7 @@ sf::Sprite Sausage::getSprite()
     return sprite;
 }
 
-sf::Vector2f Sausage::getPosition()
+sf::Vector2f Sausage::getPosition() 
 {
     return sprite.getPosition();
 }
@@ -67,7 +67,7 @@ sf::Vector2i Sausage::getColumns() const
 // ------------ Cooking -------------
 
 /*
-Part states:
+Part states: (top = right)
 0 - Facing down, top
 1 - Facing down, bottom
 2 - Facing up, top
@@ -90,6 +90,10 @@ void Sausage::reset()
     for(int i = 0; i < 4; i++)
     {
         partStates[i] = Raw;
+    }
+    if(!isFacingUp)
+    {
+        isFacingUp = true;
     }
     updateTexture();
 }
