@@ -75,6 +75,7 @@ private:
     void updateSausages2();
 
     void winLossConditions();
+    
 
     void resetCurrentLevel();
 
