@@ -49,6 +49,9 @@ sausage dropped:
 ----- bugs --------
 wrong sausage photo orientation, 2nd level when played second.
 on level 2, cooks the wrong side.
+REDO UPDATESAUSAGEFUNCTION!!!!!!!!
+
+
 
 tyler
 organize code, add comments into .h files, not cpp files
