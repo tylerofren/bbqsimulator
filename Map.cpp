@@ -52,6 +52,11 @@ void Map::initializeTiles(std::vector<std::vector<int>> array)
                 rotateTileCorner(i, j, array);
             }
             
+            else if(array[i][j] == 8)
+            {
+                tiles[i][j] = new GameTile("assets/Water2S.png", 50.f * j, 50.f * i, false, false, false);
+                rotateTile(i, j, array);
+            }
             
             else 
             {
