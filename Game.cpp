@@ -261,6 +261,21 @@ void Game::initializeLevels()
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
 
+    //Level 5
+    levels[4] =  
+    {
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 7, 7, 7, 7, 0, 0, 0},
+        {0, 0, 7, 1, 1, 1, 1, 7, 0, 0},
+        {0, 0, 7, 1, 1, 1, 2, 7, 0, 0},
+        {0, 0, 7, 2, 1, 1, 1, 7, 0, 0},
+        {0, 0, 7, 1, 1, 1, 1, 7, 0, 0},
+        {0, 0, 0, 7, 7, 7, 7, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+    };
+
 }
 
 void Game::initializePlayer()
@@ -281,6 +296,7 @@ void Game::initializeMaps() // Make this a for loop once 10 level arrays are mad
     maps[1] = new Map(levels[1]);
     maps[2] = new Map(levels[2]);
     maps[3] = new Map(levels[3]);
+    maps[4] = new Map(levels[4]);
 }
 
 
@@ -460,9 +476,16 @@ void Game::resetCurrentLevel() // Must change this function as levels are change
     else if(currentMap == 3)
     {
         player->setPosition(sf::Vector2f(125, 325));
-        player->setRotation(3);
+        player->setRotation(2);
         sausage->setPosition(sf::Vector2f(225, 125));
         sausage2->setPosition(sf::Vector2f(600, 600));
+    }
+    else if(currentMap == 4)
+    {
+        player->setPosition(sf::Vector2f(175, 225));
+        player->setRotation(0);
+        sausage->setPosition(sf::Vector2f(225, 325));
+        sausage2->setPosition(sf::Vector2f(275, 225));
     }
 }
 
@@ -639,6 +662,33 @@ void Game::pollEvents()
                     sausage->setHorizontal(true);
                     sausage2->setPosition(sf::Vector2f(600, 600));
                     sausage2->setHorizontal(true);
+                    resetGameStates();
+                    break;
+
+                    // --------------------- Level 5 ----------------------
+                    case sf::Keyboard::Num5:
+                    currentMap = 4;
+                    resetLevels();
+                    levelIsOpened[4] = true;
+                    menuIsOpened = false;
+                    lostScreenIsOpened = false;
+                    winScreenIsOpened = false;
+                    sausagesPerfectlyCooked = false;
+                    levelSelectIsOpened = false;
+                    overcookedScreenIsOpened = false;
+                    sausage->reset();
+                    sausage2->reset();
+                    // Starting Player Position
+                    player->setPosition(sf::Vector2f(175, 225));
+                    player->setRotation(0);
+                    // Player outline position
+                    playerOutline.setPosition(sf::Vector2f(175, 225));
+                    playerOutline.setRotation(0);
+                    // Starting Sausage Positions
+                    sausage->setPosition(sf::Vector2f(225, 325));
+                    sausage->setHorizontal(false);
+                    sausage2->setPosition(sf::Vector2f(275, 225));
+                    sausage2->setHorizontal(false);
                     resetGameStates();
                     break;
                 }
@@ -1373,6 +1423,20 @@ void Game::render()
         }
         window.draw(player->getSprite());
         window.draw(sausage->getSprite());      
+    }
+
+    if(levelIsOpened[4])
+    {
+        for(int i = 0; i < 10; i++)
+        {
+            for(int j = 0; j < 10; j++)
+            {
+                window.draw(maps[4]->tiles[i][j]->getSprite());
+            }
+        }
+        window.draw(player->getSprite());
+        window.draw(sausage->getSprite());
+        window.draw(sausage2->getSprite());       
     }
     
     
