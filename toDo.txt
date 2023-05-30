@@ -45,7 +45,9 @@ sausage dropped:
     disappears when dropped in water?
     water ripples when dropped
     water sound effect
+------ ask meher to make a new texture for when the sausage is dropped in water---------------
 
+    
 ----- bugs --------
 wrong sausage photo orientation, 2nd level when played second.
 on level 2, cooks the wrong side.
