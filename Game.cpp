@@ -374,7 +374,7 @@ void Game::winLossConditions()
             }
         }
 
-        if(sausagesPerfectlyCooked && player->getPosition().x == playerOutline.getPosition().x && player->getPosition().y == playerOutline.getPosition().y && player->getSprite().getRotation() == playerOutline.getRotation())
+        if(sausagesPerfectlyCooked && player->getPosition().x == playerOutline.getPosition().x && player->getPosition().y == playerOutline.getPosition().y && player->getSprite().getRotation() == playerOutline.getRotation() && !overcookedScreenIsOpened && ~lostScreenIsOpened)
         {
             winScreenIsOpened = true;
         }
@@ -411,7 +411,7 @@ void Game::winLossConditions()
             }
         }
 
-        if(sausagesPerfectlyCooked && player->getPosition().x == playerOutline.getPosition().x && player->getPosition().y == playerOutline.getPosition().y && player->getSprite().getRotation() == playerOutline.getRotation())
+        if(sausagesPerfectlyCooked && player->getPosition().x == playerOutline.getPosition().x && player->getPosition().y == playerOutline.getPosition().y && player->getSprite().getRotation() == playerOutline.getRotation() && !overcookedScreenIsOpened && !lostScreenIsOpened)
         {
             winScreenIsOpened = true;
         }
@@ -544,7 +544,7 @@ void Game::pollEvents()
                     winScreenIsOpened = false;
                     sausagesPerfectlyCooked = false;
                     levelSelectIsOpened = false;
-                    overcookedScreenIsOpened = false;
+                    overcookedScreenIsOpened = false; 
                     sausage->reset();
                     sausage2->reset();
                     // Starting Player Position
