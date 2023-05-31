@@ -1,1 +1,15 @@
+<<<<<<< HEAD
 1010 90
+=======
+Sausage 1:
+Cook States:
+0000
+Rows: 45
+Columns:55
+
+Sausage2:
+Cook States:
+0000
+Rows: 45
+Columns:66
+>>>>>>> 50d99f527e73f14faa4f28f31a9e8c64254eb138

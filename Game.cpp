@@ -332,29 +332,112 @@ void Game::updateSausages()
     // Sausage
     if(maps[currentMap]->tiles[sausage->getRows().x][sausage->getColumns().x]->getIsGrill())
     {
-            if(sausage->getIsFacingUp()) sausage->cook(2);
-            else sausage->cook(0);
+            if(sausage->getIsFacingUp()) 
+            {
+                if(sausage->isHorizontal())
+                {
+                    sausage->cook(3);
+                }
+                else
+                {
+                    sausage->cook(2);
+                }
+                
+            }
+            else
+            {
+                if(sausage->isHorizontal())
+                {
+                    sausage->cook(1);
+                }
+                else
+                {
+                    sausage->cook(0);
+                }
+            }
     }
     if(maps[currentMap]->tiles[sausage->getRows().y][sausage->getColumns().y]->getIsGrill())
     {
-            if(sausage->getIsFacingUp()) sausage->cook(3);
-            else sausage->cook(1);
+            if(sausage->getIsFacingUp())
+            {
+                if(sausage->isHorizontal())
+                {
+                    sausage->cook(2);
+                }
+                else
+                {
+                    sausage->cook(3);
+                }
+            } 
+            else
+            {
+                if(sausage->isHorizontal())
+                {
+                    sausage->cook(0);
+                }
+                else
+                {
+                    sausage->cook(1);
+                }
+            }
     }   
+    
 }
 
 void Game::updateSausages2()
 {
 
     // Sausage 2
-    if(maps[currentMap]->tiles[sausage2->getRows().y][sausage2->getColumns().y]->getIsGrill())
-    {
-            if(sausage2->getIsFacingUp()) sausage2->cook(2);
-            else sausage2->cook(0);
-    }
     if(maps[currentMap]->tiles[sausage2->getRows().x][sausage2->getColumns().x]->getIsGrill())
     {
-            if(sausage2->getIsFacingUp()) sausage2->cook(3);
-            else sausage2->cook(1);
+            if(sausage2->getIsFacingUp()) 
+            {
+                if(sausage2->isHorizontal())
+                {
+                    sausage2->cook(3);
+                }
+                else
+                {
+                    sausage2->cook(2);
+                }
+                
+            }
+            else
+            {
+                if(sausage2->isHorizontal())
+                {
+                    sausage2->cook(1);
+                }
+                else
+                {
+                    sausage2->cook(0);
+                }
+            }
+    }
+    if(maps[currentMap]->tiles[sausage2->getRows().y][sausage2->getColumns().y]->getIsGrill())
+    {
+            if(sausage2->getIsFacingUp())
+            {
+                if(sausage2->isHorizontal())
+                {
+                    sausage2->cook(2);
+                }
+                else
+                {
+                    sausage2->cook(3);
+                }
+            } 
+            else
+            {
+                if(sausage2->isHorizontal())
+                {
+                    sausage2->cook(0);
+                }
+                else
+                {
+                    sausage2->cook(1);
+                }
+            }
     }
 }
 
@@ -390,7 +473,7 @@ void Game::winLossConditions()
             }
         }
 
-        if(sausagesPerfectlyCooked && player->getPosition().x == playerOutline.getPosition().x && player->getPosition().y == playerOutline.getPosition().y && player->getSprite().getRotation() == playerOutline.getRotation())
+        if(sausagesPerfectlyCooked && player->getPosition().x == playerOutline.getPosition().x && player->getPosition().y == playerOutline.getPosition().y && player->getSprite().getRotation() == playerOutline.getRotation() && !overcookedScreenIsOpened && ~lostScreenIsOpened)
         {
             winScreenIsOpened = true;
         }
@@ -427,7 +510,7 @@ void Game::winLossConditions()
             }
         }
 
-        if(sausagesPerfectlyCooked && player->getPosition().x == playerOutline.getPosition().x && player->getPosition().y == playerOutline.getPosition().y && player->getSprite().getRotation() == playerOutline.getRotation())
+        if(sausagesPerfectlyCooked && player->getPosition().x == playerOutline.getPosition().x && player->getPosition().y == playerOutline.getPosition().y && player->getSprite().getRotation() == playerOutline.getRotation() && !overcookedScreenIsOpened && !lostScreenIsOpened)
         {
             winScreenIsOpened = true;
         }
@@ -567,7 +650,7 @@ void Game::pollEvents()
                     winScreenIsOpened = false;
                     sausagesPerfectlyCooked = false;
                     levelSelectIsOpened = false;
-                    overcookedScreenIsOpened = false;
+                    overcookedScreenIsOpened = false; 
                     sausage->reset();
                     sausage2->reset();
                     // Starting Player Position
@@ -719,7 +802,7 @@ void Game::pollEvents()
                     overcookedScreenIsOpened = false;
                     break;
 
-                    case sf::Keyboard::R: // R restets the level
+                    case sf::Keyboard::R: // R resets the level
                     resetCurrentLevel();
                     resetGameStates();
                     break;
@@ -1370,10 +1453,19 @@ void Game::render()
         window.draw(sausage->getSprite());
         window.draw(sausage2->getSprite());
 
+        /*
         errorFile.open("errors.txt");
-        errorFile << sausage2->getCookStates()[0] << sausage2->getCookStates()[1] <<
-        sausage2->getCookStates()[2] << sausage2->getCookStates()[3] <<  " " << sausage2->getSprite().getRotation() <<endl;
+        errorFile << 
+        "Sausage 1:\nCook States:\n" << sausage->getCookStates()[0] << sausage->getCookStates()[1] <<
+        sausage->getCookStates()[2] << sausage->getCookStates()[3] <<  "\nRows: " << sausage->getRows().x << sausage->getRows().y
+        << "\nColumns:" << sausage->getColumns().x << sausage->getColumns().y <<
+
+        "\n\nSausage2:\nCook States:\n" << sausage2->getCookStates()[0] << sausage2->getCookStates()[1] <<
+        sausage2->getCookStates()[2] << sausage2->getCookStates()[3] <<  "\nRows: " << sausage2->getRows().x << sausage2->getRows().y
+        << "\nColumns:" << sausage2->getColumns().x << sausage2->getColumns().y
+        <<endl;
         errorFile.close();
+        */
         
     }
     
@@ -1390,11 +1482,6 @@ void Game::render()
         window.draw(sausage->getSprite());
         window.draw(sausage2->getSprite());  
 
-        
-        errorFile.open("errors.txt");
-        errorFile << sausage->getCookStates()[0] << sausage->getCookStates()[1] <<
-        sausage->getCookStates()[2] << sausage->getCookStates()[3] <<  " " << sausage->getSprite().getRotation() <<endl;
-        errorFile.close();
           
     }
 
@@ -1409,7 +1496,8 @@ void Game::render()
         }
         window.draw(player->getSprite());
         window.draw(sausage->getSprite());
-        window.draw(sausage2->getSprite());        
+        window.draw(sausage2->getSprite());       
+
     }
 
     if(levelIsOpened[3])
@@ -1422,7 +1510,7 @@ void Game::render()
             }
         }
         window.draw(player->getSprite());
-        window.draw(sausage->getSprite());      
+        window.draw(sausage->getSprite());     
     }
 
     if(levelIsOpened[4])
