@@ -458,7 +458,7 @@ void Game::updateSausages2()
 void Game::winLossConditions()
 {
     //Two Sausage Maps
-    if(currentMap == 0 || currentMap == 1 || currentMap == 2)
+    if(currentMap != 3)
     {
         if((!maps[currentMap]->tiles[sausage->getRows().x][sausage->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage->getRows().y][sausage->getColumns().y]->getSausagePassable() && !overcookedScreenIsOpened) || (!maps[currentMap]->tiles[sausage2->getRows().x][sausage2->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage2->getRows().y][sausage2->getColumns().y]->getSausagePassable() && !overcookedScreenIsOpened))
         {
