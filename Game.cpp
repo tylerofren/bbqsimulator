@@ -1403,6 +1403,7 @@ void Game::render()
         window.draw(sausage->getSprite());
         window.draw(sausage2->getSprite());
 
+        /*
         errorFile.open("errors.txt");
         errorFile << 
         "Sausage 1:\nCook States:\n" << sausage->getCookStates()[0] << sausage->getCookStates()[1] <<
@@ -1414,6 +1415,7 @@ void Game::render()
         << "\nColumns:" << sausage2->getColumns().x << sausage2->getColumns().y
         <<endl;
         errorFile.close();
+        */
         
     }
     
@@ -1430,18 +1432,6 @@ void Game::render()
         window.draw(sausage->getSprite());
         window.draw(sausage2->getSprite());  
 
-        
-        errorFile.open("errors.txt");
-        errorFile << 
-        "Sausage 1:\nCook States:\n" << sausage->getCookStates()[0] << sausage->getCookStates()[1] <<
-        sausage->getCookStates()[2] << sausage->getCookStates()[3] <<  "\nRows: " << sausage->getRows().x << sausage->getRows().y
-        << "\nColumns:" << sausage->getColumns().x << sausage->getColumns().y <<
-
-        "\n\nSausage2:\nCook States:\n" << sausage2->getCookStates()[0] << sausage2->getCookStates()[1] <<
-        sausage2->getCookStates()[2] << sausage2->getCookStates()[3] <<  "\nRows: " << sausage2->getRows().x << sausage2->getRows().y
-        << "\nColumns:" << sausage2->getColumns().x << sausage2->getColumns().y
-        <<endl;
-        errorFile.close();
           
     }
 
@@ -1458,17 +1448,6 @@ void Game::render()
         window.draw(sausage->getSprite());
         window.draw(sausage2->getSprite());       
 
-        errorFile.open("errors.txt");
-        errorFile << 
-        "Sausage 1:\nCook States:\n" << sausage->getCookStates()[0] << sausage->getCookStates()[1] <<
-        sausage->getCookStates()[2] << sausage->getCookStates()[3] <<  "\nRows: " << sausage->getRows().x << sausage->getRows().y
-        << "\nColumns:" << sausage->getColumns().x << sausage->getColumns().y <<
-
-        "\n\nSausage2:\nCook States:\n" << sausage2->getCookStates()[0] << sausage2->getCookStates()[1] <<
-        sausage2->getCookStates()[2] << sausage2->getCookStates()[3] <<  "\nRows: " << sausage2->getRows().x << sausage2->getRows().y
-        << "\nColumns:" << sausage2->getColumns().x << sausage2->getColumns().y
-        <<endl;
-        errorFile.close(); 
     }
 
     if(levelIsOpened[3])
@@ -1482,18 +1461,6 @@ void Game::render()
         }
         window.draw(player->getSprite());
         window.draw(sausage->getSprite());     
-
-        errorFile.open("errors.txt");
-        errorFile << 
-        "Sausage 1:\nCook States:\n" << sausage->getCookStates()[0] << sausage->getCookStates()[1] <<
-        sausage->getCookStates()[2] << sausage->getCookStates()[3] <<  "\nRows: " << sausage->getRows().x << sausage->getRows().y
-        << "\nColumns:" << sausage->getColumns().x << sausage->getColumns().y <<
-
-        "\n\nSausage2:\nCook States:\n" << sausage2->getCookStates()[0] << sausage2->getCookStates()[1] <<
-        sausage2->getCookStates()[2] << sausage2->getCookStates()[3] <<  "\nRows: " << sausage2->getRows().x << sausage2->getRows().y
-        << "\nColumns:" << sausage2->getColumns().x << sausage2->getColumns().y
-        <<endl;
-        errorFile.close(); 
     }
     
     
