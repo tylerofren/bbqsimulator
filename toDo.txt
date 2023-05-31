@@ -45,7 +45,6 @@ sausage dropped: tyler
     disappears when dropped in water?
     water ripples when dropped
     water sound effect
------- ask meher to make a new texture for when the sausage is dropped in water---------------
 
     
 ----- bugs --------
