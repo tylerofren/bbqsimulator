@@ -187,7 +187,7 @@ void Game::initializeLevels()
         7 - WATER1S
         8 - WATER2S
         9 - WATER2SC
-        10 - WATER3S
+        5 - WATER3S
 
         Blank
         levels[] =  
@@ -303,6 +303,34 @@ void Game::initializeLevels()
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
 
+    levels[7] =  
+    {
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 7, 7, 7, 7, 7, 7, 0, 0},
+        {0, 7, 1, 1, 1, 1, 1, 1, 7, 0},
+        {0, 7, 1, 1, 2, 2, 0, 1, 7, 0},
+        {0, 0, 7, 9, 2, 2, 8, 1, 7, 0},
+        {0, 0, 0, 0, 7, 7, 0, 7, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+    };
+
+    levels[8] =  
+    {
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 7, 7, 7, 7, 7, 0, 0},
+        {0, 0, 7, 1, 1, 1, 1, 1, 7, 0},
+        {0, 0, 7, 1, 2, 1, 1, 2, 7, 0},
+        {0, 0, 7, 1, 2, 1, 1, 2, 7, 0},
+        {0, 0, 7, 1, 1, 1, 1, 1, 7, 0},
+        {0, 0, 0, 7, 7, 7, 7, 7, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+    };
+
 }
 
 void Game::initializePlayer()
@@ -326,6 +354,8 @@ void Game::initializeMaps() // Make this a for loop once 10 level arrays are mad
     maps[4] = new Map(levels[4]);
     maps[5] = new Map(levels[5]);
     maps[6] = new Map(levels[6]);
+    maps[7] = new Map(levels[7]);
+    maps[8] = new Map(levels[8]);
 }
 
 
@@ -620,6 +650,22 @@ void Game::resetCurrentLevel() // Must change this function as levels are change
         sausage->setPosition(sf::Vector2f(175, 325));
         sausage2->setPosition(sf::Vector2f(600, 600));
     }
+    //Level 8 reset
+    else if(currentMap == 7)
+    {
+        player->setPosition(sf::Vector2f(125, 225));
+        player->setRotation(1);
+        sausage->setPosition(sf::Vector2f(175, 325));
+        sausage2->setPosition(sf::Vector2f(225, 225));
+    }
+    //Level 9 reset
+    else if(currentMap == 8)
+    {
+        player->setPosition(sf::Vector2f(175, 275));
+        player->setRotation(0);
+        sausage->setPosition(sf::Vector2f(275, 275));
+        sausage2->setPosition(sf::Vector2f(325, 275));
+    }
 }
 
 
@@ -876,6 +922,60 @@ void Game::pollEvents()
                     sausage->setHorizontal(false);
                     sausage2->setPosition(sf::Vector2f(600, 600));
                     sausage2->setHorizontal(true);
+                    resetGameStates();
+                    break;
+
+                    // --------------------- Level 8 ----------------------
+                    case sf::Keyboard::Num8:
+                    currentMap = 7;
+                    resetLevels();
+                    levelIsOpened[7] = true;
+                    menuIsOpened = false;
+                    lostScreenIsOpened = false;
+                    winScreenIsOpened = false;
+                    sausagesPerfectlyCooked = false;
+                    levelSelectIsOpened = false;
+                    overcookedScreenIsOpened = false;
+                    sausage->reset();
+                    sausage2->reset();
+                    // Starting Player Position
+                    player->setPosition(sf::Vector2f(125, 225));
+                    player->setRotation(1);
+                    // Player outline position
+                    playerOutline.setPosition(sf::Vector2f(125, 225));
+                    playerOutline.setRotation(90);
+                    // Starting Sausage Positions
+                    sausage->setPosition(sf::Vector2f(175, 325));
+                    sausage->setHorizontal(false);
+                    sausage2->setPosition(sf::Vector2f(225, 225));
+                    sausage2->setHorizontal(true);
+                    resetGameStates();
+                    break;
+
+                    // --------------------- Level 9 ----------------------
+                    case sf::Keyboard::Num9:
+                    currentMap = 8;
+                    resetLevels();
+                    levelIsOpened[8] = true;
+                    menuIsOpened = false;
+                    lostScreenIsOpened = false;
+                    winScreenIsOpened = false;
+                    sausagesPerfectlyCooked = false;
+                    levelSelectIsOpened = false;
+                    overcookedScreenIsOpened = false;
+                    sausage->reset();
+                    sausage2->reset();
+                    // Starting Player Position
+                    player->setPosition(sf::Vector2f(175, 275));
+                    player->setRotation(0);
+                    // Player outline position
+                    playerOutline.setPosition(sf::Vector2f(175, 275));
+                    playerOutline.setRotation(0);
+                    // Starting Sausage Positions
+                    sausage->setPosition(sf::Vector2f(275, 275));
+                    sausage->setHorizontal(false);
+                    sausage2->setPosition(sf::Vector2f(325, 275));
+                    sausage2->setHorizontal(false);
                     resetGameStates();
                     break;
                 }
@@ -1657,7 +1757,34 @@ void Game::render()
         window.draw(player->getSprite());
         window.draw(sausage->getSprite());       
     }
+
+    if(levelIsOpened[7])
+    {
+        for(int i = 0; i < 10; i++)
+        {
+            for(int j = 0; j < 10; j++)
+            {
+                window.draw(maps[7]->tiles[i][j]->getSprite());
+            }
+        }
+        window.draw(player->getSprite());
+        window.draw(sausage->getSprite());
+        window.draw(sausage2->getSprite());       
+    }
     
+    if(levelIsOpened[8])
+    {
+        for(int i = 0; i < 10; i++)
+        {
+            for(int j = 0; j < 10; j++)
+            {
+                window.draw(maps[8]->tiles[i][j]->getSprite());
+            }
+        }
+        window.draw(player->getSprite());
+        window.draw(sausage->getSprite());
+        window.draw(sausage2->getSprite());       
+    }
     
 
     if(sausagesPerfectlyCooked && !lostScreenIsOpened && !overcookedScreenIsOpened)
