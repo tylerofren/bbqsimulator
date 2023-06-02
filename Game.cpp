@@ -209,13 +209,13 @@ void Game::initializeLevels()
     {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 7, 7, 0, 0, 0, 0},
-        {0, 7, 7, 9, 1, 1, 9, 7, 7, 0},
-        {7, 1, 1, 1, 1, 1, 1, 1, 1, 7},
-        {7, 1, 1, 1, 2, 2, 1, 1, 1, 7},
-        {7, 1, 1, 1, 2, 2, 1, 1, 1, 7},
-        {7, 1, 1, 1, 1, 1, 1, 1, 1, 7},
-        {7, 1, 1, 1, 1, 1, 1, 1, 1, 7},
-        {0, 7, 7, 7, 7, 7, 7, 7, 7, 0},
+        {0, 0, 0, 9, 1, 1, 9, 0, 0, 0},
+        {0, 0, 7, 1, 1, 1, 1, 7, 0, 0},
+        {0, 0, 7, 1, 2, 2, 1, 7, 0, 0},
+        {0, 0, 7, 1, 2, 2, 1, 7, 0, 0},
+        {0, 0, 7, 1, 1, 1, 1, 7, 0, 0},
+        {0, 0, 0, 7, 7, 7, 7, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
     //Level 2
@@ -302,7 +302,7 @@ void Game::initializeLevels()
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
-
+    //Level 8
     levels[7] =  
     {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -316,7 +316,7 @@ void Game::initializeLevels()
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
-
+    //Level 9
     levels[8] =  
     {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -330,7 +330,20 @@ void Game::initializeLevels()
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
-
+    //Level 10
+    levels[9] =  
+    {
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 7, 7, 7, 7, 0, 0, 0},
+        {0, 0, 7, 2, 1, 1, 2, 7, 0, 0},
+        {0, 0, 7, 2, 1, 1, 1, 7, 0, 0},
+        {0, 0, 0, 8, 1, 1, 1, 7, 0, 0},
+        {0, 0, 7, 1, 1, 9, 7, 0, 0, 0},
+        {0, 0, 0, 7, 7, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+    };
 }
 
 void Game::initializePlayer()
@@ -356,6 +369,7 @@ void Game::initializeMaps() // Make this a for loop once 10 level arrays are mad
     maps[6] = new Map(levels[6]);
     maps[7] = new Map(levels[7]);
     maps[8] = new Map(levels[8]);
+    maps[9] = new Map(levels[9]);
 }
 
 
@@ -503,7 +517,7 @@ void Game::updateSausages2()
 void Game::winLossConditions()
 {
     //Two Sausage Maps
-    if(currentMap != 3 && currentMap != 6)
+    if(currentMap != 3 && currentMap != 6 && currentMap!=9)
     {
         if((!maps[currentMap]->tiles[sausage->getRows().x][sausage->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage->getRows().y][sausage->getColumns().y]->getSausagePassable() && !overcookedScreenIsOpened) || (!maps[currentMap]->tiles[sausage2->getRows().x][sausage2->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage2->getRows().y][sausage2->getColumns().y]->getSausagePassable() && !overcookedScreenIsOpened))
         {
@@ -599,8 +613,8 @@ void Game::resetCurrentLevel() // Must change this function as levels are change
     {
         player->setPosition(sf::Vector2f(225, 125));
         player->setRotation(1);
-        sausage->setPosition(sf::Vector2f(125, 275));
-        sausage2->setPosition(sf::Vector2f(375, 275));
+        sausage->setPosition(sf::Vector2f(175, 275));
+        sausage2->setPosition(sf::Vector2f(325, 275));
     }
     //Level 2 reset
     else if(currentMap == 1)
@@ -665,6 +679,14 @@ void Game::resetCurrentLevel() // Must change this function as levels are change
         player->setRotation(0);
         sausage->setPosition(sf::Vector2f(275, 275));
         sausage2->setPosition(sf::Vector2f(325, 275));
+    }
+    //Level 10 reset
+    else if(currentMap == 9)
+    {
+        player->setPosition(sf::Vector2f(275, 275));
+        player->setRotation(0);
+        sausage->setPosition(sf::Vector2f(225, 225));
+        sausage2->setPosition(sf::Vector2f(600, 600));
     }
 }
 
@@ -756,10 +778,10 @@ void Game::pollEvents()
                     playerOutline.setPosition(sf::Vector2f(225, 125));
                     playerOutline.setRotation(90);
                     // Starting Sausage Positions
-                    sausage->setPosition(sf::Vector2f(125, 275));
+                    sausage->setPosition(sf::Vector2f(175, 275));
                     sausage->setHorizontal(false);
-                    sausage2->setPosition(sf::Vector2f(375, 275));
-                    sausage2->setHorizontal(true);
+                    sausage2->setPosition(sf::Vector2f(325, 275));
+                    sausage2->setHorizontal(false);
                     resetGameStates();
                     break;
 
@@ -975,6 +997,33 @@ void Game::pollEvents()
                     sausage->setPosition(sf::Vector2f(275, 275));
                     sausage->setHorizontal(false);
                     sausage2->setPosition(sf::Vector2f(325, 275));
+                    sausage2->setHorizontal(false);
+                    resetGameStates();
+                    break;
+
+                    // --------------------- Level 10 ----------------------
+                    case sf::Keyboard::Num0:
+                    currentMap = 9;
+                    resetLevels();
+                    levelIsOpened[9] = true;
+                    menuIsOpened = false;
+                    lostScreenIsOpened = false;
+                    winScreenIsOpened = false;
+                    sausagesPerfectlyCooked = false;
+                    levelSelectIsOpened = false;
+                    overcookedScreenIsOpened = false;
+                    sausage->reset();
+                    sausage2->reset();
+                    // Starting Player Position
+                    player->setPosition(sf::Vector2f(275, 275));
+                    player->setRotation(0);
+                    // Player outline position
+                    playerOutline.setPosition(sf::Vector2f(275, 275));
+                    playerOutline.setRotation(0);
+                    // Starting Sausage Positions
+                    sausage->setPosition(sf::Vector2f(225, 225));
+                    sausage->setHorizontal(false);
+                    sausage2->setPosition(sf::Vector2f(600, 600));
                     sausage2->setHorizontal(false);
                     resetGameStates();
                     break;
@@ -1784,6 +1833,19 @@ void Game::render()
         window.draw(player->getSprite());
         window.draw(sausage->getSprite());
         window.draw(sausage2->getSprite());       
+    }
+
+    if(levelIsOpened[9])
+    {
+        for(int i = 0; i < 10; i++)
+        {
+            for(int j = 0; j < 10; j++)
+            {
+                window.draw(maps[9]->tiles[i][j]->getSprite());
+            }
+        }
+        window.draw(player->getSprite());
+        window.draw(sausage->getSprite());    
     }
     
 
