@@ -1,25 +1,22 @@
-Make 5 levels - philip
-
-
 ----- sound -----
-swoosh sound effect when rotate?
-walk sound effect?
-sausage dropped in water sfx
+-create original woosh sfx
+-create original steps sfx
+-create original sausage drop sfx
 
 philip will do these ^^^^^
 
 together:
-level soundtrack
-menu soundtrack
+-create orignal menu soundtrack
+-create original levels soundtrack
 
 
 ----- ui ----- philip
 level select:
-    shows when completed a level
-    draw boxes around each level
-    star when level completed
-    reward system?
-        credits!!!!
+    -shows when completed a level: star when level completed
+    
+
+
+        -credits!!!!
 
                             A symphony of scents begins to rise,
                             As sausages meet the grill's fiery eyes,
@@ -42,15 +39,14 @@ level select:
                             In the joy of grilling, a culinary delight.
     
 ----- bugs --------
-drop 1st sausage then second sausage bug
-move sound effects to game class
+-dropping a sausage ontop of another creates a weird texture-- make sure that sausage dropped in water texture is perfectly symmetrical.
 
 
 
-tyler
-organize code, add comments into .h files, not cpp files
+tyler:
+-organize code, add comments into .h files, not cpp files
 
-Find a title 
+-Find a title 
     sausage party
     sausage sultans
     meat flipper

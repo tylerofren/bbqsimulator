@@ -544,13 +544,13 @@ void Game::winLossConditions()
             sausage->drownSausage(true);
             lostScreenIsOpened = true;
         }
-        else if((!maps[currentMap]->tiles[sausage2->getRows().x][sausage2->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage2->getRows().y][sausage2->getColumns().y]->getSausagePassable() && !overcookedScreenIsOpened))
+        if((!maps[currentMap]->tiles[sausage2->getRows().x][sausage2->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage2->getRows().y][sausage2->getColumns().y]->getSausagePassable() && !overcookedScreenIsOpened))
         {
             sausage2->drownSausage(true);
             lostScreenIsOpened = true;
         }
 
-        else
+        if(!sausage->getDrowned() && !sausage2->getDrowned())
         {
             lostScreenIsOpened = false;
         }   
@@ -1740,9 +1740,10 @@ void Game::render()
                 window.draw(maps[0]->tiles[i][j]->getSprite());
             }
         }
-        window.draw(player->getSprite());
         window.draw(sausage->getSprite());
         window.draw(sausage2->getSprite());
+        window.draw(player->getSprite());
+        
 
         /*
         errorFile.open("errors.txt");
@@ -1769,9 +1770,10 @@ void Game::render()
                 window.draw(maps[1]->tiles[i][j]->getSprite());
             }
         }
-        window.draw(player->getSprite());
         window.draw(sausage->getSprite());
-        window.draw(sausage2->getSprite());  
+        window.draw(sausage2->getSprite()); 
+        window.draw(player->getSprite());
+         
 
           
     }
@@ -1785,9 +1787,10 @@ void Game::render()
                 window.draw(maps[2]->tiles[i][j]->getSprite());
             }
         }
-        window.draw(player->getSprite());
         window.draw(sausage->getSprite());
-        window.draw(sausage2->getSprite());       
+        window.draw(sausage2->getSprite());   
+        window.draw(player->getSprite());
+            
 
     }
 
@@ -1800,8 +1803,9 @@ void Game::render()
                 window.draw(maps[3]->tiles[i][j]->getSprite());
             }
         }
+        window.draw(sausage->getSprite()); 
         window.draw(player->getSprite());
-        window.draw(sausage->getSprite());  
+         
     }
 
     if(levelIsOpened[4])
@@ -1813,9 +1817,10 @@ void Game::render()
                 window.draw(maps[4]->tiles[i][j]->getSprite());
             }
         }
-        window.draw(player->getSprite());
         window.draw(sausage->getSprite());
-        window.draw(sausage2->getSprite());       
+        window.draw(sausage2->getSprite());  
+        window.draw(player->getSprite());
+             
     }
 
     if(levelIsOpened[5])
@@ -1827,9 +1832,10 @@ void Game::render()
                 window.draw(maps[5]->tiles[i][j]->getSprite());
             }
         }
-        window.draw(player->getSprite());
         window.draw(sausage->getSprite());
-        window.draw(sausage2->getSprite());       
+        window.draw(sausage2->getSprite()); 
+        window.draw(player->getSprite());
+              
     }
 
     if(levelIsOpened[6])
@@ -1841,8 +1847,9 @@ void Game::render()
                 window.draw(maps[6]->tiles[i][j]->getSprite());
             }
         }
+        window.draw(sausage->getSprite()); 
         window.draw(player->getSprite());
-        window.draw(sausage->getSprite());       
+              
     }
 
     if(levelIsOpened[7])
@@ -1854,9 +1861,10 @@ void Game::render()
                 window.draw(maps[7]->tiles[i][j]->getSprite());
             }
         }
-        window.draw(player->getSprite());
         window.draw(sausage->getSprite());
-        window.draw(sausage2->getSprite());       
+        window.draw(sausage2->getSprite());
+        window.draw(player->getSprite());
+               
     }
     
     if(levelIsOpened[8])
@@ -1868,9 +1876,10 @@ void Game::render()
                 window.draw(maps[8]->tiles[i][j]->getSprite());
             }
         }
-        window.draw(player->getSprite());
         window.draw(sausage->getSprite());
-        window.draw(sausage2->getSprite());       
+        window.draw(sausage2->getSprite());  
+        window.draw(player->getSprite());
+             
     }
 
     if(levelIsOpened[9])
@@ -1882,8 +1891,9 @@ void Game::render()
                 window.draw(maps[9]->tiles[i][j]->getSprite());
             }
         }
+        window.draw(sausage->getSprite()); 
         window.draw(player->getSprite());
-        window.draw(sausage->getSprite());    
+           
     }
     
 
