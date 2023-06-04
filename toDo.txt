@@ -9,14 +9,9 @@ together:
 -create orignal menu soundtrack
 -create original levels soundtrack
 
+change level select background & main menu background(maybe)
 
------ ui ----- philip
-level select:
-    -shows when completed a level: star when level completed
-    
-
-
-        -credits!!!!
+        -credits!!!! (maybe)
 
                             A symphony of scents begins to rise,
                             As sausages meet the grill's fiery eyes,

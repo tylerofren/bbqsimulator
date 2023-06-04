@@ -32,6 +32,8 @@ Game::Game()
     initializeBackground();
 
     initializeSounds();
+
+    initializeStars();
 }
 
 
@@ -39,7 +41,7 @@ Game::Game()
 
 void Game::initializeWindow()
 {
-    window.create(sf::VideoMode(500, 500), "Game");
+    window.create(sf::VideoMode(500, 500), "Philip's Cookout");
 }
 
 void Game::initializeText()
@@ -401,6 +403,36 @@ void Game::initializeSounds()
     steps.setBuffer(stepsBuffer);
 }
 
+void Game::initializeStars()
+{
+    double p = 3.14*4;
+    double x = 140.0;
+    double y = 265.0;
+    double width = 10.0;
+
+    for(int i = 0; i < 10; i++)
+    {
+        levelsComplete[i] = false;
+        stars[i] = new sf::ConvexShape(5);
+        stars[i]->setPoint(0,sf::Vector2f(width*cos(p/5)+x,width*sin(p/5)+y));
+        stars[i]->setPoint(1,sf::Vector2f(width*cos(p/5*2)+x, width*sin(p/5*2)+y));
+        stars[i]->setPoint(2,sf::Vector2f(width*cos(p/5*3)+x, width*sin(p/5*3)+y));
+        stars[i]->setPoint(3,sf::Vector2f(width*cos(p/5*4)+x, width*sin(p/5*4)+y));
+        stars[i]->setPoint(4,sf::Vector2f(width*cos(p/5*5)+x, width*sin(p/5*5)+y));
+        stars[i]->setFillColor(sf::Color::Yellow);
+        x += 59;
+        if(i == 4)
+        {
+            x = 147.0;
+            y += 50;
+        }
+        if(i == 8)
+        {
+            x += 14;
+        }
+    }
+}
+
 
 
 bool Game::sausageIntersects()
@@ -575,7 +607,9 @@ void Game::winLossConditions()
 
         if(sausagesPerfectlyCooked && player->getPosition().x == playerOutline.getPosition().x && player->getPosition().y == playerOutline.getPosition().y && player->getSprite().getRotation() == playerOutline.getRotation() && !overcookedScreenIsOpened && ~lostScreenIsOpened)
         {
+            levelsComplete[currentMap] = true;
             winScreenIsOpened = true;
+
         }
     }
 
@@ -614,6 +648,7 @@ void Game::winLossConditions()
 
         if(sausagesPerfectlyCooked && player->getPosition().x == playerOutline.getPosition().x && player->getPosition().y == playerOutline.getPosition().y && player->getSprite().getRotation() == playerOutline.getRotation() && !overcookedScreenIsOpened && !lostScreenIsOpened)
         {
+            levelsComplete[currentMap] = true;
             winScreenIsOpened = true;
         }
     }
@@ -1729,6 +1764,13 @@ void Game::render()
         window.draw(levelSelectBackground);
         window.draw(levelSelect);
         window.draw(levelNumbers);
+        for(int i = 0; i < 10; i++)
+        {
+            if(levelsComplete[i])
+            {
+                window.draw(*stars[i]);
+            }
+        }
     }
     
     if(levelIsOpened[0])

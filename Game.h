@@ -1,10 +1,11 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-
+#include <cmath>
 
 
 #include "Map.cpp"
 #include "gameState.cpp"
+
 
 #ifndef GAME_H
 #define GAME_H
@@ -34,6 +35,9 @@ private:
     sf::Text winScreen2;
     sf::Text overcookedScreen;
 
+    // Shapes
+    sf::ConvexShape star;
+
     // Menu background
     sf::Texture backgroundTexture;
     sf::Sprite background;
@@ -54,6 +58,8 @@ private:
     void initializeBackground();
 
     void initializeSounds();
+    
+    void initializeStars();
 
     // Sounds
     sf::Sound woosh;
@@ -91,6 +97,10 @@ private:
     // Arrays
 
     std::vector<std::vector<std::vector<int>>> levels;
+    bool levelsComplete[10];
+    sf::ConvexShape* stars[10];
+    
+
 
     // Boolean
     bool menuIsOpened;
