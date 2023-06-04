@@ -18,13 +18,15 @@ sf::Vector2f sausage2Position;
 int playerRotation;
 vector<cookState> cookStates;
 vector<cookState> cookStates2;
+bool sausageDrowned;
+bool sausage2Drowned;
 
 
 
 public:
 GameState();
 ~GameState();
-GameState(sf::Vector2f, sf::Vector2f, sf::Vector2f, int, vector<cookState>, vector<cookState>);
+GameState(sf::Vector2f, sf::Vector2f, sf::Vector2f, int, vector<cookState>, vector<cookState>, bool, bool);
 
 // Accessors
 sf::Vector2f getPlayerPosition();
@@ -33,6 +35,8 @@ sf::Vector2f getSausage2Position();
 int getPlayerRotation();
 vector<cookState> getCookStates();
 vector<cookState> getCookStates2();
+bool getSausageDrowned();
+bool getSausage2Drowned();
 
 
 

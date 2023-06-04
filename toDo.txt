@@ -40,12 +40,6 @@ level select:
                             Let's savor the sausages, big and small,
                             With flames as our guide, we shall unite,
                             In the joy of grilling, a culinary delight.
-
-sausage dropped: tyler
-    disappears when dropped in water?
-    water ripples when dropped
-    water sound effect
-
     
 ----- bugs --------
 

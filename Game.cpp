@@ -360,16 +360,10 @@ void Game::initializeSausages()
 
 void Game::initializeMaps() // Make this a for loop once 10 level arrays are made
 {
-    maps[0] = new Map(levels[0]);
-    maps[1] = new Map(levels[1]);
-    maps[2] = new Map(levels[2]);
-    maps[3] = new Map(levels[3]);
-    maps[4] = new Map(levels[4]);
-    maps[5] = new Map(levels[5]);
-    maps[6] = new Map(levels[6]);
-    maps[7] = new Map(levels[7]);
-    maps[8] = new Map(levels[8]);
-    maps[9] = new Map(levels[9]);
+    for(int i = 0; i < 10; i++)
+    {
+        maps[i] = new Map(levels[i]);
+    }
 }
 
 
@@ -393,7 +387,11 @@ bool Game::sausageIntersects()
 }
 
 bool Game::forkIntersects()
-{
+{   
+    if(sausage->getDrowned())
+    {
+        return false;
+    }
     return (player->getSprite().getGlobalBounds().intersects(sausage->getSprite().getGlobalBounds())) || (player->getSprite().getGlobalBounds().intersects(sausage2->getSprite().getGlobalBounds()));
 }
 
@@ -517,12 +515,19 @@ void Game::updateSausages2()
 void Game::winLossConditions()
 {
     //Two Sausage Maps
-    if(currentMap != 3 && currentMap != 6 && currentMap!=9)
+    if(currentMap != 3 && currentMap != 6 && currentMap != 9)
     {
-        if((!maps[currentMap]->tiles[sausage->getRows().x][sausage->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage->getRows().y][sausage->getColumns().y]->getSausagePassable() && !overcookedScreenIsOpened) || (!maps[currentMap]->tiles[sausage2->getRows().x][sausage2->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage2->getRows().y][sausage2->getColumns().y]->getSausagePassable() && !overcookedScreenIsOpened))
+        if((!maps[currentMap]->tiles[sausage->getRows().x][sausage->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage->getRows().y][sausage->getColumns().y]->getSausagePassable() && !overcookedScreenIsOpened))
         {
+            sausage->drownSausage(true);
             lostScreenIsOpened = true;
         }
+        else if((!maps[currentMap]->tiles[sausage2->getRows().x][sausage2->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage2->getRows().y][sausage2->getColumns().y]->getSausagePassable() && !overcookedScreenIsOpened))
+        {
+            sausage2->drownSausage(true);
+            lostScreenIsOpened = true;
+        }
+
         else
         {
             lostScreenIsOpened = false;
@@ -558,7 +563,9 @@ void Game::winLossConditions()
     {
         if(!maps[currentMap]->tiles[sausage->getRows().x][sausage->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage->getRows().y][sausage->getColumns().y]->getSausagePassable() && !overcookedScreenIsOpened)
         {
+            sausage->drownSausage(true);
             lostScreenIsOpened = true;
+            
         }
         else
         {
@@ -698,13 +705,13 @@ void Game::resetGameStates()
         gameStates.pop_back();
     }
 
-    GameState* gameState = new GameState(player->getPosition(), sausage->getPosition(), sausage2->getPosition(), player->getRotation(), sausage->getCookStates(), sausage2->getCookStates());
+    GameState* gameState = new GameState(player->getPosition(), sausage->getPosition(), sausage2->getPosition(), player->getRotation(), sausage->getCookStates(), sausage2->getCookStates(), false, false);
     gameStates.push_back(gameState);
 }
 
 void Game::addGameState()
 {
-    GameState* gameState = new GameState(player->getPosition(), sausage->getPosition(), sausage2->getPosition(), player->getRotation(), sausage->getCookStates(), sausage2->getCookStates()); 
+    GameState* gameState = new GameState(player->getPosition(), sausage->getPosition(), sausage2->getPosition(), player->getRotation(), sausage->getCookStates(), sausage2->getCookStates(), sausage->getDrowned(), sausage2->getDrowned()); 
     gameStates.push_back(gameState);
 }
 
@@ -713,11 +720,16 @@ void Game::undo()
     if(gameStates.size() > 1)
     {
         player->setPosition(gameStates[gameStates.size() - 2]->getPlayerPosition());
-        player->setRotation(gameStates[gameStates.size() - 2]->getPlayerRotation());
+        player->setRotation(gameStates[gameStates.size() - 2]->getPlayerRotation()); 
+        sausage->setCookStates(gameStates[gameStates.size() - 2]->getCookStates());
+        sausage2->setCookStates(gameStates[gameStates.size() - 2]->getCookStates2()); 
+        sausage->drownSausage(gameStates[gameStates.size() - 2]->getSausageDrowned());
+        sausage2->drownSausage(gameStates[gameStates.size() - 2]->getSausage2Drowned());
         sausage->setPosition(gameStates[gameStates.size() - 2]->getSausagePosition());
         sausage2->setPosition(gameStates[gameStates.size() - 2]->getSausage2Position());
-        sausage->setCookStates(gameStates[gameStates.size() - 2]->getCookStates());
-        sausage2->setCookStates(gameStates[gameStates.size() - 2]->getCookStates2());
+        
+        
+        
         gameStates.pop_back();
     }
     
@@ -1677,7 +1689,6 @@ void Game::render()
 {
     window.clear();
 
-
     if(menuIsOpened)
     {
         window.draw(background);
@@ -1763,7 +1774,7 @@ void Game::render()
             }
         }
         window.draw(player->getSprite());
-        window.draw(sausage->getSprite());     
+        window.draw(sausage->getSprite());  
     }
 
     if(levelIsOpened[4])

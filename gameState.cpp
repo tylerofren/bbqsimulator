@@ -10,7 +10,7 @@ GameState::~GameState()
     
 }
 
-GameState::GameState(sf::Vector2f playerPos, sf::Vector2f sausagePos, sf::Vector2f sausage2Pos, int playerRot, vector<cookState> partStates, vector<cookState> partStates2)
+GameState::GameState(sf::Vector2f playerPos, sf::Vector2f sausagePos, sf::Vector2f sausage2Pos, int playerRot, vector<cookState> partStates, vector<cookState> partStates2, bool drowned, bool drowned2)
 {
     playerPosition = playerPos;
     sausagePosition = sausagePos;
@@ -18,6 +18,8 @@ GameState::GameState(sf::Vector2f playerPos, sf::Vector2f sausagePos, sf::Vector
     playerRotation = playerRot;
     cookStates = partStates;
     cookStates2 = partStates2;
+    sausageDrowned = drowned;
+    sausage2Drowned = drowned2;
 }
 
 sf::Vector2f GameState::getPlayerPosition()
@@ -48,5 +50,15 @@ vector<cookState> GameState::getCookStates()
 vector<cookState> GameState::getCookStates2()
 {
     return cookStates2;
+}
+
+bool GameState::getSausageDrowned()
+{
+    return sausageDrowned;
+}
+
+bool GameState::getSausage2Drowned()
+{
+    return sausage2Drowned;
 }
 
