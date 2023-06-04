@@ -53,6 +53,15 @@ private:
     void initializePlayerOutline(); // Player outline is for the win condition
     void initializeBackground();
 
+    void initializeSounds();
+
+    // Sounds
+    sf::Sound woosh;
+    sf::SoundBuffer wooshBuffer;
+
+    sf::Sound steps;
+    sf::SoundBuffer stepsBuffer;
+
     // Maps
     Map* maps[10];
     int currentMap;

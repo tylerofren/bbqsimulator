@@ -30,6 +30,8 @@ Game::Game()
     initializePlayerOutline();
 
     initializeBackground();
+
+    initializeSounds();
 }
 
 
@@ -379,6 +381,26 @@ void Game::initializePlayerOutline()
     playerOutline.setPosition(0, 0);
     playerOutline.setOrigin(25, 75);
 }
+
+void Game::initializeSounds()
+{
+    if(!wooshBuffer.loadFromFile("assets/woosh.wav"))
+    {
+        errorFile.open("errors.txt");
+        errorFile << "Failed to load woosh sound" << endl;
+        errorFile.close();
+    }
+    woosh.setBuffer(wooshBuffer);
+
+    if(!stepsBuffer.loadFromFile("assets/steps.wav"))
+    {
+        errorFile.open("errors.txt");
+        errorFile << "Failed to load steps sound" << endl;
+        errorFile.close();
+    }
+    steps.setBuffer(stepsBuffer);
+}
+
 
 
 bool Game::sausageIntersects()
@@ -1082,6 +1104,7 @@ void Game::pollEvents()
                     if(!player->isHorizontal() && maps[currentMap]->tiles[player->getRow() - 1][player->getColumn()]->getPassable())
                     {
                         player->setPosition(sf::Vector2f(player->getPosition().x, player->getPosition().y - 50));
+                        steps.play();
                         if(player->getRows().x == sausage->getRows().y && (player->getColumns().x == sausage->getColumns().x || player->getColumns().x == sausage->getColumns().y))
                         {
                             sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y - 50));
@@ -1108,7 +1131,7 @@ void Game::pollEvents()
                         if(player->getRotation() == 3)
                         {
                             player->setRotation(0);
-
+                            woosh.play();
                             if(player->getRows().x == sausage->getRows().y && (player->getColumns().x - 1 == sausage->getColumns().x || player->getColumns().x - 1 == sausage->getColumns().y))
                             {
                                 sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y - 50));
@@ -1165,6 +1188,7 @@ void Game::pollEvents()
                         else
                         {
                             player->setRotation(0);
+                            woosh.play();
                             if(player->getRows().x == sausage->getRows().y && (player->getColumns().x + 1 == sausage->getColumns().x || player->getColumns().x + 1 == sausage->getColumns().y))
                             {
                                 sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y - 50));
@@ -1226,7 +1250,7 @@ void Game::pollEvents()
                     if(player->isHorizontal() && maps[currentMap]->tiles[player->getRow()][player->getColumn() - 1]->getPassable())
                     {
                         player->setPosition(sf::Vector2f(player->getPosition().x - 50, player->getPosition().y));
-                        
+                        steps.play();
                         if(player->getColumns().x == sausage->getColumns().y && (player->getRows().x == sausage->getRows().x || player->getRows().x == sausage->getRows().y))
                         {
                             sausage->setPosition(sf::Vector2f(sausage->getPosition().x - 50, sausage->getPosition().y));
@@ -1253,7 +1277,7 @@ void Game::pollEvents()
                         if(player->getRotation() == 0)
                         {
                             player->setRotation(3);
-
+                            woosh.play();
                             if(player->getColumns().x == sausage->getColumns().y && (player->getRows().x - 1 == sausage->getRows().x || player->getRows().x - 1 == sausage->getRows().y))
                             {
                                 sausage->setPosition(sf::Vector2f(sausage->getPosition().x - 50, sausage->getPosition().y));
@@ -1309,7 +1333,7 @@ void Game::pollEvents()
                         else
                         {
                             player->setRotation(3);
-
+                            woosh.play();
                             if(player->getColumns().x == sausage->getColumns().y && (player->getRows().x + 1 == sausage->getRows().x || player->getRows().x + 1 == sausage->getRows().y))
                             {
                                 sausage->setPosition(sf::Vector2f(sausage->getPosition().x - 50, sausage->getPosition().y));
@@ -1373,6 +1397,7 @@ void Game::pollEvents()
                     if(!player->isHorizontal() && maps[currentMap]->tiles[player->getRow() + 1][player->getColumn()]->getPassable())
                     {
                         player->setPosition(sf::Vector2f(player->getPosition().x, player->getPosition().y + 50));
+                        steps.play();
                         if(player->getRows().y == sausage->getRows().x && (player->getColumns().x == sausage->getColumns().x || player->getColumns().x == sausage->getColumns().y))
                         {
                             sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y + 50));
@@ -1399,7 +1424,7 @@ void Game::pollEvents()
                         if(player->getRotation() == 1)
                         {
                             player->setRotation(2);
-
+                            woosh.play();
                             if(player->getRows().y == sausage->getRows().x && (player->getColumns().x + 1 == sausage->getColumns().y || player->getColumns().x + 1 == sausage->getColumns().x))
                             {
                                 sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y + 50));
@@ -1454,6 +1479,7 @@ void Game::pollEvents()
                         else
                         {
                             player->setRotation(2);
+                            woosh.play();
                             if(player->getRows().y == sausage->getRows().x && (player->getColumns().x - 1 == sausage->getColumns().y || player->getColumns().x - 1 == sausage->getColumns().x))
                             {
                                 sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y + 50));
@@ -1515,6 +1541,7 @@ void Game::pollEvents()
                     if(player->isHorizontal() && maps[currentMap]->tiles[player->getRow()][player->getColumn() + 1]->getPassable())
                     {
                         player->setPosition(sf::Vector2f(player->getPosition().x + 50, player->getPosition().y));
+                        steps.play();
                         if(player->getColumns().y == sausage->getColumns().x && (player->getRows().x == sausage->getRows().x || player->getRows().x == sausage->getRows().y))
                         {
                             sausage->setPosition(sf::Vector2f(sausage->getPosition().x + 50, sausage->getPosition().y));
@@ -1541,7 +1568,7 @@ void Game::pollEvents()
                         if(player->getRotation() == 2)
                         {
                             player->setRotation(1);
-
+                            woosh.play();
                             if(player->getColumns().y == sausage->getColumns().x && (player->getRows().x + 1 == sausage->getRows().x || player->getRows().x + 1 == sausage->getRows().y))
                             {
                                 sausage->setPosition(sf::Vector2f(sausage->getPosition().x + 50, sausage->getPosition().y));
@@ -1599,7 +1626,7 @@ void Game::pollEvents()
                         else
                         {
                             player->setRotation(1);
-
+                            woosh.play();
                             if(player->getColumns().y == sausage->getColumns().x && (player->getRows().x - 1 == sausage->getRows().x || player->getRows().x - 1 == sausage->getRows().y))
                             {
                                 sausage->setPosition(sf::Vector2f(sausage->getPosition().x + 50, sausage->getPosition().y));

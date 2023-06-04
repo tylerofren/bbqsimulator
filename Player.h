@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 #include <fstream>
 
@@ -17,6 +18,10 @@ sf::Vector2f position;
 int rotation;
 
 
+
+
+
+
 // Error file
 ofstream errorFile;
 
@@ -33,6 +38,8 @@ bool isHorizontal();
 sf::Vector2f getPosition();
 sf::Sprite getSprite();
 int& getRotation();
+
+
 
 // Only includes player
 int getRow() const;

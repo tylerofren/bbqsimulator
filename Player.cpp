@@ -26,7 +26,14 @@ Player::Player(float x, float y, int rot)
 
     rotation = rot;
 
+
 }
+
+
+
+
+
+
 
 sf::Vector2f Player::getPosition()
 {

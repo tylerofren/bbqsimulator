@@ -42,7 +42,8 @@ level select:
                             In the joy of grilling, a culinary delight.
     
 ----- bugs --------
-
+drop 1st sausage then second sausage bug
+move sound effects to game class
 
 
 
