@@ -10,6 +10,7 @@ Sausage::Sausage(float x, float y, bool hor)
 {
     loadTextures();
     loadSizzle();
+    loadPlop();
     texture.setSmooth(true);
     sprite.setTexture(texture);
     sprite.setOrigin(25, 75);
@@ -26,6 +27,7 @@ Sausage::Sausage(float x, float y, bool hor)
     partStates.resize(4, Raw);
     isFacingUp = true;
     cookedOnCurrentGrill = false;
+    drowned = false;
 
 }
 
@@ -96,6 +98,7 @@ void Sausage::reset()
         isFacingUp = true;
     }
     updateTexture();
+    drowned = false;
 }
 
 cookState Sausage::getCookState(int part)
@@ -104,7 +107,11 @@ cookState Sausage::getCookState(int part)
 }
 
 void Sausage::updateTexture()
-{
+{   
+    if(drowned)
+    {
+        return;
+    }
     if(!isFacingUp)
     {
         if(partStates[2] == Raw && partStates[3] == Raw) sprite.setTexture(texture);
@@ -187,6 +194,13 @@ void Sausage::loadTextures()
         errorFile << "Failed to load sausage image" << endl;
         errorFile.close();
     }
+
+    if(!blankTexture.loadFromFile("assets/blank.png"))
+    {
+        errorFile.open("errors.txt");
+        errorFile << "Failed to load blank image" << endl;
+        errorFile.close();
+    }
 }
 
 bool Sausage::getIsFacingUp()
@@ -223,6 +237,34 @@ void Sausage::setCookedOnCurrentGrill(bool cook)
 
 
 
+bool Sausage::getDrowned()
+{
+    return drowned;
+}
+
+void Sausage::drownSausage(bool drown)
+{  
+    // Changes texture when dropped in water -- no longer allowed to move 
+    if(drown && !drowned)
+    {
+        sprite.setTexture(blankTexture);
+        plop.play();
+        drowned = true;
+    }
+    else if(drown)
+    {
+        drowned = true;
+    }
+    else if(!drown)
+    {
+        drowned = false;
+        updateTexture();
+    }
+
+    
+}
+
+
 
 
 
@@ -246,7 +288,11 @@ bool Sausage::isHorizontal()
 // ------ Modifiers ------
 
 void Sausage::setPosition(const sf::Vector2f pos)
-{
+{   
+    if(drowned)
+    {
+        return;
+    }
     if(horizontal)
     {
         if(pos.y - position.y != 0)
@@ -279,7 +325,16 @@ void Sausage::setHorizontal(bool hor)
 }
 
 
-
+void Sausage::loadPlop()
+{
+    if(!plopBuffer.loadFromFile("assets/plop.wav"))
+    {
+        errorFile.open("errors.txt");
+        errorFile << "Failed to load plop sound" << endl;
+        errorFile.close();
+    }
+    plop.setBuffer(plopBuffer);
+}
 
 
 
@@ -295,6 +350,8 @@ void Sausage::loadSizzle()
     }
     sizzle.setBuffer(buffer);
 }
+
+
 
 
 vector<cookState> Sausage::getCookStates()

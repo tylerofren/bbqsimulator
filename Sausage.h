@@ -31,7 +31,16 @@ ofstream errorFile;
 sf::Sound sizzle;
 sf::SoundBuffer buffer;
 
+
 void loadSizzle();
+
+// Plop sound
+sf::Sound plop;
+sf::SoundBuffer plopBuffer;
+
+void loadPlop();
+
+
 
 
 vector<cookState> partStates;
@@ -52,8 +61,10 @@ sf::Texture texture6;
 sf::Texture texture7;
 sf::Texture texture8;
 
+sf::Texture blankTexture;
 
 
+bool drowned;
 
 
 
@@ -72,6 +83,8 @@ sf::Vector2i getColumns() const;
 vector<cookState> getCookStates();
 bool isHorizontal();
 
+bool getDrowned();
+
 
 
 
@@ -82,6 +95,8 @@ void setHorizontal(bool);
 void setCookedOnCurrentGrill(bool);
 
 void setCookStates(vector<cookState>);
+
+void drownSausage(bool);
 
 
 

@@ -30,6 +30,10 @@ Game::Game()
     initializePlayerOutline();
 
     initializeBackground();
+
+    initializeSounds();
+
+    initializeStars();
 }
 
 
@@ -37,7 +41,7 @@ Game::Game()
 
 void Game::initializeWindow()
 {
-    window.create(sf::VideoMode(500, 500), "Game");
+    window.create(sf::VideoMode(500, 500), "Philip's Cookout");
 }
 
 void Game::initializeText()
@@ -360,16 +364,10 @@ void Game::initializeSausages()
 
 void Game::initializeMaps() // Make this a for loop once 10 level arrays are made
 {
-    maps[0] = new Map(levels[0]);
-    maps[1] = new Map(levels[1]);
-    maps[2] = new Map(levels[2]);
-    maps[3] = new Map(levels[3]);
-    maps[4] = new Map(levels[4]);
-    maps[5] = new Map(levels[5]);
-    maps[6] = new Map(levels[6]);
-    maps[7] = new Map(levels[7]);
-    maps[8] = new Map(levels[8]);
-    maps[9] = new Map(levels[9]);
+    for(int i = 0; i < 10; i++)
+    {
+        maps[i] = new Map(levels[i]);
+    }
 }
 
 
@@ -386,6 +384,56 @@ void Game::initializePlayerOutline()
     playerOutline.setOrigin(25, 75);
 }
 
+void Game::initializeSounds()
+{
+    if(!wooshBuffer.loadFromFile("assets/woosh.wav"))
+    {
+        errorFile.open("errors.txt");
+        errorFile << "Failed to load woosh sound" << endl;
+        errorFile.close();
+    }
+    woosh.setBuffer(wooshBuffer);
+
+    if(!stepsBuffer.loadFromFile("assets/steps.wav"))
+    {
+        errorFile.open("errors.txt");
+        errorFile << "Failed to load steps sound" << endl;
+        errorFile.close();
+    }
+    steps.setBuffer(stepsBuffer);
+}
+
+void Game::initializeStars()
+{
+    double p = 3.14*4;
+    double x = 140.0;
+    double y = 265.0;
+    double width = 10.0;
+
+    for(int i = 0; i < 10; i++)
+    {
+        levelsComplete[i] = false;
+        stars[i] = new sf::ConvexShape(5);
+        stars[i]->setPoint(0,sf::Vector2f(width*cos(p/5)+x,width*sin(p/5)+y));
+        stars[i]->setPoint(1,sf::Vector2f(width*cos(p/5*2)+x, width*sin(p/5*2)+y));
+        stars[i]->setPoint(2,sf::Vector2f(width*cos(p/5*3)+x, width*sin(p/5*3)+y));
+        stars[i]->setPoint(3,sf::Vector2f(width*cos(p/5*4)+x, width*sin(p/5*4)+y));
+        stars[i]->setPoint(4,sf::Vector2f(width*cos(p/5*5)+x, width*sin(p/5*5)+y));
+        stars[i]->setFillColor(sf::Color::Yellow);
+        x += 59;
+        if(i == 4)
+        {
+            x = 147.0;
+            y += 50;
+        }
+        if(i == 8)
+        {
+            x += 14;
+        }
+    }
+}
+
+
 
 bool Game::sausageIntersects()
 {
@@ -393,7 +441,11 @@ bool Game::sausageIntersects()
 }
 
 bool Game::forkIntersects()
-{
+{   
+    if(sausage->getDrowned())
+    {
+        return false;
+    }
     return (player->getSprite().getGlobalBounds().intersects(sausage->getSprite().getGlobalBounds())) || (player->getSprite().getGlobalBounds().intersects(sausage2->getSprite().getGlobalBounds()));
 }
 
@@ -517,13 +569,20 @@ void Game::updateSausages2()
 void Game::winLossConditions()
 {
     //Two Sausage Maps
-    if(currentMap != 3 && currentMap != 6 && currentMap!=9)
+    if(currentMap != 3 && currentMap != 6 && currentMap != 9)
     {
-        if((!maps[currentMap]->tiles[sausage->getRows().x][sausage->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage->getRows().y][sausage->getColumns().y]->getSausagePassable() && !overcookedScreenIsOpened) || (!maps[currentMap]->tiles[sausage2->getRows().x][sausage2->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage2->getRows().y][sausage2->getColumns().y]->getSausagePassable() && !overcookedScreenIsOpened))
+        if((!maps[currentMap]->tiles[sausage->getRows().x][sausage->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage->getRows().y][sausage->getColumns().y]->getSausagePassable() && !overcookedScreenIsOpened))
         {
+            sausage->drownSausage(true);
             lostScreenIsOpened = true;
         }
-        else
+        if((!maps[currentMap]->tiles[sausage2->getRows().x][sausage2->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage2->getRows().y][sausage2->getColumns().y]->getSausagePassable() && !overcookedScreenIsOpened))
+        {
+            sausage2->drownSausage(true);
+            lostScreenIsOpened = true;
+        }
+
+        if(!sausage->getDrowned() && !sausage2->getDrowned())
         {
             lostScreenIsOpened = false;
         }   
@@ -548,7 +607,9 @@ void Game::winLossConditions()
 
         if(sausagesPerfectlyCooked && player->getPosition().x == playerOutline.getPosition().x && player->getPosition().y == playerOutline.getPosition().y && player->getSprite().getRotation() == playerOutline.getRotation() && !overcookedScreenIsOpened && ~lostScreenIsOpened)
         {
+            levelsComplete[currentMap] = true;
             winScreenIsOpened = true;
+
         }
     }
 
@@ -558,7 +619,9 @@ void Game::winLossConditions()
     {
         if(!maps[currentMap]->tiles[sausage->getRows().x][sausage->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage->getRows().y][sausage->getColumns().y]->getSausagePassable() && !overcookedScreenIsOpened)
         {
+            sausage->drownSausage(true);
             lostScreenIsOpened = true;
+            
         }
         else
         {
@@ -585,6 +648,7 @@ void Game::winLossConditions()
 
         if(sausagesPerfectlyCooked && player->getPosition().x == playerOutline.getPosition().x && player->getPosition().y == playerOutline.getPosition().y && player->getSprite().getRotation() == playerOutline.getRotation() && !overcookedScreenIsOpened && !lostScreenIsOpened)
         {
+            levelsComplete[currentMap] = true;
             winScreenIsOpened = true;
         }
     }
@@ -698,13 +762,13 @@ void Game::resetGameStates()
         gameStates.pop_back();
     }
 
-    GameState* gameState = new GameState(player->getPosition(), sausage->getPosition(), sausage2->getPosition(), player->getRotation(), sausage->getCookStates(), sausage2->getCookStates());
+    GameState* gameState = new GameState(player->getPosition(), sausage->getPosition(), sausage2->getPosition(), player->getRotation(), sausage->getCookStates(), sausage2->getCookStates(), false, false);
     gameStates.push_back(gameState);
 }
 
 void Game::addGameState()
 {
-    GameState* gameState = new GameState(player->getPosition(), sausage->getPosition(), sausage2->getPosition(), player->getRotation(), sausage->getCookStates(), sausage2->getCookStates()); 
+    GameState* gameState = new GameState(player->getPosition(), sausage->getPosition(), sausage2->getPosition(), player->getRotation(), sausage->getCookStates(), sausage2->getCookStates(), sausage->getDrowned(), sausage2->getDrowned()); 
     gameStates.push_back(gameState);
 }
 
@@ -713,11 +777,16 @@ void Game::undo()
     if(gameStates.size() > 1)
     {
         player->setPosition(gameStates[gameStates.size() - 2]->getPlayerPosition());
-        player->setRotation(gameStates[gameStates.size() - 2]->getPlayerRotation());
+        player->setRotation(gameStates[gameStates.size() - 2]->getPlayerRotation()); 
+        sausage->setCookStates(gameStates[gameStates.size() - 2]->getCookStates());
+        sausage2->setCookStates(gameStates[gameStates.size() - 2]->getCookStates2()); 
+        sausage->drownSausage(gameStates[gameStates.size() - 2]->getSausageDrowned());
+        sausage2->drownSausage(gameStates[gameStates.size() - 2]->getSausage2Drowned());
         sausage->setPosition(gameStates[gameStates.size() - 2]->getSausagePosition());
         sausage2->setPosition(gameStates[gameStates.size() - 2]->getSausage2Position());
-        sausage->setCookStates(gameStates[gameStates.size() - 2]->getCookStates());
-        sausage2->setCookStates(gameStates[gameStates.size() - 2]->getCookStates2());
+        
+        
+        
         gameStates.pop_back();
     }
     
@@ -1070,6 +1139,7 @@ void Game::pollEvents()
                     if(!player->isHorizontal() && maps[currentMap]->tiles[player->getRow() - 1][player->getColumn()]->getPassable())
                     {
                         player->setPosition(sf::Vector2f(player->getPosition().x, player->getPosition().y - 50));
+                        steps.play();
                         if(player->getRows().x == sausage->getRows().y && (player->getColumns().x == sausage->getColumns().x || player->getColumns().x == sausage->getColumns().y))
                         {
                             sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y - 50));
@@ -1096,7 +1166,7 @@ void Game::pollEvents()
                         if(player->getRotation() == 3)
                         {
                             player->setRotation(0);
-
+                            woosh.play();
                             if(player->getRows().x == sausage->getRows().y && (player->getColumns().x - 1 == sausage->getColumns().x || player->getColumns().x - 1 == sausage->getColumns().y))
                             {
                                 sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y - 50));
@@ -1153,6 +1223,7 @@ void Game::pollEvents()
                         else
                         {
                             player->setRotation(0);
+                            woosh.play();
                             if(player->getRows().x == sausage->getRows().y && (player->getColumns().x + 1 == sausage->getColumns().x || player->getColumns().x + 1 == sausage->getColumns().y))
                             {
                                 sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y - 50));
@@ -1214,7 +1285,7 @@ void Game::pollEvents()
                     if(player->isHorizontal() && maps[currentMap]->tiles[player->getRow()][player->getColumn() - 1]->getPassable())
                     {
                         player->setPosition(sf::Vector2f(player->getPosition().x - 50, player->getPosition().y));
-                        
+                        steps.play();
                         if(player->getColumns().x == sausage->getColumns().y && (player->getRows().x == sausage->getRows().x || player->getRows().x == sausage->getRows().y))
                         {
                             sausage->setPosition(sf::Vector2f(sausage->getPosition().x - 50, sausage->getPosition().y));
@@ -1241,7 +1312,7 @@ void Game::pollEvents()
                         if(player->getRotation() == 0)
                         {
                             player->setRotation(3);
-
+                            woosh.play();
                             if(player->getColumns().x == sausage->getColumns().y && (player->getRows().x - 1 == sausage->getRows().x || player->getRows().x - 1 == sausage->getRows().y))
                             {
                                 sausage->setPosition(sf::Vector2f(sausage->getPosition().x - 50, sausage->getPosition().y));
@@ -1297,7 +1368,7 @@ void Game::pollEvents()
                         else
                         {
                             player->setRotation(3);
-
+                            woosh.play();
                             if(player->getColumns().x == sausage->getColumns().y && (player->getRows().x + 1 == sausage->getRows().x || player->getRows().x + 1 == sausage->getRows().y))
                             {
                                 sausage->setPosition(sf::Vector2f(sausage->getPosition().x - 50, sausage->getPosition().y));
@@ -1361,6 +1432,7 @@ void Game::pollEvents()
                     if(!player->isHorizontal() && maps[currentMap]->tiles[player->getRow() + 1][player->getColumn()]->getPassable())
                     {
                         player->setPosition(sf::Vector2f(player->getPosition().x, player->getPosition().y + 50));
+                        steps.play();
                         if(player->getRows().y == sausage->getRows().x && (player->getColumns().x == sausage->getColumns().x || player->getColumns().x == sausage->getColumns().y))
                         {
                             sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y + 50));
@@ -1387,7 +1459,7 @@ void Game::pollEvents()
                         if(player->getRotation() == 1)
                         {
                             player->setRotation(2);
-
+                            woosh.play();
                             if(player->getRows().y == sausage->getRows().x && (player->getColumns().x + 1 == sausage->getColumns().y || player->getColumns().x + 1 == sausage->getColumns().x))
                             {
                                 sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y + 50));
@@ -1442,6 +1514,7 @@ void Game::pollEvents()
                         else
                         {
                             player->setRotation(2);
+                            woosh.play();
                             if(player->getRows().y == sausage->getRows().x && (player->getColumns().x - 1 == sausage->getColumns().y || player->getColumns().x - 1 == sausage->getColumns().x))
                             {
                                 sausage->setPosition(sf::Vector2f(sausage->getPosition().x, sausage->getPosition().y + 50));
@@ -1503,6 +1576,7 @@ void Game::pollEvents()
                     if(player->isHorizontal() && maps[currentMap]->tiles[player->getRow()][player->getColumn() + 1]->getPassable())
                     {
                         player->setPosition(sf::Vector2f(player->getPosition().x + 50, player->getPosition().y));
+                        steps.play();
                         if(player->getColumns().y == sausage->getColumns().x && (player->getRows().x == sausage->getRows().x || player->getRows().x == sausage->getRows().y))
                         {
                             sausage->setPosition(sf::Vector2f(sausage->getPosition().x + 50, sausage->getPosition().y));
@@ -1529,7 +1603,7 @@ void Game::pollEvents()
                         if(player->getRotation() == 2)
                         {
                             player->setRotation(1);
-
+                            woosh.play();
                             if(player->getColumns().y == sausage->getColumns().x && (player->getRows().x + 1 == sausage->getRows().x || player->getRows().x + 1 == sausage->getRows().y))
                             {
                                 sausage->setPosition(sf::Vector2f(sausage->getPosition().x + 50, sausage->getPosition().y));
@@ -1587,7 +1661,7 @@ void Game::pollEvents()
                         else
                         {
                             player->setRotation(1);
-
+                            woosh.play();
                             if(player->getColumns().y == sausage->getColumns().x && (player->getRows().x - 1 == sausage->getRows().x || player->getRows().x - 1 == sausage->getRows().y))
                             {
                                 sausage->setPosition(sf::Vector2f(sausage->getPosition().x + 50, sausage->getPosition().y));
@@ -1677,7 +1751,6 @@ void Game::render()
 {
     window.clear();
 
-
     if(menuIsOpened)
     {
         window.draw(background);
@@ -1691,6 +1764,13 @@ void Game::render()
         window.draw(levelSelectBackground);
         window.draw(levelSelect);
         window.draw(levelNumbers);
+        for(int i = 0; i < 10; i++)
+        {
+            if(levelsComplete[i])
+            {
+                window.draw(*stars[i]);
+            }
+        }
     }
     
     if(levelIsOpened[0])
@@ -1702,9 +1782,10 @@ void Game::render()
                 window.draw(maps[0]->tiles[i][j]->getSprite());
             }
         }
-        window.draw(player->getSprite());
         window.draw(sausage->getSprite());
         window.draw(sausage2->getSprite());
+        window.draw(player->getSprite());
+        
 
         /*
         errorFile.open("errors.txt");
@@ -1731,9 +1812,10 @@ void Game::render()
                 window.draw(maps[1]->tiles[i][j]->getSprite());
             }
         }
-        window.draw(player->getSprite());
         window.draw(sausage->getSprite());
-        window.draw(sausage2->getSprite());  
+        window.draw(sausage2->getSprite()); 
+        window.draw(player->getSprite());
+         
 
           
     }
@@ -1747,9 +1829,10 @@ void Game::render()
                 window.draw(maps[2]->tiles[i][j]->getSprite());
             }
         }
-        window.draw(player->getSprite());
         window.draw(sausage->getSprite());
-        window.draw(sausage2->getSprite());       
+        window.draw(sausage2->getSprite());   
+        window.draw(player->getSprite());
+            
 
     }
 
@@ -1762,8 +1845,9 @@ void Game::render()
                 window.draw(maps[3]->tiles[i][j]->getSprite());
             }
         }
+        window.draw(sausage->getSprite()); 
         window.draw(player->getSprite());
-        window.draw(sausage->getSprite());     
+         
     }
 
     if(levelIsOpened[4])
@@ -1775,9 +1859,10 @@ void Game::render()
                 window.draw(maps[4]->tiles[i][j]->getSprite());
             }
         }
-        window.draw(player->getSprite());
         window.draw(sausage->getSprite());
-        window.draw(sausage2->getSprite());       
+        window.draw(sausage2->getSprite());  
+        window.draw(player->getSprite());
+             
     }
 
     if(levelIsOpened[5])
@@ -1789,9 +1874,10 @@ void Game::render()
                 window.draw(maps[5]->tiles[i][j]->getSprite());
             }
         }
-        window.draw(player->getSprite());
         window.draw(sausage->getSprite());
-        window.draw(sausage2->getSprite());       
+        window.draw(sausage2->getSprite()); 
+        window.draw(player->getSprite());
+              
     }
 
     if(levelIsOpened[6])
@@ -1803,8 +1889,9 @@ void Game::render()
                 window.draw(maps[6]->tiles[i][j]->getSprite());
             }
         }
+        window.draw(sausage->getSprite()); 
         window.draw(player->getSprite());
-        window.draw(sausage->getSprite());       
+              
     }
 
     if(levelIsOpened[7])
@@ -1816,9 +1903,10 @@ void Game::render()
                 window.draw(maps[7]->tiles[i][j]->getSprite());
             }
         }
-        window.draw(player->getSprite());
         window.draw(sausage->getSprite());
-        window.draw(sausage2->getSprite());       
+        window.draw(sausage2->getSprite());
+        window.draw(player->getSprite());
+               
     }
     
     if(levelIsOpened[8])
@@ -1830,9 +1918,10 @@ void Game::render()
                 window.draw(maps[8]->tiles[i][j]->getSprite());
             }
         }
-        window.draw(player->getSprite());
         window.draw(sausage->getSprite());
-        window.draw(sausage2->getSprite());       
+        window.draw(sausage2->getSprite());  
+        window.draw(player->getSprite());
+             
     }
 
     if(levelIsOpened[9])
@@ -1844,8 +1933,9 @@ void Game::render()
                 window.draw(maps[9]->tiles[i][j]->getSprite());
             }
         }
+        window.draw(sausage->getSprite()); 
         window.draw(player->getSprite());
-        window.draw(sausage->getSprite());    
+           
     }
     
 
