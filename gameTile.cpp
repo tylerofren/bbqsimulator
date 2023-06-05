@@ -1,5 +1,7 @@
 #include "gameTile.h"
 
+// ----- Constructors -----
+
 GameTile::GameTile()
 {
 
@@ -23,6 +25,8 @@ GameTile::GameTile(const std::string& textureName, float x, float y, bool passab
     isGrill = grill;
     
 }
+
+// ----- Accessors -----
 
 sf::Sprite& GameTile::getSprite()
 {

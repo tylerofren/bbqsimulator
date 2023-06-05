@@ -1,5 +1,7 @@
 #include "Map.h"
 
+// ----- Constructors -----
+
 Map::Map()
 {
 
@@ -10,8 +12,8 @@ Map::Map(std::vector<std::vector<int>> array)
     initializeTiles(array);
 }
 
+// ----- Private Functions -----
 
-// Creates a vector of GameTiles using the array
 void Map::initializeTiles(std::vector<std::vector<int>> array) 
 {
     /*
@@ -39,36 +41,27 @@ void Map::initializeTiles(std::vector<std::vector<int>> array)
             {
                 tiles[i][j] = new GameTile("assets/SpawnPlaceholder.png", 50.f * j, 50.f * i, true, true, false);
             }
-
             else if(array[i][j] == 7)
             {
                 tiles[i][j] = new GameTile("assets/Water1S.png", 50.f * j, 50.f * i, false, false, false);
                 rotateTile(i, j, array);
             }
-
             else if(array[i][j] == 9)
             {
                 tiles[i][j] = new GameTile("assets/Water2SC.png", 50.f * j, 50.f * i, false, false, false);
                 rotateTileCorner(i, j, array);
-            }
-            
+            }           
             else if(array[i][j] == 8)
             {
                 tiles[i][j] = new GameTile("assets/Water2S.png", 50.f * j, 50.f * i, false, false, false);
                 rotateTile(i, j, array);
             }
-
-            
             else 
             {
                 tiles[i][j] = new GameTile("assets/Water0S.png", 50.f * j, 50.f * i, false, false, false);
             }
-
-            
         }
-
    }
-
 }
 
 void Map::rotateTile(int i, int j, std::vector<std::vector<int>> array)

@@ -1,10 +1,11 @@
 #include "Sausage.h"
 
+// ----- Constructors -----
+
 Sausage::Sausage()
 {
 
 }
-
 
 Sausage::Sausage(float x, float y, bool hor)
 {
@@ -15,127 +16,41 @@ Sausage::Sausage(float x, float y, bool hor)
     sprite.setTexture(texture);
     sprite.setOrigin(25, 75);
     position = sf::Vector2f(x, y);
-    sprite.setPosition(position);
-    
+    sprite.setPosition(position);  
     if(hor)
     {
         sprite.setRotation(270);
         sprite.setPosition(position.x, position.y - 50);
     }
     horizontal = hor;
-
     partStates.resize(4, Raw);
     isFacingUp = true;
     cookedOnCurrentGrill = false;
     drowned = false;
-
 }
 
-// ------ Accessors ---------
+// ----- Initialization -----
 
-sf::Sprite Sausage::getSprite()
+void Sausage::loadSizzle()
 {
-    return sprite;
+    if(!buffer.loadFromFile("assets/sizzle.wav"))
+    {
+        errorFile.open("errors.txt");
+        errorFile << "Failed to load sizzle sound" << endl;
+        errorFile.close();
+    }
+    sizzle.setBuffer(buffer);
 }
 
-sf::Vector2f Sausage::getPosition() 
+void Sausage::loadPlop()
 {
-    return sprite.getPosition();
-}
-
-
-
-sf::Vector2i Sausage::getRows() const
-{
-    if(!horizontal)
+    if(!plopBuffer.loadFromFile("assets/plop.wav"))
     {
-        return sf::Vector2i((position.y - 25) / 50 - 1, (position.y - 25) / 50);
+        errorFile.open("errors.txt");
+        errorFile << "Failed to load plop sound" << endl;
+        errorFile.close();
     }
-    return sf::Vector2i((position.y - 25) / 50, (position.y - 25) / 50);
-}
-
-sf::Vector2i Sausage::getColumns() const
-{
-    if(horizontal)
-    {
-        return sf::Vector2i((position.x - 25) / 50, (position.x - 25) / 50 + 1);
-    }
-    return sf::Vector2i((position.x - 25) / 50, (position.x - 25) / 50);
-}
-
-
-
-
-// ------------ Cooking -------------
-
-/*
-Part states: (top = right)
-0 - Facing down, top
-1 - Facing down, bottom
-2 - Facing up, top
-3 - Facing up, bottom
-
-*/
-void Sausage::cook(int part)
-{
-    if(partStates[part] == Raw) partStates[part] = Cooked;
-    else partStates[part] = Overcooked;
-    updateTexture();
-
-    sizzle.play();
-    sizzle.setPlayingOffset(sf::seconds(0.5f));
-
-}
-
-void Sausage::reset()
-{
-    for(int i = 0; i < 4; i++)
-    {
-        partStates[i] = Raw;
-    }
-    if(!isFacingUp)
-    {
-        isFacingUp = true;
-    }
-    updateTexture();
-    drowned = false;
-}
-
-cookState Sausage::getCookState(int part)
-{
-    return partStates[part];
-}
-
-void Sausage::updateTexture()
-{   
-    if(drowned)
-    {
-        return;
-    }
-    if(!isFacingUp)
-    {
-        if(partStates[2] == Raw && partStates[3] == Raw) sprite.setTexture(texture);
-        else if(partStates[2] == Cooked && partStates[3] == Raw) sprite.setTexture(texture1);
-        else if(partStates[2] == Raw && partStates[3] == Cooked) sprite.setTexture(texture2);
-        else if(partStates[2] == Cooked && partStates[3] == Cooked) sprite.setTexture(texture3);
-        else if(partStates[2] == Overcooked && partStates[3] == Raw) sprite.setTexture(texture4);
-        else if(partStates[2] == Overcooked && partStates[3] == Cooked) sprite.setTexture(texture5);
-        else if(partStates[2] == Overcooked && partStates[3] == Overcooked) sprite.setTexture(texture6);
-        else if(partStates[2] == Raw && partStates[3] == Overcooked) sprite.setTexture(texture7);
-        else if(partStates[2] == Cooked && partStates[3] == Overcooked) sprite.setTexture(texture8);
-    }
-    else
-    {
-        if(partStates[0] == Raw && partStates[1] == Raw) sprite.setTexture(texture);
-        else if(partStates[0] == Cooked && partStates[1] == Raw) sprite.setTexture(texture1);
-        else if(partStates[0] == Raw && partStates[1] == Cooked) sprite.setTexture(texture2);
-        else if(partStates[0] == Cooked && partStates[1] == Cooked) sprite.setTexture(texture3);
-        else if(partStates[0] == Overcooked && partStates[1] == Raw) sprite.setTexture(texture4);
-        else if(partStates[0] == Overcooked && partStates[1] == Cooked) sprite.setTexture(texture5);
-        else if(partStates[0] == Overcooked && partStates[1] == Overcooked) sprite.setTexture(texture6);
-        else if(partStates[0] == Raw && partStates[1] == Overcooked) sprite.setTexture(texture7);
-        else if(partStates[0] == Cooked && partStates[1] == Overcooked) sprite.setTexture(texture8);
-    }
+    plop.setBuffer(plopBuffer);
 }
 
 void Sausage::loadTextures()
@@ -203,89 +118,67 @@ void Sausage::loadTextures()
     }
 }
 
-bool Sausage::getIsFacingUp()
+// ----- Accessors -----
+
+sf::Sprite Sausage::getSprite()
 {
-    return isFacingUp;
+    return sprite;
 }
 
-void Sausage::flip()
+sf::Vector2f Sausage::getPosition() 
 {
-    if(isFacingUp) isFacingUp = false;
-    else isFacingUp = true;
-    if(sprite.getScale().x == 1)
+    return sprite.getPosition();
+}
+
+sf::Vector2i Sausage::getRows() const
+{
+    if(!horizontal)
     {
-        sprite.setScale(-1.0f, 1.0f); // flips over
+        return sf::Vector2i((position.y - 25) / 50 - 1, (position.y - 25) / 50);
     }
-    else
+    return sf::Vector2i((position.y - 25) / 50, (position.y - 25) / 50);
+}
+
+sf::Vector2i Sausage::getColumns() const
+{
+    if(horizontal)
     {
-        sprite.setScale(1.0f, 1.0f);
+        return sf::Vector2i((position.x - 25) / 50, (position.x - 25) / 50 + 1);
     }
-
-    updateTexture();
+    return sf::Vector2i((position.x - 25) / 50, (position.x - 25) / 50);
 }
 
-
-bool Sausage::getIsCookedOnCurrentGrill()
+vector<cookState> Sausage::getCookStates()
 {
-    return cookedOnCurrentGrill;
+    return partStates;
 }
-
-void Sausage::setCookedOnCurrentGrill(bool cook)
-{
-    cookedOnCurrentGrill = cook;
-}
-
-
 
 bool Sausage::getDrowned()
 {
     return drowned;
 }
 
-void Sausage::drownSausage(bool drown)
-{  
-    // Changes texture when dropped in water -- no longer allowed to move 
-    if(drown && !drowned)
-    {
-        sprite.setTexture(blankTexture);
-        plop.play();
-        drowned = true;
-    }
-    else if(drown)
-    {
-        drowned = true;
-    }
-    else if(!drown)
-    {
-        drowned = false;
-        updateTexture();
-    }
-
-    
+bool Sausage::getIsFacingUp()
+{
+    return isFacingUp;
 }
 
+bool Sausage::getIsCookedOnCurrentGrill()
+{
+    return cookedOnCurrentGrill;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+cookState Sausage::getCookState(int part)
+{
+    return partStates[part];
+}
 
 bool Sausage::isHorizontal()
 {
     return horizontal;
 }
 
-// ------ Modifiers ------
+// ----- Modifiers -----
 
 void Sausage::setPosition(const sf::Vector2f pos)
 {   
@@ -324,47 +217,171 @@ void Sausage::setHorizontal(bool hor)
     horizontal = hor;
 }
 
-
-void Sausage::loadPlop()
+void Sausage::setCookedOnCurrentGrill(bool cook)
 {
-    if(!plopBuffer.loadFromFile("assets/plop.wav"))
-    {
-        errorFile.open("errors.txt");
-        errorFile << "Failed to load plop sound" << endl;
-        errorFile.close();
-    }
-    plop.setBuffer(plopBuffer);
+    cookedOnCurrentGrill = cook;
 }
-
-
-
-
-
-void Sausage::loadSizzle()
-{
-    if(!buffer.loadFromFile("assets/sizzle.wav"))
-    {
-        errorFile.open("errors.txt");
-        errorFile << "Failed to load sizzle sound" << endl;
-        errorFile.close();
-    }
-    sizzle.setBuffer(buffer);
-}
-
-
-
-
-vector<cookState> Sausage::getCookStates()
-{
-    return partStates;
-}
-
 
 void Sausage::setCookStates(vector<cookState> cookStates)
 {
     partStates = cookStates;
     updateTexture();
 }
+
+void Sausage::drownSausage(bool drown)
+{  
+    // Changes texture when dropped in water -- no longer allowed to move 
+    if(drown && !drowned)
+    {
+        sprite.setTexture(blankTexture);
+        plop.play();
+        drowned = true;
+    }
+    else if(drown)
+    {
+        drowned = true;
+    }
+    else if(!drown)
+    {
+        drowned = false;
+        updateTexture();
+    }
+
+    
+}
+
+// ----- Void Functions -----
+
+void Sausage::cook(int part)
+{
+    if(partStates[part] == Raw) partStates[part] = Cooked;
+    else partStates[part] = Overcooked;
+    updateTexture();
+
+    sizzle.play();
+    sizzle.setPlayingOffset(sf::seconds(0.5f));
+
+}
+
+void Sausage::reset()
+{
+    for(int i = 0; i < 4; i++)
+    {
+        partStates[i] = Raw;
+    }
+    if(!isFacingUp)
+    {
+        isFacingUp = true;
+    }
+    updateTexture();
+    drowned = false;
+}
+
+void Sausage::updateTexture()
+{   
+    if(drowned)
+    {
+        return;
+    }
+    if(!isFacingUp)
+    {
+        if(partStates[2] == Raw && partStates[3] == Raw) sprite.setTexture(texture);
+        else if(partStates[2] == Cooked && partStates[3] == Raw) sprite.setTexture(texture1);
+        else if(partStates[2] == Raw && partStates[3] == Cooked) sprite.setTexture(texture2);
+        else if(partStates[2] == Cooked && partStates[3] == Cooked) sprite.setTexture(texture3);
+        else if(partStates[2] == Overcooked && partStates[3] == Raw) sprite.setTexture(texture4);
+        else if(partStates[2] == Overcooked && partStates[3] == Cooked) sprite.setTexture(texture5);
+        else if(partStates[2] == Overcooked && partStates[3] == Overcooked) sprite.setTexture(texture6);
+        else if(partStates[2] == Raw && partStates[3] == Overcooked) sprite.setTexture(texture7);
+        else if(partStates[2] == Cooked && partStates[3] == Overcooked) sprite.setTexture(texture8);
+    }
+    else
+    {
+        if(partStates[0] == Raw && partStates[1] == Raw) sprite.setTexture(texture);
+        else if(partStates[0] == Cooked && partStates[1] == Raw) sprite.setTexture(texture1);
+        else if(partStates[0] == Raw && partStates[1] == Cooked) sprite.setTexture(texture2);
+        else if(partStates[0] == Cooked && partStates[1] == Cooked) sprite.setTexture(texture3);
+        else if(partStates[0] == Overcooked && partStates[1] == Raw) sprite.setTexture(texture4);
+        else if(partStates[0] == Overcooked && partStates[1] == Cooked) sprite.setTexture(texture5);
+        else if(partStates[0] == Overcooked && partStates[1] == Overcooked) sprite.setTexture(texture6);
+        else if(partStates[0] == Raw && partStates[1] == Overcooked) sprite.setTexture(texture7);
+        else if(partStates[0] == Cooked && partStates[1] == Overcooked) sprite.setTexture(texture8);
+    }
+}
+
+void Sausage::flip()
+{
+    if(isFacingUp) isFacingUp = false;
+    else isFacingUp = true;
+    if(sprite.getScale().x == 1)
+    {
+        sprite.setScale(-1.0f, 1.0f); // flips over
+    }
+    else
+    {
+        sprite.setScale(1.0f, 1.0f);
+    }
+
+    updateTexture();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ------ Modifiers ------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ////////////////////////////////////////////////////////
 
 
