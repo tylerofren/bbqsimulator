@@ -38,9 +38,6 @@ change level select background & main menu background(maybe)
 
 
 
-tyler:
--organize code, add comments into .h files, not cpp files
-
 -Find a title 
     sausage party
     sausage sultans
