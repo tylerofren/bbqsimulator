@@ -32,6 +32,8 @@ Game::Game()
     initializeStars();
 }
 
+// ----- Initialization -----
+
 void Game::initializeWindow()
 {
     window.create(sf::VideoMode(500, 500), "Philip's Cookout");
@@ -397,6 +399,8 @@ void Game::initializeStars()
         }
     }
 }
+
+// -------------------------
 
 bool Game::sausageIntersects()
 {
