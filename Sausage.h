@@ -41,10 +41,10 @@ private:
     bool drowned;
 
     // ----- Sounds -----
-    // Sizzle
+    // // Sizzle
     sf::Sound sizzle;
     sf::SoundBuffer buffer;
-    // Plop
+    // // Plop
     sf::Sound plop;
     sf::SoundBuffer plopBuffer;
 

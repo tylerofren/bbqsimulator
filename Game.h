@@ -1,11 +1,10 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include <iostream>
 #include <cmath>
-
 
 #include "Map.cpp"
 #include "gameState.cpp"
-
 
 #ifndef GAME_H
 #define GAME_H
@@ -13,17 +12,15 @@
 class Game
 {
 private:
-    // Window variables
-
+    // ----- Window -----
     sf::RenderWindow window;
     sf::Event ev;
 
-    // UI
+    // ----- Graphics -----
     // // Fonts
     sf::Font roundFont;
     sf::Font seriousFont;
-
-    // Texts
+    // // Texts
     sf::Text gameTitle;
     sf::Text pressAnyButton;
     sf::Text copyrightDisclaimer;
@@ -34,106 +31,79 @@ private:
     sf::Text winScreen;
     sf::Text winScreen2;
     sf::Text overcookedScreen;
-
-    // Shapes
+    // // Shapes
     sf::ConvexShape star;
-
-    // Menu background
+    // // Menu background
     sf::Texture backgroundTexture;
     sf::Sprite background;
-
-    // Level select background
+    // // Level select background
     sf::Texture levelSelectBackgroundTexture;
     sf::Sprite levelSelectBackground;
 
-
-    // Initialization
+    // ----- Initialization -----
     void initializeWindow();
     void initializeText();
     void initializeMaps();
     void initializeLevels();
     void initializePlayer();
     void initializeSausages();
-    void initializePlayerOutline(); // Player outline is for the win condition
+    void initializePlayerOutline();
     void initializeBackground();
-
     void initializeSounds();
-    
     void initializeStars();
 
-    // Sounds
+    // ----- Sounds -----
     sf::Sound woosh;
     sf::SoundBuffer wooshBuffer;
 
     sf::Sound steps;
     sf::SoundBuffer stepsBuffer;
 
-    // Maps
+    // ----- Maps -----
     Map* maps[10];
     int currentMap;
 
-
-    // Player
+    // ----- Player -----
     Player* player;
     sf::Sprite playerOutline;
     sf::Texture playerOutlineTexture;
 
-    // Sausages
+    // ----- Sausages -----
     Sausage* sausage;
     Sausage* sausage2;
 
-
-    bool sausageIntersects();
-    bool forkIntersects();
-
+    // ----- Game Logic -----
     void updateSausages();
     void updateSausages2();
-
     void winLossConditions();
-    
-
     void resetCurrentLevel();
+    void resetLevels();
+    bool sausageIntersects();
+    bool forkIntersects();
+    bool sausagesPerfectlyCooked;
+    bool menuIsOpened;
+    bool levelSelectIsOpened;
+    bool lostScreenIsOpened;
+    bool winScreenIsOpened;
+    bool overcookedScreenIsOpened;
+    bool levelIsOpened[10];
 
-    // Arrays
-
+    // ----- Arrays -----
     std::vector<std::vector<std::vector<int>>> levels;
     bool levelsComplete[10];
     sf::ConvexShape* stars[10];
     
-
-
-    // Boolean
-    bool menuIsOpened;
-    bool levelSelectIsOpened;
-    // // Level Booleans
-    bool levelIsOpened[10];
-
-    void resetLevels();
-
-    // Lost screen
-    bool lostScreenIsOpened;
-    bool sausagesPerfectlyCooked;
-    bool winScreenIsOpened;
-    bool overcookedScreenIsOpened;
-
-    // Error file
-    ofstream errorFile;
-
-    
-    // Undo function
+    // ----- Undo -----
     std::vector<GameState*> gameStates;
     void resetGameStates();
     void addGameState();
     void undo();
 
-
-
-
-
+    // Debug
+    ofstream errorFile;
 public:
     // Constructors
     Game();
-
 
     // Accessors
     const bool running() const;
@@ -142,19 +112,6 @@ public:
     void pollEvents();
     void update();
     void render();
-    
-
 };
-
-
-
-
-
-
-
-
-
-
-
 
 #endif
