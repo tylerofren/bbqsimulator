@@ -11,63 +11,31 @@ using namespace std;
 class Player
 {
 private:
-// Player properties
-sf::Sprite sprite;
-sf::Texture texture;
-sf::Vector2f position;
-int rotation;
-
-
-
-
-
-
-// Error file
-ofstream errorFile;
-
-
-
-
+    // Player properties
+    sf::Sprite sprite;
+    sf::Texture texture;
+    sf::Vector2f position;
+    int rotation;
+    // Debug
+    ofstream errorFile;
 public:
-Player(float, float, int);
-Player();
-
-bool isHorizontal();
-
-// Accessors
-sf::Vector2f getPosition();
-sf::Sprite getSprite();
-int& getRotation();
-
-
-
-// Only includes player
-int getRow() const;
-int getColumn() const;
-// Includes player and fork
-sf::Vector2i getRows() const;
-sf::Vector2i getColumns() const;
-
-// Modifiers
-void setPosition(const sf::Vector2f);
-void setRotation(const int);
-
-
-
-
+    // Constructors
+    Player(float, float, int);
+    Player();
+    // Accessors
+    sf::Vector2f getPosition();
+    sf::Sprite getSprite();
+    int& getRotation();
+    bool isHorizontal();
+    // // Only includes player
+    int getRow() const;
+    int getColumn() const;
+    // // Includes player and fork
+    sf::Vector2i getRows() const;
+    sf::Vector2i getColumns() const;
+    // Modifiers
+    void setPosition(const sf::Vector2f);
+    void setRotation(const int);
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #endif

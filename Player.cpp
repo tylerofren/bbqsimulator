@@ -22,18 +22,8 @@ Player::Player(float x, float y, int rot)
 
     sprite.rotate(rot * 90);
 
-
-
     rotation = rot;
-
-
 }
-
-
-
-
-
-
 
 sf::Vector2f Player::getPosition()
 {
@@ -86,17 +76,10 @@ int Player::getColumn() const
     return static_cast<int>((position.x - 25) / 50.f);
 }
 
-
 bool Player::isHorizontal()
 {
     return rotation % 2 != 0;
 }
-
-
-
-
-
-
 
 // Position: row/col * 50 + 25
 void Player::setPosition(const sf::Vector2f pos)
@@ -105,11 +88,13 @@ void Player::setPosition(const sf::Vector2f pos)
     sprite.setPosition(pos);
 }
 
-
-// Rotations: 0 = North
-// 1 = East 
-// 2 = South 
-// 3 = West
+/* 
+    Rotations: 
+    0 = North
+    1 = East 
+    2 = South 
+    3 = West
+*/
 void Player::setRotation(const int rot)
 {
     rotation = rot;
