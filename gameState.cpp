@@ -1,13 +1,10 @@
 #include "gameState.h"
 
+// ----- Constructors / Destructors -----
+
 GameState::GameState()
 {
 
-}
-
-GameState::~GameState()
-{
-    
 }
 
 GameState::GameState(sf::Vector2f playerPos, sf::Vector2f sausagePos, sf::Vector2f sausage2Pos, int playerRot, vector<cookState> partStates, vector<cookState> partStates2, bool drowned, bool drowned2)
@@ -21,6 +18,13 @@ GameState::GameState(sf::Vector2f playerPos, sf::Vector2f sausagePos, sf::Vector
     sausageDrowned = drowned;
     sausage2Drowned = drowned2;
 }
+
+GameState::~GameState()
+{
+    
+}
+
+// ----- Accessors -----
 
 sf::Vector2f GameState::getPlayerPosition()
 {
@@ -61,4 +65,3 @@ bool GameState::getSausage2Drowned()
 {
     return sausage2Drowned;
 }
-

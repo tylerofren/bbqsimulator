@@ -1,7 +1,6 @@
 Sausage states
 
 0 - uncooked
-
 1 - top cooked, bottom raw
 2 - top raw, bottom cooked
 3 - top cooked, bottom cooked
