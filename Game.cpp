@@ -534,12 +534,12 @@ void Game::winLossConditions()
     //Two Sausage Maps
     if(currentMap != 3 && currentMap != 6 && currentMap != 9)
     {
-        if((!maps[currentMap]->tiles[sausage->getRows().x][sausage->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage->getRows().y][sausage->getColumns().y]->getSausagePassable() && !overcookedScreenIsOpened))
+        if((!maps[currentMap]->tiles[sausage->getRows().x][sausage->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage->getRows().y][sausage->getColumns().y]->getSausagePassable()))
         {
             sausage->drownSausage(true);
             lostScreenIsOpened = true;
         }
-        if((!maps[currentMap]->tiles[sausage2->getRows().x][sausage2->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage2->getRows().y][sausage2->getColumns().y]->getSausagePassable() && !overcookedScreenIsOpened))
+        if((!maps[currentMap]->tiles[sausage2->getRows().x][sausage2->getColumns().x]->getSausagePassable() && !maps[currentMap]->tiles[sausage2->getRows().y][sausage2->getColumns().y]->getSausagePassable()))
         {
             sausage2->drownSausage(true);
             lostScreenIsOpened = true;
@@ -1883,13 +1883,13 @@ void Game::render()
         window.draw(playerOutline);
     }
 
-    if(lostScreenIsOpened)
+    if(lostScreenIsOpened && !overcookedScreenIsOpened)
     {
         window.draw(lostScreen);
         window.draw(lostScreen2);
     }
 
-    if(overcookedScreenIsOpened)
+    if(overcookedScreenIsOpened && !lostScreenIsOpened)
     {
         window.draw(overcookedScreen);
         window.draw(lostScreen2);

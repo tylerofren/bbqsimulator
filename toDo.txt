@@ -1,7 +1,7 @@
 ----- sound -----
--create original woosh sfx
+
 -create original steps sfx
--create original sausage drop sfx
+-create original sizzle sfx
 
 philip will do these ^^^^^
 
