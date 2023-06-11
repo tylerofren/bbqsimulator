@@ -51,6 +51,7 @@ private:
     void initializeBackground();
     void initializeSounds();
     void initializeStars();
+    void initializeMusic();
 
     // ----- Sounds -----
     sf::Sound woosh;
@@ -58,6 +59,9 @@ private:
 
     sf::Sound steps;
     sf::SoundBuffer stepsBuffer;
+
+    sf::Music song;
+    bool songIsPlaying;
 
     // ----- Maps -----
     Map* maps[10];

@@ -30,6 +30,8 @@ Game::Game()
     initializeSounds();
 
     initializeStars();
+
+    initializeMusic();
 }
 
 // ----- Initialization -----
@@ -398,6 +400,17 @@ void Game::initializeStars()
             x += 14;
         }
     }
+}
+
+void Game::initializeMusic()
+{
+    if(!song.openFromFile("assets/song.wav"))
+    {
+        errorFile.open("errors.txt");
+        errorFile << "Failed to load song sound" << endl;
+        errorFile.close();
+    }
+    song.setLoop(true);
 }
 
 // -------------------------
@@ -1725,6 +1738,16 @@ void Game::render()
                 window.draw(*stars[i]);
             }
         }
+        if(!songIsPlaying)
+        {
+            song.play();
+            songIsPlaying = true;
+        }
+    }
+    else
+    {
+        song.stop();
+        songIsPlaying = false;
     }
     
     if(levelIsOpened[0])
