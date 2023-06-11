@@ -273,8 +273,8 @@ void Sausage::reset()
     {
         isFacingUp = true;
     }
-    updateTexture();
     drowned = false;
+    updateTexture();
 }
 
 void Sausage::updateTexture()
