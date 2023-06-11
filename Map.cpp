@@ -31,7 +31,7 @@ void Map::initializeTiles(std::vector<std::vector<int>> array)
             
             if(array[i][j] == 1)
             {
-                tiles[i][j] = new GameTile("assets/GrassV3.png", 50.f * j, 50.f * i, true, true, false);
+                tiles[i][j] = new GameTile("assets/grass1.png", 50.f * j, 50.f * i, true, true, false);
             }
             else if(array[i][j] == 2)
             {
@@ -43,7 +43,7 @@ void Map::initializeTiles(std::vector<std::vector<int>> array)
             }
             else if(array[i][j] == 7)
             {
-                tiles[i][j] = new GameTile("assets/Water1S.png", 50.f * j, 50.f * i, false, false, false);
+                tiles[i][j] = new GameTile("assets/water1S.png", 50.f * j, 50.f * i, false, false, false);
                 rotateTile(i, j, array);
             }
             else if(array[i][j] == 9)
@@ -58,7 +58,7 @@ void Map::initializeTiles(std::vector<std::vector<int>> array)
             }
             else 
             {
-                tiles[i][j] = new GameTile("assets/Water0S.png", 50.f * j, 50.f * i, false, false, false);
+                tiles[i][j] = new GameTile("assets/water0S.png", 50.f * j, 50.f * i, false, false, false);
             }
         }
    }
