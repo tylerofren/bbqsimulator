@@ -259,7 +259,6 @@ void Sausage::cook(int part)
     updateTexture();
 
     sizzle.play();
-    sizzle.setPlayingOffset(sf::seconds(0.5f));
 
 }
 
