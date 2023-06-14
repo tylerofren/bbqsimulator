@@ -39,7 +39,8 @@ void Map::initializeTiles(std::vector<std::vector<int>> array)
             }
             else if(array[i][j] == 5)
             {
-                tiles[i][j] = new GameTile("assets/SpawnPlaceholder.png", 50.f * j, 50.f * i, true, true, false);
+                tiles[i][j] = new GameTile("assets/water3S.png", 50.f * j, 50.f * i, false, false, false);
+                rotateTile3S(i, j, array);
             }
             else if(array[i][j] == 7)
             {
@@ -48,13 +49,17 @@ void Map::initializeTiles(std::vector<std::vector<int>> array)
             }
             else if(array[i][j] == 9)
             {
-                tiles[i][j] = new GameTile("assets/Water2SC.png", 50.f * j, 50.f * i, false, false, false);
+                tiles[i][j] = new GameTile("assets/water2SC.png", 50.f * j, 50.f * i, false, false, false);
                 rotateTileCorner(i, j, array);
             }           
             else if(array[i][j] == 8)
             {
-                tiles[i][j] = new GameTile("assets/Water2S.png", 50.f * j, 50.f * i, false, false, false);
+                tiles[i][j] = new GameTile("assets/water2S.png", 50.f * j, 50.f * i, false, false, false);
                 rotateTile(i, j, array);
+            }
+            else if(array[i][j] == 6)
+            {
+                tiles[i][j] = new GameTile("assets/water4S.png", 50.f * j, 50.f * i, false, false, false);
             }
             else 
             {
@@ -64,9 +69,8 @@ void Map::initializeTiles(std::vector<std::vector<int>> array)
    }
 }
 
-void Map::rotateTile(int i, int j, std::vector<std::vector<int>> array)
+void Map::rotateTile(int i, int j, std::vector<std::vector<int>> array) // instead of finding where the grass is, find the water :O
 {
-
     if(array[i][j + 1] == 1 || array[i][j + 1] == 2)
     {
         tiles[i][j]->getSprite().rotate(180);
@@ -100,5 +104,24 @@ void Map::rotateTileCorner(int i, int j, std::vector<std::vector<int>> array)
     {
         tiles[i][j]->getSprite().rotate(180);
         tiles[i][j]->getSprite().move(sf::Vector2f(50, 50));
+    }
+}
+
+void Map::rotateTile3S(int i, int j, std::vector<std::vector<int>> array)
+{
+    if(array[i][j + 1] == 0)
+    {
+        tiles[i][j]->getSprite().rotate(180);
+        tiles[i][j]->getSprite().move(sf::Vector2f(50, 50));
+    }
+    else if(array[i + 1][j] == 0 || array[i + 1][j] == 8)
+    {
+        tiles[i][j]->getSprite().rotate(270);
+        tiles[i][j]->getSprite().move(sf::Vector2f(0, 50));
+    }
+    else if(array[i - 1][j] == 0)
+    {
+        tiles[i][j]->getSprite().rotate(90);
+        tiles[i][j]->getSprite().move(sf::Vector2f(50, 0));
     }
 }

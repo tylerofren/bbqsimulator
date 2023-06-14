@@ -38,7 +38,7 @@ Game::Game()
 
 void Game::initializeWindow()
 {
-    window.create(sf::VideoMode(500, 500), "Philip's Cookout");
+    window.create(sf::VideoMode(500, 500), "BBQ Simulator");
 }
 
 void Game::initializeText()
@@ -60,7 +60,7 @@ void Game::initializeText()
     gameTitle.setCharacterSize(45);
     gameTitle.setLetterSpacing(4.0);
     gameTitle.setFillColor(sf::Color::White);
-    gameTitle.setString(" Philip's\nCookout");
+    gameTitle.setString("\tBBQ\nSimulator");
     gameTitle.setOrigin(gameTitle.getLocalBounds().width / 2, gameTitle.getLocalBounds().height / 2);
     gameTitle.setPosition(250, 210);
     gameTitle.setOutlineThickness(4.0);
@@ -185,6 +185,7 @@ void Game::initializeLevels()
         8 - WATER2S
         9 - WATER2SC
         5 - WATER3S
+        6 - WATER4S
     */
     levels[0] =  
     {
@@ -270,7 +271,7 @@ void Game::initializeLevels()
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 7, 7, 7, 7, 0, 0, 0},
         {0, 0, 7, 1, 1, 2, 1, 7, 0, 0},
-        {0, 0, 0, 0, 1, 0, 1, 7, 0, 0},
+        {0, 0, 0, 5, 1, 6, 1, 7, 0, 0},
         {0, 0, 7, 1, 2, 1, 1, 7, 0, 0},
         {0, 0, 7, 1, 1, 1, 9, 0, 0, 0},
         {0, 0, 0, 7, 7, 7, 0, 0, 0, 0},
@@ -284,7 +285,7 @@ void Game::initializeLevels()
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 7, 7, 7, 7, 7, 7, 0, 0},
         {0, 7, 1, 1, 1, 1, 1, 1, 7, 0},
-        {0, 7, 1, 1, 2, 2, 0, 1, 7, 0},
+        {0, 7, 1, 1, 2, 2, 5, 1, 7, 0},
         {0, 0, 7, 9, 2, 2, 8, 1, 7, 0},
         {0, 0, 0, 0, 7, 7, 0, 7, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -310,7 +311,7 @@ void Game::initializeLevels()
         {0, 0, 0, 7, 7, 7, 7, 0, 0, 0},
         {0, 0, 7, 2, 1, 1, 2, 7, 0, 0},
         {0, 0, 7, 2, 1, 1, 1, 7, 0, 0},
-        {0, 0, 0, 8, 1, 1, 1, 7, 0, 0},
+        {0, 0, 0, 5, 1, 1, 1, 7, 0, 0},
         {0, 0, 7, 1, 1, 9, 7, 0, 0, 0},
         {0, 0, 0, 7, 7, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},

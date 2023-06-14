@@ -14,6 +14,7 @@ private:
     void initializeTiles(std::vector<std::vector<int>>); 
     void rotateTile(int, int, std::vector<std::vector<int>>);
     void rotateTileCorner(int, int, std::vector<std::vector<int>>);
+    void rotateTile3S(int, int, std::vector<std::vector<int>>);
     ofstream errorFile;
 public: 
     // ----- Constructors -----
