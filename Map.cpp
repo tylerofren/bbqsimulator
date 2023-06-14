@@ -33,6 +33,10 @@ void Map::initializeTiles(std::vector<std::vector<int>> array)
             {
                 tiles[i][j] = new GameTile("assets/grass1.png", 50.f * j, 50.f * i, true, true, false);
             }
+            else if(array[i][j] == 3)
+            {
+                tiles[i][j] = new GameTile("assets/grass4.png", 50.f * j, 50.f * i, true, true, false);
+            }
             else if(array[i][j] == 2)
             {
                 tiles[i][j] = new GameTile("assets/grill.png", 50.f * j, 50.f * i, false, true, true);
@@ -71,17 +75,17 @@ void Map::initializeTiles(std::vector<std::vector<int>> array)
 
 void Map::rotateTile(int i, int j, std::vector<std::vector<int>> array) // instead of finding where the grass is, find the water :O
 {
-    if(array[i][j + 1] == 1 || array[i][j + 1] == 2)
+    if(array[i][j + 1] == 1 || array[i][j + 1] == 2 || array[i][j + 1] == 3)
     {
         tiles[i][j]->getSprite().rotate(180);
         tiles[i][j]->getSprite().move(sf::Vector2f(50, 50));
     }
-    else if(array[i + 1][j] == 1 || array[i + 1][j] == 2)
+    else if(array[i + 1][j] == 1 || array[i + 1][j] == 2 || array[i + 1][j] == 3)
     {
         tiles[i][j]->getSprite().rotate(270);
         tiles[i][j]->getSprite().move(sf::Vector2f(0, 50));
     }
-    else if(array[i - 1][j] == 1 || array[i - 1][j] == 2)
+    else if(array[i - 1][j] == 1 || array[i - 1][j] == 2 || array[i - 1][j] == 3)
     {
         tiles[i][j]->getSprite().rotate(90);
         tiles[i][j]->getSprite().move(sf::Vector2f(50, 0));
