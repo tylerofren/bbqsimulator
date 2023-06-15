@@ -582,7 +582,7 @@ void Game::winLossConditions()
             }
         }
 
-        if(sausagesPerfectlyCooked && player->getPosition().x == playerOutline.getPosition().x && player->getPosition().y == playerOutline.getPosition().y && player->getSprite().getRotation() == playerOutline.getRotation() && !overcookedScreenIsOpened && ~lostScreenIsOpened)
+        if(sausagesPerfectlyCooked && player->getPosition().x == playerOutline.getPosition().x && player->getPosition().y == playerOutline.getPosition().y && player->getSprite().getRotation() == playerOutline.getRotation() && !overcookedScreenIsOpened && !lostScreenIsOpened)
         {
             levelsComplete[currentMap] = true;
             winScreenIsOpened = true;
